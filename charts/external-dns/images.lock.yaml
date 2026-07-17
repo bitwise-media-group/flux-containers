@@ -5,5 +5,5 @@ chart:
 images:
   - source: registry.k8s.io/external-dns/external-dns:v0.21.0
     digest: sha256:f53faaf71cb270d1ca9dce6ea0c94bfebf1a18696263487f0fbc74b9bf2bd7ff
-    target: us-central1-docker.pkg.dev/x-patchy-app/platform/images/registry.k8s.io/external-dns/external-dns:v0.21.0
+    target: us-central1-docker.pkg.dev/o-foundation-7e43/platform/images/registry.k8s.io/external-dns/external-dns:v0.21.0
     platforms: ["linux/amd64", "linux/arm", "linux/arm64"]

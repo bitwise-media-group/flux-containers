@@ -5,5 +5,5 @@ chart:
 images:
   - source: ghcr.io/controlplaneio-fluxcd/flux-operator:v0.55.0
     digest: sha256:5221a2faf9c1e1b1d6212aa96f5c4df2fdc4977ae206f2636dd202b79583ffb5
-    target: us-central1-docker.pkg.dev/x-patchy-app/platform/images/ghcr.io/controlplaneio-fluxcd/flux-operator:v0.55.0
+    target: us-central1-docker.pkg.dev/o-foundation-7e43/platform/images/ghcr.io/controlplaneio-fluxcd/flux-operator:v0.55.0
     platforms: ["linux/amd64", "linux/arm64"]
