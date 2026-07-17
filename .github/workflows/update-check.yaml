@@ -5,7 +5,7 @@
 # a newer upstream release, bump the pin, regenerate all derived state and
 # open (or refresh) a feat(<chart>) PR. The PR's vendor/rendered diff is the
 # reviewable change; pr-validate posts provenance + scan results on it.
-name: update-check
+name: Update Charts
 
 on:
   schedule:

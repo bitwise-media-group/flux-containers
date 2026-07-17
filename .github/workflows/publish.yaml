@@ -10,7 +10,7 @@
 # (…/flux-containers/.github/workflows/publish.yaml@refs/heads/main), which is
 # why the job is hard-guarded to main: a dispatch from any other ref would
 # mint a different certificate subject than the clusters verify.
-name: publish
+name: Publish Charts
 
 on:
   push:

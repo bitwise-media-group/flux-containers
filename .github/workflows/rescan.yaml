@@ -6,7 +6,7 @@
 # findings land as security-labelled issues, fixed by bumping the chart (new
 # upstream images) or allowlisting with a statement and expiry. The final step
 # re-lints so allowlist entries nearing expiry surface here too.
-name: rescan
+name: Rescan Charts
 
 on:
   schedule:
