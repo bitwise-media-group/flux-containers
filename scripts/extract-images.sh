@@ -47,7 +47,11 @@ while IFS= read -r extra; do
   [[ -n "$extra" ]] && printf '%s\n' "${extra//\{appVersion\}/$app_version}" >> "$refs"
 done < <(yq '.images.extra // [] | .[].image' "$(manifest_path "$chart")")
 
-mapfile -t excludes < <(yq '.images.exclude // [] | .[].pattern' "$(manifest_path "$chart")")
+# while-read rather than mapfile: macOS ships bash 3.2, and local runs use it.
+excludes=()
+while IFS= read -r pattern; do
+  [[ -n "$pattern" ]] && excludes+=("$pattern")
+done < <(yq '.images.exclude // [] | .[].pattern' "$(manifest_path "$chart")")
 
 images=()
 while IFS= read -r ref; do
