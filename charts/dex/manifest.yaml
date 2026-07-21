@@ -1,0 +1,34 @@
+# Copyright 2026 BitWise Media Group Ltd
+# SPDX-License-Identifier: MIT
+apiVersion: flux-containers/v1alpha1
+name: dex
+chart:
+  # https repo: dexidp publishes no OCI chart; tgzs are GitHub release assets
+  # behind the gh-pages index (helm/chart-releaser, no signing). Unsigned —
+  # documented gap. Image provenance below is keyless-verified.
+  repo: https://charts.dexidp.io
+  name: dex
+  version: "0.24.1"
+  versionConstraint: ">=0.24.0 <1.0.0"
+  verifyUpstream:
+    provider: none
+discovery:
+  namespace: dex
+  valuesFiles: [values/discovery.yaml]
+  kubeVersion: "1.34.0"
+images:
+  extra: []
+  exclude: []
+  verifyUpstream:
+    # dex images are keyless-signed by the dexidp/dex release workflow
+    # (`cosign sign` with the GitHub OIDC token in artifacts.yaml, called
+    # from release.yaml on version tags).
+    - match: "ghcr.io/dexidp/*"
+      provider: cosign-keyless
+      certificateIdentityRegexp: "^https://github.com/dexidp/dex/"
+      certificateOidcIssuer: "https://token.actions.githubusercontent.com"
+scan:
+  failOn: [CRITICAL, HIGH]
+  ignoreUnfixed: true
+publish:
+  chartRepo: charts/dex

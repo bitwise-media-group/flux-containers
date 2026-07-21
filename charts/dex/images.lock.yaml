@@ -1,0 +1,9 @@
+chart:
+  name: dex
+  version: 0.24.1
+  upstreamTgzSha256: 0940d77f3de5e03992d83281ba8923db1dc9eafff8d215a440bc49ddb2b8481c
+images:
+  - source: ghcr.io/dexidp/dex:v2.44.0
+    digest: sha256:5d0656fce7d453c0e3b2706abf40c0d0ce5b371fb0b73b3cf714d05f35fa5f86
+    target: us-central1-docker.pkg.dev/o-foundation-7e43/platform/images/ghcr.io/dexidp/dex:v2.44.0
+    platforms: ["linux/amd64", "linux/arm", "linux/arm64", "linux/ppc64le", "linux/s390x"]

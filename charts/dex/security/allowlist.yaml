@@ -1,0 +1,238 @@
+# Copyright 2026 BitWise Media Group Ltd
+# SPDX-License-Identifier: MIT
+
+# Accepted findings for the dex v2.44.0 image (latest upstream release as of
+# 2026-07-21; the alpine-based image ships openssl 3.5.1-r0 and is built with
+# go1.24.5 and correspondingly old go modules — no rebuild with the fixed
+# packages is published). Re-review on next upstream release. The -distroless
+# image variant would drop the apk (openssl/musl) findings below if the
+# runtime switches to it.
+vulnerabilities:
+  # openssl (libcrypto3/libssl3 apk): fixed in alpine openssl 3.5.4-r0
+  # through 3.5.7-r0; the dex v2.44.0 image ships 3.5.1-r0.
+  - id: CVE-2025-15467
+    statement: &openssl Fixed in alpine openssl 3.5.4-r0..3.5.7-r0; no dex image ships it (v2.44.0 is latest, with 3.5.1-r0). Re-review on next upstream release.
+    expired_at: "2026-10-15"
+  - id: CVE-2025-69419
+    statement: *openssl
+    expired_at: "2026-10-15"
+  - id: CVE-2025-69420
+    statement: *openssl
+    expired_at: "2026-10-15"
+  - id: CVE-2025-69421
+    statement: *openssl
+    expired_at: "2026-10-15"
+  - id: CVE-2025-9230
+    statement: *openssl
+    expired_at: "2026-10-15"
+  - id: CVE-2026-28387
+    statement: *openssl
+    expired_at: "2026-10-15"
+  - id: CVE-2026-28388
+    statement: *openssl
+    expired_at: "2026-10-15"
+  - id: CVE-2026-28389
+    statement: *openssl
+    expired_at: "2026-10-15"
+  - id: CVE-2026-28390
+    statement: *openssl
+    expired_at: "2026-10-15"
+  - id: CVE-2026-31789
+    statement: *openssl
+    expired_at: "2026-10-15"
+  - id: CVE-2026-31790
+    statement: *openssl
+    expired_at: "2026-10-15"
+  - id: CVE-2026-34180
+    statement: *openssl
+    expired_at: "2026-10-15"
+  - id: CVE-2026-34181
+    statement: *openssl
+    expired_at: "2026-10-15"
+  - id: CVE-2026-34182
+    statement: *openssl
+    expired_at: "2026-10-15"
+  - id: CVE-2026-34183
+    statement: *openssl
+    expired_at: "2026-10-15"
+  - id: CVE-2026-42764
+    statement: *openssl
+    expired_at: "2026-10-15"
+  - id: CVE-2026-45445
+    statement: *openssl
+    expired_at: "2026-10-15"
+  - id: CVE-2026-45447
+    statement: *openssl
+    expired_at: "2026-10-15"
+  - id: CVE-2026-7383
+    statement: *openssl
+    expired_at: "2026-10-15"
+  - id: CVE-2026-9076
+    statement: *openssl
+    expired_at: "2026-10-15"
+  # musl: fixed in alpine musl 1.2.5-r12, the image ships 1.2.5-r10.
+  - id: CVE-2026-40200
+    statement: Fixed in alpine musl 1.2.5-r12; no dex image ships it (v2.44.0 is latest, with 1.2.5-r10). Re-review on next upstream release.
+    expired_at: "2026-10-15"
+  # golang.org/x/crypto: fixed in 0.43.0/0.52.0, dex ships 0.40.0.
+  - id: GHSA-5cgq-3rg8-m6cv
+    statement: &xcrypto Fixed in golang.org/x/crypto 0.52.0; no dex release ships it (v2.44.0 is latest, with 0.40.0). Re-review on next upstream release.
+    expired_at: "2026-10-15"
+  - id: GHSA-89gr-r52h-f8rx
+    statement: *xcrypto
+    expired_at: "2026-10-15"
+  - id: GHSA-f5wc-c3c7-36mc
+    statement: *xcrypto
+    expired_at: "2026-10-15"
+  - id: GHSA-jppx-rxg9-jmrx
+    statement: *xcrypto
+    expired_at: "2026-10-15"
+  - id: GHSA-q4h4-gmj2-qvw2
+    statement: *xcrypto
+    expired_at: "2026-10-15"
+  - id: GHSA-rm3j-f69w-wqmq
+    statement: *xcrypto
+    expired_at: "2026-10-15"
+  - id: GHSA-vgwf-h737-ff37
+    statement: *xcrypto
+    expired_at: "2026-10-15"
+  - id: GHSA-w879-237q-wc7r
+    statement: *xcrypto
+    expired_at: "2026-10-15"
+  - id: GHSA-x527-x647-q7gg
+    statement: *xcrypto
+    expired_at: "2026-10-15"
+  - id: GO-2025-4116
+    statement: *xcrypto
+    expired_at: "2026-10-15"
+  - id: GO-2026-5005
+    statement: *xcrypto
+    expired_at: "2026-10-15"
+  - id: GO-2026-5006
+    statement: *xcrypto
+    expired_at: "2026-10-15"
+  - id: GO-2026-5013
+    statement: *xcrypto
+    expired_at: "2026-10-15"
+  - id: GO-2026-5014
+    statement: *xcrypto
+    expired_at: "2026-10-15"
+  - id: GO-2026-5015
+    statement: *xcrypto
+    expired_at: "2026-10-15"
+  - id: GO-2026-5017
+    statement: *xcrypto
+    expired_at: "2026-10-15"
+  - id: GO-2026-5018
+    statement: *xcrypto
+    expired_at: "2026-10-15"
+  - id: GO-2026-5019
+    statement: *xcrypto
+    expired_at: "2026-10-15"
+  - id: GO-2026-5020
+    statement: *xcrypto
+    expired_at: "2026-10-15"
+  - id: GO-2026-5021
+    statement: *xcrypto
+    expired_at: "2026-10-15"
+  - id: GO-2026-5023
+    statement: *xcrypto
+    expired_at: "2026-10-15"
+  # golang.org/x/net: fixed in 0.53.0/0.55.0, dex ships 0.41.0.
+  - id: GO-2026-4918
+    statement: &xnet Fixed in golang.org/x/net 0.55.0; no dex release ships it (v2.44.0 is latest, with 0.41.0). Re-review on next upstream release.
+    expired_at: "2026-10-15"
+  - id: GO-2026-5026
+    statement: *xnet
+    expired_at: "2026-10-15"
+  # Go stdlib: fixed in go1.24.x/1.25.x patch releases, dex v2.44.0 is built
+  # with go1.24.5.
+  - id: GO-2025-3849
+    statement: &stdlib Fixed in Go 1.24.x/1.25.x patch releases; no dex release is built with a patched Go (v2.44.0 is latest, built with go1.24.5). Re-review on next upstream release.
+    expired_at: "2026-10-15"
+  - id: GO-2025-4006
+    statement: *stdlib
+    expired_at: "2026-10-15"
+  - id: GO-2025-4007
+    statement: *stdlib
+    expired_at: "2026-10-15"
+  - id: GO-2025-4009
+    statement: *stdlib
+    expired_at: "2026-10-15"
+  - id: GO-2025-4013
+    statement: *stdlib
+    expired_at: "2026-10-15"
+  - id: GO-2025-4155
+    statement: *stdlib
+    expired_at: "2026-10-15"
+  - id: GO-2026-4337
+    statement: *stdlib
+    expired_at: "2026-10-15"
+  - id: GO-2026-4341
+    statement: *stdlib
+    expired_at: "2026-10-15"
+  - id: GO-2026-4601
+    statement: *stdlib
+    expired_at: "2026-10-15"
+  - id: GO-2026-4870
+    statement: *stdlib
+    expired_at: "2026-10-15"
+  - id: GO-2026-4946
+    statement: *stdlib
+    expired_at: "2026-10-15"
+  - id: GO-2026-4947
+    statement: *stdlib
+    expired_at: "2026-10-15"
+  - id: GO-2026-4970
+    statement: *stdlib
+    expired_at: "2026-10-15"
+  - id: GO-2026-4971
+    statement: *stdlib
+    expired_at: "2026-10-15"
+  - id: GO-2026-4977
+    statement: *stdlib
+    expired_at: "2026-10-15"
+  - id: GO-2026-4981
+    statement: *stdlib
+    expired_at: "2026-10-15"
+  - id: GO-2026-4986
+    statement: *stdlib
+    expired_at: "2026-10-15"
+  - id: GO-2026-5037
+    statement: *stdlib
+    expired_at: "2026-10-15"
+  - id: GO-2026-5038
+    statement: *stdlib
+    expired_at: "2026-10-15"
+  # google.golang.org/grpc: fixed in 1.79.3, dex ships 1.72.1.
+  - id: GHSA-p77j-4mvh-x3m3
+    statement: Fixed in google.golang.org/grpc 1.79.3; no dex release ships it (v2.44.0 is latest, with 1.72.1). Re-review on next upstream release.
+    expired_at: "2026-10-15"
+  # github.com/go-jose/go-jose: fixed in 4.1.4, dex ships 4.0.5.
+  - id: GHSA-78h2-9frx-2jm8
+    statement: Fixed in github.com/go-jose/go-jose 4.1.4; no dex release ships it (v2.44.0 is latest, with 4.0.5). Re-review on next upstream release.
+    expired_at: "2026-10-15"
+  # github.com/russellhaering/goxmldsig (SAML connector): fixed in 1.6.0,
+  # dex ships 1.5.0. The platform uses no SAML connector.
+  - id: GHSA-479m-364c-43vc
+    statement: Fixed in github.com/russellhaering/goxmldsig 1.6.0; no dex release ships it (v2.44.0 is latest, with 1.5.0). SAML connectors unused on this platform. Re-review on next upstream release.
+    expired_at: "2026-10-15"
+  # github.com/go-git (gitea connector dependency): fixed in go-git 5.19.0 /
+  # go-billy 5.9.0, dex ships 5.16.0 / 5.6.2.
+  - id: GHSA-389r-gv7p-r3rp
+    statement: &gogit Fixed in github.com/go-git/go-git 5.19.0 and go-billy 5.9.0; no dex release ships them (v2.44.0 is latest). Git-based connectors unused on this platform. Re-review on next upstream release.
+    expired_at: "2026-10-15"
+  - id: GHSA-qw64-3x98-g7q2
+    statement: *gogit
+    expired_at: "2026-10-15"
+  # go.opentelemetry.io/otel: fixed in otel 1.41.0 / otel/sdk 1.40.0+, dex
+  # ships 1.36.0.
+  - id: GHSA-9h8m-3fm2-qjrq
+    statement: &otel Fixed in go.opentelemetry.io/otel 1.41.0 / otel/sdk 1.43.0; no dex release ships them (v2.44.0 is latest, with 1.36.0). Re-review on next upstream release.
+    expired_at: "2026-10-15"
+  - id: GHSA-hfvc-g4fc-pqhx
+    statement: *otel
+    expired_at: "2026-10-15"
+  - id: GHSA-mh2q-q3fh-2475
+    statement: *otel
+    expired_at: "2026-10-15"

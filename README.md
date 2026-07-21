@@ -31,7 +31,7 @@ and `publish` (images then chart — CI-only in practice).
 
 Charts under management: `flux-operator`, `flux-instance` (the pair is released together upstream — bump both in one PR;
 flux-instance also carries the fluxcd distribution controller images as `images.extra`, tags tracking the operator's
-embedded flux version), `kyverno`, `cert-manager`, `external-dns`, `opentelemetry-collector`.
+embedded flux version), `kyverno`, `cert-manager`, `external-dns`, `opentelemetry-collector`, `dex`.
 
 ## Security model
 
