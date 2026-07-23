@@ -52,6 +52,36 @@ for manifest_file in "$ROOT"/charts/*/manifest.yaml; do
       fail "$chart: images.verifyUpstream[$i] missing match pattern"
   done
 
+  # Non-mirror OCI references: an oci:// scalar in the rendered output is a
+  # registry pull the platform will make at runtime, and anything outside the
+  # mirror bypasses the review gate this repo exists to be (the FluxInstance
+  # distribution.artifact chart default -- upstream's :latest -- shipped
+  # ungated controller bumps exactly this way). Real refs are whole scalars
+  # starting with oci://, which skips the prose mentions in CRD descriptions.
+  # Escapes need an .ociRefs.allow entry carrying pattern + reason.
+  rendered_file="$(dirname "$manifest_file")/rendered/manifests.yaml"
+  if [[ -s "$rendered_file" ]]; then
+    mirror_prefix="oci://$(global '.registry.url')"
+    allow_count="$(yq '.ociRefs.allow // [] | length' "$manifest_file")"
+    for ((i = 0; i < allow_count; i++)); do
+      yq -e ".ociRefs.allow[$i].pattern" "$manifest_file" >/dev/null ||
+        fail "$chart: ociRefs.allow[$i] missing pattern"
+      yq -e ".ociRefs.allow[$i].reason" "$manifest_file" >/dev/null ||
+        fail "$chart: ociRefs.allow[$i] missing reason (why may this bypass the mirror?)"
+    done
+    while IFS= read -r ref; do
+      [[ -n "$ref" ]] || continue
+      [[ "$ref" == "$mirror_prefix"* ]] && continue
+      allowed=""
+      for ((i = 0; i < allow_count; i++)); do
+        pattern="$(yq ".ociRefs.allow[$i].pattern // \"\"" "$manifest_file")"
+        [[ -n "$pattern" ]] && glob_match "$pattern" "$ref" && allowed=1 && break
+      done
+      [[ -n "$allowed" ]] ||
+        fail "$chart: rendered manifests reference '$ref' outside the mirror (allow via .ociRefs.allow with a reason, or fix the values)"
+    done < <(yq ea '.. | select(tag == "!!str") | select(test("^oci://"))' "$rendered_file" 2>/dev/null | sort -u)
+  fi
+
   allowlist="$(dirname "$manifest_file")/security/allowlist.yaml"
   if [[ -f "$allowlist" ]]; then
     entries="$(yq '.vulnerabilities // [] | length' "$allowlist")"
