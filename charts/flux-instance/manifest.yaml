@@ -7,7 +7,7 @@ chart:
   # together upstream — bump both charts in one PR.
   repo: oci://ghcr.io/controlplaneio-fluxcd/charts
   name: flux-instance
-  version: "0.55.0"
+  version: "0.56.0"
   versionConstraint: ">=0.20.0 <1.0.0"
   verifyUpstream:
     provider: cosign-keyless

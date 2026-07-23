@@ -6,10 +6,10 @@ metadata:
   name: flux
   namespace: flux-system
   labels:
-    helm.sh/chart: flux-instance-0.55.0
+    helm.sh/chart: flux-instance-0.56.0
     app.kubernetes.io/name: flux-instance
     app.kubernetes.io/instance: flux-instance
-    app.kubernetes.io/version: "v0.55.0"
+    app.kubernetes.io/version: "v0.56.0"
     app.kubernetes.io/managed-by: Helm
 spec:
   distribution:
