@@ -1,15 +1,15 @@
 chart:
   name: flux-instance
-  version: 0.55.0
-  upstreamTgzSha256: 9b8602306703bc633e8e86fcfea3b8ac9ab611366b529314d28d92aae538749e
+  version: 0.56.0
+  upstreamTgzSha256: 1cdd48f29290d8867411e2bd6f3ae8e26208cb58d4cc8a062798189afff5c032
 images:
-  - source: ghcr.io/fluxcd/helm-controller:v1.6.2
-    digest: sha256:e17ab0e5885d80cebb9890663f85d59cd3866adebfc09a4d8bd2d512ef980bc4
-    target: us-central1-docker.pkg.dev/o-foundation-7e43/platform/images/ghcr.io/fluxcd/helm-controller:v1.6.2
+  - source: ghcr.io/fluxcd/helm-controller:v1.6.3
+    digest: sha256:16ada99456385100698a5d7adf90aba8a2089d987ab541c9566b6d7b0e897038
+    target: us-central1-docker.pkg.dev/o-foundation-7e43/platform/images/ghcr.io/fluxcd/helm-controller:v1.6.3
     platforms: ["linux/amd64", "linux/arm", "linux/arm64"]
-  - source: ghcr.io/fluxcd/kustomize-controller:v1.9.3
-    digest: sha256:0203eb80743814f67bebb5f0b22c7db620bc461cc0b23732e0367a38fce04e4c
-    target: us-central1-docker.pkg.dev/o-foundation-7e43/platform/images/ghcr.io/fluxcd/kustomize-controller:v1.9.3
+  - source: ghcr.io/fluxcd/kustomize-controller:v1.9.4
+    digest: sha256:2b8bec54ffb6caf421bd2a6c005d27f567d5dd4db7feb55794fb51fcabd69b8f
+    target: us-central1-docker.pkg.dev/o-foundation-7e43/platform/images/ghcr.io/fluxcd/kustomize-controller:v1.9.4
     platforms: ["linux/amd64", "linux/arm", "linux/arm64"]
   - source: ghcr.io/fluxcd/notification-controller:v1.9.2
     digest: sha256:9ce503e7bcb8493fafe2aaef0c2ac4396df4f6890256acf9cd444a2dcd2a69ed

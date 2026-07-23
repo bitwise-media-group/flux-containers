@@ -9,7 +9,7 @@ chart:
   repo: oci://ghcr.io/controlplaneio-fluxcd/charts
   name: flux-instance
   lockstep: flux
-  version: "0.55.0"
+  version: "0.56.0"
   versionConstraint: ">=0.20.0 <1.0.0"
   verifyUpstream:
     provider: cosign-keyless
@@ -37,13 +37,13 @@ images:
       - notification-controller
   extra:
     - image: ghcr.io/fluxcd/source-controller:v1.9.3
-      reason: flux v2.9.2 distribution controller (derived from oci://ghcr.io/controlplaneio-fluxcd/flux-operator-manifests:v0.55.0)
-    - image: ghcr.io/fluxcd/kustomize-controller:v1.9.3
-      reason: flux v2.9.2 distribution controller (derived from oci://ghcr.io/controlplaneio-fluxcd/flux-operator-manifests:v0.55.0)
-    - image: ghcr.io/fluxcd/helm-controller:v1.6.2
-      reason: flux v2.9.2 distribution controller (derived from oci://ghcr.io/controlplaneio-fluxcd/flux-operator-manifests:v0.55.0)
+      reason: flux v2.9.3 distribution controller (derived from oci://ghcr.io/controlplaneio-fluxcd/flux-operator-manifests:v0.56.0)
+    - image: ghcr.io/fluxcd/kustomize-controller:v1.9.4
+      reason: flux v2.9.3 distribution controller (derived from oci://ghcr.io/controlplaneio-fluxcd/flux-operator-manifests:v0.56.0)
+    - image: ghcr.io/fluxcd/helm-controller:v1.6.3
+      reason: flux v2.9.3 distribution controller (derived from oci://ghcr.io/controlplaneio-fluxcd/flux-operator-manifests:v0.56.0)
     - image: ghcr.io/fluxcd/notification-controller:v1.9.2
-      reason: flux v2.9.2 distribution controller (derived from oci://ghcr.io/controlplaneio-fluxcd/flux-operator-manifests:v0.55.0)
+      reason: flux v2.9.3 distribution controller (derived from oci://ghcr.io/controlplaneio-fluxcd/flux-operator-manifests:v0.56.0)
   exclude: []
   verifyUpstream:
     - match: "ghcr.io/controlplaneio-fluxcd/*"

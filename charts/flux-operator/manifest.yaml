@@ -9,7 +9,7 @@ chart:
   # group makes update-check bump both in one PR (a half-merged pair ships
   # an operator whose embedded flux release the mirror can't serve yet).
   lockstep: flux
-  version: "0.55.0"
+  version: "0.56.0"
   versionConstraint: ">=0.20.0 <1.0.0"
   verifyUpstream:
     provider: cosign-keyless

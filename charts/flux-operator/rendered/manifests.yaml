@@ -6,10 +6,10 @@ metadata:
   name: flux-operator-web
   namespace: flux-system
   labels:
-    helm.sh/chart: flux-operator-0.55.0
+    helm.sh/chart: flux-operator-0.56.0
     app.kubernetes.io/name: flux-operator
     app.kubernetes.io/instance: flux-operator
-    app.kubernetes.io/version: "v0.55.0"
+    app.kubernetes.io/version: "v0.56.0"
     app.kubernetes.io/managed-by: Helm
 spec:
   policyTypes:
@@ -33,10 +33,10 @@ metadata:
   name: flux-operator
   namespace: flux-system
   labels:
-    helm.sh/chart: flux-operator-0.55.0
+    helm.sh/chart: flux-operator-0.56.0
     app.kubernetes.io/name: flux-operator
     app.kubernetes.io/instance: flux-operator
-    app.kubernetes.io/version: "v0.55.0"
+    app.kubernetes.io/version: "v0.56.0"
     app.kubernetes.io/managed-by: Helm
 automountServiceAccountToken: true
 
@@ -52,8 +52,8 @@ metadata:
     app.kubernetes.io/instance: 'flux-operator'
     app.kubernetes.io/managed-by: 'Helm'
     app.kubernetes.io/name: 'flux-operator'
-    app.kubernetes.io/version: 'v0.55.0'
-    helm.sh/chart: 'flux-operator-0.55.0'
+    app.kubernetes.io/version: 'v0.56.0'
+    helm.sh/chart: 'flux-operator-0.56.0'
   name: fluxinstances.fluxcd.controlplane.io
 spec:
   group: fluxcd.controlplane.io
@@ -689,8 +689,8 @@ metadata:
     app.kubernetes.io/instance: 'flux-operator'
     app.kubernetes.io/managed-by: 'Helm'
     app.kubernetes.io/name: 'flux-operator'
-    app.kubernetes.io/version: 'v0.55.0'
-    helm.sh/chart: 'flux-operator-0.55.0'
+    app.kubernetes.io/version: 'v0.56.0'
+    helm.sh/chart: 'flux-operator-0.56.0'
   name: fluxreports.fluxcd.controlplane.io
 spec:
   group: fluxcd.controlplane.io
@@ -995,8 +995,8 @@ metadata:
     app.kubernetes.io/instance: 'flux-operator'
     app.kubernetes.io/managed-by: 'Helm'
     app.kubernetes.io/name: 'flux-operator'
-    app.kubernetes.io/version: 'v0.55.0'
-    helm.sh/chart: 'flux-operator-0.55.0'
+    app.kubernetes.io/version: 'v0.56.0'
+    helm.sh/chart: 'flux-operator-0.56.0'
   name: resourcesetinputproviders.fluxcd.controlplane.io
 spec:
   group: fluxcd.controlplane.io
@@ -1410,8 +1410,8 @@ metadata:
     app.kubernetes.io/instance: 'flux-operator'
     app.kubernetes.io/managed-by: 'Helm'
     app.kubernetes.io/name: 'flux-operator'
-    app.kubernetes.io/version: 'v0.55.0'
-    helm.sh/chart: 'flux-operator-0.55.0'
+    app.kubernetes.io/version: 'v0.56.0'
+    helm.sh/chart: 'flux-operator-0.56.0'
   name: resourcesets.fluxcd.controlplane.io
 spec:
   group: fluxcd.controlplane.io
@@ -1908,10 +1908,10 @@ metadata:
   labels:
     rbac.authorization.k8s.io/aggregate-to-edit: "true"
     rbac.authorization.k8s.io/aggregate-to-admin: "true"
-    helm.sh/chart: flux-operator-0.55.0
+    helm.sh/chart: flux-operator-0.56.0
     app.kubernetes.io/name: flux-operator
     app.kubernetes.io/instance: flux-operator
-    app.kubernetes.io/version: "v0.55.0"
+    app.kubernetes.io/version: "v0.56.0"
     app.kubernetes.io/managed-by: Helm
 rules:
   - apiGroups:
@@ -1935,10 +1935,10 @@ metadata:
     rbac.authorization.k8s.io/aggregate-to-admin: "true"
     rbac.authorization.k8s.io/aggregate-to-edit: "true"
     rbac.authorization.k8s.io/aggregate-to-view: "true"
-    helm.sh/chart: flux-operator-0.55.0
+    helm.sh/chart: flux-operator-0.56.0
     app.kubernetes.io/name: flux-operator
     app.kubernetes.io/instance: flux-operator
-    app.kubernetes.io/version: "v0.55.0"
+    app.kubernetes.io/version: "v0.56.0"
     app.kubernetes.io/managed-by: Helm
 rules:
   - apiGroups:
@@ -1958,10 +1958,10 @@ kind: ClusterRole
 metadata:
   name: flux-web-user
   labels:
-    helm.sh/chart: flux-operator-0.55.0
+    helm.sh/chart: flux-operator-0.56.0
     app.kubernetes.io/name: flux-operator
     app.kubernetes.io/instance: flux-operator
-    app.kubernetes.io/version: "v0.55.0"
+    app.kubernetes.io/version: "v0.56.0"
     app.kubernetes.io/managed-by: Helm
 rules:
   - apiGroups: ["*"]
@@ -1974,10 +1974,10 @@ kind: ClusterRole
 metadata:
   name: flux-web-admin
   labels:
-    helm.sh/chart: flux-operator-0.55.0
+    helm.sh/chart: flux-operator-0.56.0
     app.kubernetes.io/name: flux-operator
     app.kubernetes.io/instance: flux-operator
-    app.kubernetes.io/version: "v0.55.0"
+    app.kubernetes.io/version: "v0.56.0"
     app.kubernetes.io/managed-by: Helm
 rules:
   - apiGroups: ["*"]
@@ -2029,10 +2029,10 @@ kind: ClusterRoleBinding
 metadata:
   name: flux-operator
   labels:
-    helm.sh/chart: flux-operator-0.55.0
+    helm.sh/chart: flux-operator-0.56.0
     app.kubernetes.io/name: flux-operator
     app.kubernetes.io/instance: flux-operator
-    app.kubernetes.io/version: "v0.55.0"
+    app.kubernetes.io/version: "v0.56.0"
     app.kubernetes.io/managed-by: Helm
 roleRef:
   apiGroup: rbac.authorization.k8s.io
@@ -2051,10 +2051,10 @@ metadata:
   name: flux-operator
   namespace: flux-system
   labels:
-    helm.sh/chart: flux-operator-0.55.0
+    helm.sh/chart: flux-operator-0.56.0
     app.kubernetes.io/name: flux-operator
     app.kubernetes.io/instance: flux-operator
-    app.kubernetes.io/version: "v0.55.0"
+    app.kubernetes.io/version: "v0.56.0"
     app.kubernetes.io/managed-by: Helm
 spec:
   ports:
@@ -2078,10 +2078,10 @@ metadata:
   name: flux-operator
   namespace: flux-system
   labels:
-    helm.sh/chart: flux-operator-0.55.0
+    helm.sh/chart: flux-operator-0.56.0
     app.kubernetes.io/name: flux-operator
     app.kubernetes.io/instance: flux-operator
-    app.kubernetes.io/version: "v0.55.0"
+    app.kubernetes.io/version: "v0.56.0"
     app.kubernetes.io/managed-by: Helm
 spec:
   selector:
@@ -2095,10 +2095,10 @@ spec:
         prometheus.io/port: "8080"
         prometheus.io/path: "/metrics"
       labels:
-        helm.sh/chart: flux-operator-0.55.0
+        helm.sh/chart: flux-operator-0.56.0
         app.kubernetes.io/name: flux-operator
         app.kubernetes.io/instance: flux-operator
-        app.kubernetes.io/version: "v0.55.0"
+        app.kubernetes.io/version: "v0.56.0"
         app.kubernetes.io/managed-by: Helm
     spec:
       serviceAccountName: flux-operator
@@ -2124,7 +2124,7 @@ spec:
             runAsNonRoot: true
             seccompProfile:
               type: RuntimeDefault
-          image: "ghcr.io/controlplaneio-fluxcd/flux-operator:v0.55.0"
+          image: "ghcr.io/controlplaneio-fluxcd/flux-operator:v0.56.0"
           imagePullPolicy: "IfNotPresent"
           ports:
             - name: http-metrics
