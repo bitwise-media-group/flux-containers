@@ -4,9 +4,11 @@ apiVersion: flux-containers/v1alpha1
 name: flux-instance
 chart:
   # Same OCI repo and version stream as flux-operator: the pair is released
-  # together upstream — bump both charts in one PR.
+  # together upstream, and the lockstep group makes update-check bump both
+  # in one PR (holding off until upstream has published both tags).
   repo: oci://ghcr.io/controlplaneio-fluxcd/charts
   name: flux-instance
+  lockstep: flux
   version: "0.55.0"
   versionConstraint: ">=0.20.0 <1.0.0"
   verifyUpstream:
@@ -18,22 +20,30 @@ discovery:
   valuesFiles: [values/discovery.yaml]
   kubeVersion: "1.34.0"
 images:
+  # Flux distribution controllers: deployed by the operator from the
+  # FluxInstance CR this chart renders, so helm discovery can't see them —
+  # yet clusters pull them from the mirror's images/ghcr.io/fluxcd path
+  # (the FluxInstance distribution.registry). derive-distribution-images.sh
+  # (the discover task) rewrites .images.extra below from this artifact at
+  # the tag matching the vendored appVersion — the exact controller set the
+  # pinned operator's embedded manifests deploy, in lockstep with
+  # chart.version by construction. Never hand-edit the extra entries.
+  distributionManifests:
+    artifact: oci://ghcr.io/controlplaneio-fluxcd/flux-operator-manifests:{appVersion}
+    components:
+      - source-controller
+      - kustomize-controller
+      - helm-controller
+      - notification-controller
   extra:
-    # Flux distribution controllers: deployed by the operator from the
-    # FluxInstance CR this chart renders, so helm discovery can't see them —
-    # yet clusters pull them from the mirror's images/ghcr.io/fluxcd path
-    # (terraform's FluxInstance distribution.registry). Tags must match the
-    # flux version embedded in the pinned operator (upstream
-    # config/data/flux-images/VERSION — v2.9.2 for operator 0.55.x); bump them
-    # together with chart.version.
     - image: ghcr.io/fluxcd/source-controller:v1.9.3
-      reason: flux v2.9.2 distribution controller (FluxInstance-managed)
+      reason: flux v2.9.2 distribution controller (derived from oci://ghcr.io/controlplaneio-fluxcd/flux-operator-manifests:v0.55.0)
     - image: ghcr.io/fluxcd/kustomize-controller:v1.9.3
-      reason: flux v2.9.2 distribution controller (FluxInstance-managed)
+      reason: flux v2.9.2 distribution controller (derived from oci://ghcr.io/controlplaneio-fluxcd/flux-operator-manifests:v0.55.0)
     - image: ghcr.io/fluxcd/helm-controller:v1.6.2
-      reason: flux v2.9.2 distribution controller (FluxInstance-managed)
+      reason: flux v2.9.2 distribution controller (derived from oci://ghcr.io/controlplaneio-fluxcd/flux-operator-manifests:v0.55.0)
     - image: ghcr.io/fluxcd/notification-controller:v1.9.2
-      reason: flux v2.9.2 distribution controller (FluxInstance-managed)
+      reason: flux v2.9.2 distribution controller (derived from oci://ghcr.io/controlplaneio-fluxcd/flux-operator-manifests:v0.55.0)
   exclude: []
   verifyUpstream:
     - match: "ghcr.io/controlplaneio-fluxcd/*"
@@ -44,6 +54,16 @@ images:
       provider: cosign-keyless
       certificateIdentityRegexp: "^https://github.com/fluxcd/"
       certificateOidcIssuer: "https://token.actions.githubusercontent.com"
+ociRefs:
+  allow:
+    # The chart-default distribution.artifact survives in the rendered
+    # output, but no cluster ever consumes it ungated: terraform pins the
+    # bootstrap to the release tag matching the installed operator, and the
+    # manifests' flux component then drops the field entirely (the operator
+    # builds from the manifests embedded in the mirrored image -- the same
+    # tree images.extra above is derived from).
+    - pattern: "oci://ghcr.io/controlplaneio-fluxcd/flux-operator-manifests:*"
+      reason: chart-default distribution.artifact, neutralized by consumers (terraform release-tag pin at bootstrap; removed by the stack's postRenderer after adoption)
 scan:
   failOn: [CRITICAL, HIGH]
   ignoreUnfixed: true

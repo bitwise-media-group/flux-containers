@@ -34,7 +34,16 @@ run = 'scripts/render-chart.sh "${CHART:?usage: make render CHART=<name>}"'
 
 [discover]
 description = "discover referenced images and write the lock (CHART=<name>)"
-run = 'scripts/extract-images.sh "${CHART:?usage: make discover CHART=<name>}"'
+# derive first: charts declaring .images.distributionManifests (flux-instance)
+# get their .images.extra rewritten from the distribution artifact matching
+# the vendored appVersion, so extraction locks the exact controller set the
+# pinned operator deploys (no-op elsewhere)
+run = """
+set -eu
+: "${CHART:?usage: make discover CHART=<name>}"
+scripts/derive-distribution-images.sh "$CHART"
+scripts/extract-images.sh "$CHART"
+"""
 
 [verify]
 description = "verify upstream provenance of chart and images (CHART=<name>)"
