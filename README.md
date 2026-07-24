@@ -31,7 +31,40 @@ and `publish` (images then chart — CI-only in practice).
 
 Charts under management: `flux-operator`, `flux-instance` (the pair is released together upstream — bump both in one PR;
 flux-instance also carries the fluxcd distribution controller images as `images.extra`, tags tracking the operator's
-embedded flux version), `kyverno`, `cert-manager`, `external-dns`, `opentelemetry-collector`, `dex`.
+embedded flux version), `kyverno`, `cert-manager`, `external-dns`, `opentelemetry-collector`, `dex`,
+`gha-runner-scale-set` + `gha-runner-scale-set-controller` (Actions Runner Controller — also a lockstep pair, since ARC
+does not support a scale set running against a mismatched controller; the scale set's runner image rides its own release
+train and is tracked separately, see below).
+
+### Tracked images
+
+Some charts reference an image on a release train of its own: the actions runner moves independently of the scale set
+chart, so no chart version implies it, and the chart's own default is the mutable `:latest`. Those are declared per
+chart under `.images.track` in `manifest.yaml`, and `track-image-tags.sh` writes the resolved `<image>:<tag>` into the
+chart's discovery values — that line is FACT, not intent, so change the rule rather than the pin.
+
+Selection walks candidate tags newest-first and takes the first published at least `update.cooldownDays` ago
+(`config/global.yaml`, 3 by default; override per image with `cooldownDays`, or 0 to track head). A release yanked or
+hot-fixed inside its soak window is therefore never the one the platform adopts — at the cost of deliberately running a
+release behind, so a freshly-published _fix_ waits out the same cooldown. Keep the window short for that reason.
+
+The pick depends on wall-clock time, so it runs in `update` and never in `refresh`: refresh has to regenerate
+byte-identically, and a tag ageing past the cooldown mid-review would otherwise fail pr-validate on an untouched tree.
+
+### Generated allowlists
+
+Once images bump on their own schedule, hand-transcribing a per-CVE allowlist each time stops being review and becomes
+dictation. Charts can opt in with `.scan.allowlist.generate`, and `derive-allowlist.sh` rebuilds
+`security/allowlist.yaml` from a fresh scan of the locked images during `update`. Three rules keep the result honest:
+
+- Findings that no longer appear are **dropped** — a stale accept is indistinguishable from a live one.
+- Surviving entries **keep their original `expired_at`**. Regeneration never rolls the clock forward, so expiry stays
+  the forcing function it was designed to be; new entries get `scan.allowlistNewDays` from today.
+- Per-entry `notes` are **preserved verbatim**. Statements are machine facts (package, installed, fixed-in); anything a
+  human concluded belongs in `notes`, or in `.scan.allowlist.preamble` for whole-file context.
+
+Approval is the PR review: the diff shows exactly which accepts appeared, vanished, or aged. Charts that do not opt in
+keep hand-written allowlists, which is still the right shape for a chart whose images only move when the chart does.
 
 ## Security model
 
