@@ -1,0 +1,52 @@
+# Copyright 2026 BitWise Media Group Ltd
+# SPDX-License-Identifier: MIT
+apiVersion: flux-containers/v1alpha1
+name: gha-runner-scale-set-controller
+chart:
+  # The controller half of Actions Runner Controller: the four actions.github.com
+  # CRDs, the manager Deployment, and its RBAC. The manager image doubles as the
+  # listener image (the Deployment passes it as CONTROLLER_MANAGER_CONTAINER_IMAGE
+  # and the controller launches listeners with it), so mirroring this chart's
+  # single image also covers every listener pod a scale set creates.
+  repo: oci://ghcr.io/actions/actions-runner-controller-charts
+  name: gha-runner-scale-set-controller
+  # Released together with gha-runner-scale-set on one version stream, and ARC
+  # does not support running a scale set against a different controller
+  # version — the lockstep group makes update-check bump both in one PR.
+  lockstep: arc
+  version: "0.14.2"
+  versionConstraint: ">=0.14.0 <1.0.0"
+  # actions/actions-runner-controller publishes the OCI charts unsigned: no
+  # .sig tag and no sigstore bundle among the artifact's referrers —
+  # documented gap.
+  verifyUpstream:
+    provider: none
+discovery:
+  namespace: arc-systems
+  valuesFiles: [values/discovery.yaml]
+  kubeVersion: "1.34.0"
+images:
+  extra: []
+  exclude: []
+  verifyUpstream:
+    # Unlike the runner image (signed by actions/runner's release workflow),
+    # the controller image carries no signature at all: no .sig tag and no
+    # sigstore bundle among its referrers. Documented gap — the chart and its
+    # only image are both unverifiable upstream, so the mirror's own keyless
+    # signature is the first provenance anything in this path gets.
+    - match: "ghcr.io/actions/gha-runner-scale-set-controller:*"
+      provider: none
+scan:
+  failOn: [CRITICAL, HIGH]
+  ignoreUnfixed: true
+  allowlist:
+    generate: true
+    preamble: |
+      Unlike the runner image's findings, these are the controller's *own* module
+      dependencies, compiled into /manager, /ghalistener and
+      /actions-metrics-server — the GitHub API client path, not latent bundled
+      tooling. Nothing here is unreachable; the acceptance is purely that upstream
+      has published no release carrying the fixes. Treat a growing list here as a
+      signal to check whether ARC has cut a release, not as routine.
+publish:
+  chartRepo: charts/gha-runner-scale-set-controller

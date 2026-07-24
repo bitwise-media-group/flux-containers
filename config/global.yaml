@@ -37,6 +37,18 @@ gcp:
   workloadIdentityProvider: "projects/266367770242/locations/global/workloadIdentityPools/github-actions/providers/github-oidc"
   serviceAccount: "platform-chart-publisher@o-foundation-7e43.iam.gserviceaccount.com"
 
+update:
+  # Soak period for images tracked by .images.track: a tag published this
+  # recently can still be yanked or hot-fixed, and the platform should not be
+  # what discovers that. track-image-tags.sh walks candidate tags newest-first
+  # and takes the first published at least this long ago. Per-image override:
+  # .images.track[].cooldownDays in a chart manifest; 0 disables the soak for
+  # an image that should track head.
+  #
+  # Kept short on purpose: the soak also delays *fixes*, so every day here is
+  # a day the platform knowingly runs a release behind on security patches.
+  cooldownDays: 3
+
 scan:
   # grype gate for image vulnerabilities; kubescape severity rides the
   # toolchain default (high), matching these
@@ -45,6 +57,10 @@ scan:
   # allowlist entries must carry expired_at within this horizon — expiry
   # forces re-review instead of silently accepted-forever CVEs
   allowlistMaxDays: 90
+  # expiry given to *new* entries by derive-allowlist.sh. Surviving entries keep
+  # the date they were first accepted with, so regeneration can never roll the
+  # clock forward — must stay <= allowlistMaxDays or the generated file fails lint.
+  allowlistNewDays: 90
   configScan: warn
 
 # Rewrites applied when PULLING from an upstream registry (e.g. a mirror in

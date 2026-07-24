@@ -1,0 +1,83 @@
+# Copyright 2026 BitWise Media Group Ltd
+# SPDX-License-Identifier: MIT
+apiVersion: flux-containers/v1alpha1
+name: gha-runner-scale-set
+chart:
+  # One half of Actions Runner Controller: this chart is the *scale set* (an
+  # AutoscalingRunnerSet CR plus its RBAC). It is inert on its own — the
+  # AutoscalingRunnerSet CRD, the controller itself and the listener image all
+  # ship in the sibling `gha-runner-scale-set-controller` chart, which the
+  # lockstep group below keeps on the same version. A cluster needs both.
+  repo: oci://ghcr.io/actions/actions-runner-controller-charts
+  name: gha-runner-scale-set
+  # Released together with gha-runner-scale-set-controller on one version
+  # stream, and ARC does not support running a scale set against a different
+  # controller version — the lockstep group makes update-check bump both in
+  # one PR.
+  lockstep: arc
+  version: "0.14.2"
+  versionConstraint: ">=0.14.0 <1.0.0"
+  # actions/actions-runner-controller publishes the OCI charts unsigned: no
+  # .sig tag and no sigstore bundle among the artifact's referrers — documented
+  # gap. The runner image below is keyless-verified.
+  verifyUpstream:
+    provider: none
+discovery:
+  namespace: arc-runners
+  valuesFiles: [values/discovery.yaml]
+  kubeVersion: "1.34.0"
+images:
+  # The runner image rides its own release train (actions/runner 2.x), which
+  # says nothing about this chart's version — so `chart.version` can't imply
+  # it and the chart's own default is the mutable `:latest`. track-image-tags.sh
+  # picks the newest tag that has cleared the cooldown and writes it into
+  # valuesPath below; `make update` and the daily update-check workflow re-pick
+  # it. The pinned line in values/discovery.yaml is FACT — never hand-edit it.
+  track:
+    - image: ghcr.io/actions/actions-runner
+      versionConstraint: ">=2.320.0 <3.0.0"
+      # cooldownDays inherits config/global.yaml .update.cooldownDays (3).
+      valuesFile: values/discovery.yaml
+      valuesPath: .template.spec.containers[0].image
+  extra: []
+  exclude: []
+  verifyUpstream:
+    # actions/runner keyless-signs the runner image from its release workflow
+    # (SAN e.g. https://github.com/actions/runner/.github/workflows/release.yml
+    # @refs/heads/releases/m336 — the branch varies per release train, so match
+    # on the repo prefix). The signature is a sigstore bundle attached via OCI
+    # referrers rather than a .sig tag; cosign v3 resolves it either way.
+    - match: "ghcr.io/actions/actions-runner:*"
+      provider: cosign-keyless
+      certificateIdentityRegexp: "^https://github.com/actions/runner/"
+      certificateOidcIssuer: "https://token.actions.githubusercontent.com"
+scan:
+  failOn: [CRITICAL, HIGH]
+  ignoreUnfixed: true
+  allowlist:
+    # The runner image bumps on its own cadence (.images.track above), and each
+    # bump rewrites the finding set — hand-transcribing 30-odd CVE entries per
+    # bump is not review, it is dictation. derive-allowlist.sh regenerates the
+    # file from the scan; the PR is where the risk is actually accepted.
+    generate: true
+    # Whole-file context for reviewers. Per-finding analysis goes in a `notes`
+    # field on the entry itself, which regeneration preserves verbatim.
+    preamble: |
+      Every entry here is a *bundled* dependency of something the runner image
+      ships, not of the runner binary itself, in one of two groups:
+
+        1. The Docker-in-Docker toolchain — /usr/bin/containerd, /usr/bin/dockerd,
+           /usr/bin/ctr, /usr/local/lib/docker/cli-plugins/docker-buildx. Only
+           exercised when a scale set runs with containerMode dind, which
+           values/discovery.yaml deliberately leaves unset. If the runtime enables
+           dind, this group stops being latent and the whole file needs re-review
+           on that basis.
+        2. The npm CLI's own vendored node_modules inside the runner's bundled Node
+           distributions (/home/runner/externals/node20|node24). Reachable only when
+           a workflow invokes npm, and always as workflow-controlled code inside the
+           ephemeral runner pod.
+
+      Ubuntu base package findings, when they appear, belong to neither group and
+      deserve a closer look than the two above.
+publish:
+  chartRepo: charts/gha-runner-scale-set

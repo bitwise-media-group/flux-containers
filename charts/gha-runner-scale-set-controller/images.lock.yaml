@@ -1,0 +1,9 @@
+chart:
+  name: gha-runner-scale-set-controller
+  version: 0.14.2
+  upstreamTgzSha256: 222763b7edbe57eabe626cda09bb58040ed9c70471d32aab650c8e6825a3d8e7
+images:
+  - source: ghcr.io/actions/gha-runner-scale-set-controller:0.14.2
+    digest: sha256:1b4c7f62e971ab259a4b8798e48e2adaad4af747f45990f474ea5feefa03531d
+    target: us-central1-docker.pkg.dev/o-foundation-7e43/platform/images/ghcr.io/actions/gha-runner-scale-set-controller:0.14.2
+    platforms: ["linux/amd64", "linux/arm64"]

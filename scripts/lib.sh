@@ -111,6 +111,17 @@ semver_in_range() { # semver_in_range <version> <range>
   return 0
 }
 
+# Parse an RFC3339 timestamp (registries emit fractional seconds and a Z) into a unix
+# epoch. BSD and GNU date take incompatible flags, so try both — same posture as the
+# expiry parsing in lint-manifests.sh.
+epoch_of_rfc3339() { # epoch_of_rfc3339 <timestamp>
+  local ts="${1%%.*}"
+  ts="${ts%Z}"
+  TZ=UTC date -j -f '%Y-%m-%dT%H:%M:%S' "$ts" +%s 2>/dev/null ||
+    date -u -d "${ts}Z" +%s 2>/dev/null ||
+    die "unparseable timestamp: '$1'"
+}
+
 # Pull the pinned upstream chart tgz into a directory; prints the tgz path.
 pull_chart_tgz() { # pull_chart_tgz <chart> <destdir>
   local chart="$1" dest="$2" repo name version

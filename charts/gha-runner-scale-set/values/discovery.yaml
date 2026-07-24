@@ -1,0 +1,37 @@
+# Copyright 2026 BitWise Media Group Ltd
+# SPDX-License-Identifier: MIT
+#
+# Discovery-only values — LOAD-BEARING here on every key. Runtime values (the
+# real org URL, secret, runner counts) live in flux-manifests, not here.
+#
+# githubConfigUrl is `required` by the chart; controllerServiceAccount is
+# normally discovered with a cluster `lookup`, which returns nothing under
+# `helm template` and hits an explicit `fail` — so both must be supplied or the
+# chart does not render at all. githubConfigSecret is given as a *string* (the
+# pre-defined-secret form) so the chart skips its Secret template: no
+# placeholder credential ends up committed in rendered/manifests.yaml.
+githubConfigUrl: https://github.com/bitwise-media-group
+githubConfigSecret: gha-runner-scale-set-github-config
+controllerServiceAccount:
+  namespace: arc-systems
+  name: gha-runner-scale-set-controller-gha-rs-controller
+# The chart default is `ghcr.io/actions/actions-runner:latest` — a mutable tag,
+# which would lock a digest that silently stops matching the tag. Pinning the
+# runner explicitly is what puts an immutable tag in images.lock.yaml, and the
+# runtime values must reference this same mirrored tag.
+#
+# The image line below is FACT, not intent: it is written by
+# track-image-tags.sh from the .images.track rule in manifest.yaml (newest
+# actions/runner tag past the cooldown) and re-picked by `make update`.
+# Never hand-edit it — change the rule in manifest.yaml instead.
+template:
+  spec:
+    containers:
+      - name: runner
+        image: ghcr.io/actions/actions-runner:2.336.0
+        command: ["/home/runner/run.sh"]
+# containerMode is deliberately left unset, so discovery mirrors only actions'
+# own registry. Setting it to `dind` would pull third-party docker.io/docker:dind
+# into the mirror; `kubernetes` adds no images but needs a work-volume
+# StorageClass. Whichever the runtime picks has to be set here too, so the
+# images it implies are mirrored and scanned.

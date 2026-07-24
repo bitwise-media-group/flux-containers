@@ -15,8 +15,15 @@ fail() {
 }
 
 max_days="$(global '.scan.allowlistMaxDays')"
+new_days="$(global '.scan.allowlistNewDays')"
 today_epoch="$(date +%s)"
 horizon_epoch=$((today_epoch + max_days * 86400))
+
+# derive-allowlist.sh stamps new entries with allowlistNewDays; if that exceeded the
+# policy horizon every generated file would fail the per-entry check below, which is a
+# confusing way to discover a bad config value.
+((new_days <= max_days)) ||
+  fail "config: scan.allowlistNewDays ($new_days) exceeds scan.allowlistMaxDays ($max_days)"
 
 for manifest_file in "$ROOT"/charts/*/manifest.yaml; do
   [[ -e "$manifest_file" ]] || continue
@@ -38,6 +45,39 @@ for manifest_file in "$ROOT"/charts/*/manifest.yaml; do
   case "$provider" in
   none | cosign-keyless | cosign-key) ;;
   *) fail "$chart: unknown chart verifyUpstream provider '$provider'" ;;
+  esac
+
+  # Tracked images: the tag is machine-picked into a values file, so the rule must name
+  # both an image and a path that already resolves there — track-image-tags.sh replaces
+  # a value, it never invents one, and a typo'd path would otherwise fail only in CI.
+  track_count="$(yq '.images.track // [] | length' "$manifest_file")"
+  for ((i = 0; i < track_count; i++)); do
+    yq -e ".images.track[$i].image" "$manifest_file" >/dev/null ||
+      fail "$chart: images.track[$i] missing image"
+    track_path="$(yq ".images.track[$i].valuesPath // \"\"" "$manifest_file")"
+    [[ -n "$track_path" ]] || fail "$chart: images.track[$i] missing valuesPath"
+    cooldown="$(yq ".images.track[$i].cooldownDays // \"\"" "$manifest_file")"
+    [[ -z "$cooldown" || "$cooldown" =~ ^[0-9]+$ ]] ||
+      fail "$chart: images.track[$i] cooldownDays must be a non-negative integer (got '$cooldown')"
+    track_file="$(yq ".images.track[$i].valuesFile // \"\"" "$manifest_file")"
+    [[ -n "$track_file" ]] || track_file="$(yq '.discovery.valuesFiles[0] // ""' "$manifest_file")"
+    if [[ -z "$track_file" ]]; then
+      fail "$chart: images.track[$i] has no valuesFile and the chart declares no discovery.valuesFiles"
+    elif [[ -n "$track_path" ]]; then
+      track_abs="$(dirname "$manifest_file")/$track_file"
+      if [[ ! -f "$track_abs" ]]; then
+        fail "$chart: images.track[$i] valuesFile '$track_file' not found"
+      else
+        yq -e "$track_path" "$track_abs" >/dev/null 2>&1 ||
+          fail "$chart: images.track[$i] valuesPath '$track_path' does not resolve in $track_file"
+      fi
+    fi
+  done
+
+  generate="$(yq '.scan.allowlist.generate // false' "$manifest_file")"
+  case "$generate" in
+  true | false) ;;
+  *) fail "$chart: scan.allowlist.generate must be true or false (got '$generate')" ;;
   esac
 
   rule_count="$(yq '.images.verifyUpstream // [] | length' "$manifest_file")"

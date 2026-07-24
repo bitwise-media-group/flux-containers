@@ -57,6 +57,21 @@ run = 'scripts/scan.sh "${CHART:?usage: make scan CHART=<name>}"'
 description = "print the newest upstream version satisfying the constraint (CHART=<name>)"
 run = 'scripts/check-updates.sh "${CHART:?usage: make check-updates CHART=<name>}"'
 
+# Re-pick the tags of images the chart tracks on their own release train
+# (.images.track). Kept out of refresh on purpose: the pick is time-dependent
+# (cooldown), and refresh must regenerate byte-identically. `update` runs it.
+[track]
+description = "re-pick tracked image tags past their cooldown (CHART=<name>)"
+run = 'scripts/track-image-tags.sh "${CHART:?usage: make track CHART=<name>}"'
+
+# Regenerate the CVE allowlist from a fresh scan, for charts opting in with
+# .scan.allowlist.generate. Like `track`, kept out of refresh: the finding set
+# moves with grype's database, so regenerating under pr-validate would diff a
+# tree nobody touched. `update` runs it after refresh.
+[derive-allowlist]
+description = "regenerate the CVE allowlist from a fresh scan (CHART=<name>)"
+run = 'scripts/derive-allowlist.sh "${CHART:?usage: make derive-allowlist CHART=<name>}"'
+
 [publish]
 description = "publish mirrored images and the chart (CHART=<name>)"
 run = [
@@ -74,17 +89,30 @@ run = [{ task = "vendor" }, { task = "render" }, { task = "discover" }]
 description = "full local pipeline for one chart (CHART=<name>)"
 run = [{ task = "refresh" }, { task = "verify" }, { task = "scan" }]
 
-# Bump one chart to the newest upstream version satisfying its constraint, then
-# regenerate all derived state. No-op when the pin is already current.
+# Bump one chart to the newest upstream version satisfying its constraint AND
+# re-pick any images it tracks on their own release train, then regenerate all
+# derived state. No-op when both are already current. The two move
+# independently — a chart can be current while its tracked runner image is a
+# release behind — so neither short-circuits the other.
 [update]
-description = "bump one chart to the newest upstream version (CHART=<name>)"
+description = "bump chart version + tracked image tags (CHART=<name>)"
 run = """
 set -eu
 : "${CHART:?usage: make update CHART=<name>}"
+changed=""
 new="$(scripts/check-updates.sh "$CHART")"
-[ -n "$new" ] || exit 0
-NEW="$new" yq -i '.chart.version = env(NEW)' "charts/$CHART/manifest.yaml"
+if [ -n "$new" ]; then
+  NEW="$new" yq -i '.chart.version = env(NEW)' "charts/$CHART/manifest.yaml"
+  changed=1
+fi
+tracked="$(scripts/track-image-tags.sh "$CHART")"
+if echo "$tracked" | awk -F'\t' 'NF >= 3 && $2 != $3 { hit = 1 } END { exit !hit }'; then
+  changed=1
+fi
+[ -n "$changed" ] || exit 0
 mise run refresh
+# After refresh: the lock now names the images the allowlist must describe.
+scripts/derive-allowlist.sh "$CHART"
 """
 
 # The *-all loops attempt every chart even when one fails and summarize at the end.

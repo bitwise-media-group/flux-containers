@@ -1,0 +1,9 @@
+# Copyright 2026 BitWise Media Group Ltd
+# SPDX-License-Identifier: MIT
+#
+# Discovery-only values: the chart renders its single manager image (tag from
+# appVersion) with default values, and that same image is what the controller
+# launches listener pods with — so there is nothing to enable here. The
+# runtime knobs (flags.logLevel, flags.watchSingleNamespace, replicas) change
+# no images and live in flux-manifests.
+{}

@@ -84,33 +84,72 @@ jobs:
 
             bumped=""
             for chart in $members; do
-              [ "$(yq '.chart.version' "charts/$chart/manifest.yaml")" != "$target" ] && bumped="$bumped $chart"
+              if [ "$(yq '.chart.version' "charts/$chart/manifest.yaml")" != "$target" ]; then
+                bumped="$bumped $chart"
+              fi
             done
-            [ -n "$bumped" ] || continue
 
-            branch="update/$group-$target"
+            # Images a chart tracks on their own release train (.images.track,
+            # e.g. the actions runner) move independently of the chart pin, so
+            # a group can need a PR with its chart version already current.
+            # --check resolves the tag without writing, which keeps the
+            # already-open-PR test below ahead of any real work.
+            tracked=""
+            tracked_slug=""
+            tracked_summary=""
+            for chart in $members; do
+              while IFS=$'\t' read -r img old sel; do
+                [ -n "$sel" ] || continue
+                [ "$old" != "$sel" ] || continue
+                tracked="$tracked $chart"
+                tracked_slug="$tracked_slug-$sel"
+                # shellcheck disable=SC2016 # the backticked markdown in the printf format is literal
+                tracked_summary="$(printf '%s`%s` %s **%s → %s**\n' "$tracked_summary" "$chart" "$img" "$old" "$sel")"
+              done < <(scripts/track-image-tags.sh --check "$chart")
+            done
+
+            work="$(echo "$bumped $tracked" | tr ' ' '\n' | sort -u | grep . || true)"
+            [ -n "$work" ] || continue
+
+            branch="update/$group-$target$tracked_slug"
             if gh pr list --head "$branch" --state open --json number --jq length | grep -qv '^0$'; then
               echo "PR for $branch already open; skipping"
               continue
             fi
 
+            if [ -n "$bumped" ]; then
+              title="feat($group): update chart to $target"
+            else
+              title="feat($group): update tracked images"
+            fi
+
             git switch -C "$branch" origin/main
             summary=""
-            for chart in $bumped; do
+            for chart in $work; do
               current="$(yq '.chart.version' "charts/$chart/manifest.yaml")"
-              NEW="$target" yq -i '.chart.version = env(NEW)' "charts/$chart/manifest.yaml"
+              if [ "$current" != "$target" ]; then
+                NEW="$target" yq -i '.chart.version = env(NEW)' "charts/$chart/manifest.yaml"
+                # shellcheck disable=SC2016 # the backticked markdown in the printf format is literal
+                summary="$(printf '%s`%s` **%s → %s**\n' "$summary" "$chart" "$current" "$target")"
+              fi
+              # No-op for charts without .images.track; re-picks the pin for the rest.
+              scripts/track-image-tags.sh "$chart" >/dev/null
               make refresh CHART="$chart"
+              # No-op unless the chart sets .scan.allowlist.generate. Runs after refresh
+              # so it scans the images the new lock actually names; drops findings that
+              # went away and keeps the expiry on the ones that did not, so the PR shows
+              # exactly what the bump changed about accepted risk.
+              scripts/derive-allowlist.sh "$chart"
               git add "charts/$chart"
-              # shellcheck disable=SC2016 # the backticked markdown in the printf format is literal
-              summary="$(printf '%s`%s` **%s → %s**\n' "$summary" "$chart" "$current" "$target")"
             done
-            git commit -m "feat($group): update chart to $target"
+            summary="$summary$tracked_summary"
+            git commit -m "$title"
             git push -f origin "$branch"
 
             # shellcheck disable=SC2016 # the backticked markdown in the printf format is literal
             gh pr create \
               --head "$branch" \
-              --title "feat($group): update chart to $target" \
+              --title "$title" \
               --body "$(printf 'Automated chart bump:\n\n%s\nThe diff of `vendor/` and `rendered/` below is the reviewable change; `images.lock.yaml` carries the resolved image set. pr-validate posts provenance and scan results as a sticky comment.\n' "$summary")"
             git switch main
           done
