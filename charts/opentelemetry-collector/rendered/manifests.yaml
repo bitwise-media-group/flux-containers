@@ -6,10 +6,10 @@ metadata:
   name: opentelemetry-collector
   namespace: otel-collector
   labels:
-    helm.sh/chart: opentelemetry-collector-0.165.0
+    helm.sh/chart: opentelemetry-collector-0.168.0
     app.kubernetes.io/name: opentelemetry-collector
     app.kubernetes.io/instance: opentelemetry-collector
-    app.kubernetes.io/version: "0.156.0"
+    app.kubernetes.io/version: "0.157.0"
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: opentelemetry-collector
     app.kubernetes.io/component: standalone-collector
@@ -23,10 +23,10 @@ metadata:
   name: opentelemetry-collector
   namespace: otel-collector
   labels:
-    helm.sh/chart: opentelemetry-collector-0.165.0
+    helm.sh/chart: opentelemetry-collector-0.168.0
     app.kubernetes.io/name: opentelemetry-collector
     app.kubernetes.io/instance: opentelemetry-collector
-    app.kubernetes.io/version: "0.156.0"
+    app.kubernetes.io/version: "0.157.0"
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: opentelemetry-collector
     app.kubernetes.io/component: standalone-collector
@@ -123,10 +123,10 @@ metadata:
   name: opentelemetry-collector
   namespace: otel-collector
   labels:
-    helm.sh/chart: opentelemetry-collector-0.165.0
+    helm.sh/chart: opentelemetry-collector-0.168.0
     app.kubernetes.io/name: opentelemetry-collector
     app.kubernetes.io/instance: opentelemetry-collector
-    app.kubernetes.io/version: "0.156.0"
+    app.kubernetes.io/version: "0.157.0"
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: opentelemetry-collector
     app.kubernetes.io/component: standalone-collector
@@ -174,10 +174,10 @@ metadata:
   name: opentelemetry-collector
   namespace: otel-collector
   labels:
-    helm.sh/chart: opentelemetry-collector-0.165.0
+    helm.sh/chart: opentelemetry-collector-0.168.0
     app.kubernetes.io/name: opentelemetry-collector
     app.kubernetes.io/instance: opentelemetry-collector
-    app.kubernetes.io/version: "0.156.0"
+    app.kubernetes.io/version: "0.157.0"
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: opentelemetry-collector
     app.kubernetes.io/component: standalone-collector
@@ -194,7 +194,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/config: 35ea6a58bf29f978807a5092650762f442433c19c48c292f3b715348bfdca8a0
+        checksum/config: cd7dd1332c111026cfe2ac585ecec97b8a752fa149bf8a8a2af448ca941c946d
         
       labels:
         app.kubernetes.io/name: opentelemetry-collector
@@ -213,7 +213,7 @@ spec:
             - --config=/conf/relay.yaml
           securityContext:
             {}
-          image: "ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-contrib:0.156.0"
+          image: "ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-contrib:0.157.0"
           imagePullPolicy: IfNotPresent
           ports:
             
