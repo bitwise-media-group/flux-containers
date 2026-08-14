@@ -19,6 +19,6 @@ includes = [".mise/tasks/markdown-lib.toml", "tasks.toml"]
 # never run a repo-wide `mise upgrade`, it would write into the submodule).
 # jq is deliberately unpinned: extract-images.sh uses it, and every GitHub
 # runner and dev machine ships one (same posture as the scripts' upstream).
-"aqua:google/go-containerregistry" = "0.21.7" # crane
+"aqua:google/go-containerregistry" = "0.21.9" # crane
 "aqua:sigstore/cosign" = "3.1.1"              # v3: signs sigstore bundles via OCI referrers
 "aqua:mikefarah/yq" = "4.53.3"
