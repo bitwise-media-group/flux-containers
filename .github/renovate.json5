@@ -1,0 +1,20 @@
+// Copyright 2026 BitWise Media Group Ltd
+// SPDX-License-Identifier: MIT
+
+// Repo overrides on top of the org preset (the bot's global config already applies
+// github>bitwise-media-group/renovate-config:default.json5 to every repository).
+{
+  $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  // re-lists the preset's entries (an override replaces the array, not merges it),
+  // plus: charts/*/vendor and charts/*/rendered are intentional vendored snapshots of
+  // the upstream helm charts and their rendered manifests — never ours to modify, so
+  // Renovate must not propose bumps inside them; chart updates flow through the chart
+  // pipeline instead
+  ignorePaths: [
+    "**/node_modules/**",
+    "**/bower_components/**",
+    ".mise/**",
+    "charts/*/vendor/**",
+    "charts/*/rendered/**",
+  ],
+}
