@@ -13,6 +13,6 @@ dependencies:
   version: 0.1.0
 - name: reports-server
   repository: https://kyverno.github.io/reports-server/
-  version: 0.1.6
-digest: sha256:1ccb1bc79ccffef73e07bf99a5d14fa5d4cf7053247f2af1929a92e4a874f17d
-generated: "2026-07-10T08:02:03.751156+08:00"
+  version: 0.1.7
+digest: sha256:379f94e40aede2480fb14cc56bd8e6f6035214bc5fa1053fb720ef83e35d7775
+generated: "2026-08-14T14:08:38.794118727Z"

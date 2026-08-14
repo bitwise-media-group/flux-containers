@@ -35,7 +35,7 @@ dependencies:
 - condition: reportsServer.enabled
   name: reports-server
   repository: https://kyverno.github.io/reports-server/
-  version: 0.1.6
+  version: 0.1.7
 description: Kubernetes Native Policy Management
 home: https://kyverno.io/
 icon: https://github.com/kyverno/kyverno/raw/main/img/logo.png
