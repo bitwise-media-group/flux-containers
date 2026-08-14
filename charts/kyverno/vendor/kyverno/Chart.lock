@@ -10,9 +10,9 @@ dependencies:
   version: 0.0.1-alpha.2
 - name: openreports
   repository: https://openreports.github.io/reports-api
-  version: 0.1.0
+  version: 0.2.1
 - name: reports-server
   repository: https://kyverno.github.io/reports-server/
   version: 0.1.6
-digest: sha256:1ccb1bc79ccffef73e07bf99a5d14fa5d4cf7053247f2af1929a92e4a874f17d
-generated: "2026-07-10T08:02:03.751156+08:00"
+digest: sha256:60709616b0eb2a6d5c73527c421975cb9051d7f6b4b357d7ca1d6d9ccae8a866
+generated: "2026-08-14T14:09:11.57052865Z"
