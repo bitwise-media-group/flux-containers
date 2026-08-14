@@ -7,12 +7,12 @@ dependencies:
   version: 3.8.2
 - name: kyverno-api
   repository: https://kyverno.github.io/api
-  version: 0.0.1-alpha.2
+  version: 0.0.1-alpha.4
 - name: openreports
   repository: https://openreports.github.io/reports-api
   version: 0.1.0
 - name: reports-server
   repository: https://kyverno.github.io/reports-server/
   version: 0.1.6
-digest: sha256:1ccb1bc79ccffef73e07bf99a5d14fa5d4cf7053247f2af1929a92e4a874f17d
-generated: "2026-07-10T08:02:03.751156+08:00"
+digest: sha256:ceb8a8dc3795cc7ab04fbb0a94de624799882e097c4160e95ae3919966f9adab
+generated: "2026-08-14T14:08:23.816582387Z"
