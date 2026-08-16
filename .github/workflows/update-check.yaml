@@ -1,10 +1,16 @@
 # Copyright 2026 BitWise Media Group Ltd
 # SPDX-License-Identifier: MIT
 
-# Daily upstream version sweep: for each chart whose versionConstraint admits
-# a newer upstream release, bump the pin, regenerate all derived state and
-# open (or refresh) a feat(<chart>) PR. The PR's vendor/rendered diff is the
-# reviewable change; pr-validate posts provenance + scan results on it.
+# Daily upstream version sweep: `patchy mirror upgrade --check` computes the
+# lockstep-aware plan (group target = the LOWEST of the members' newest
+# satisfying versions — holding a bump until upstream has published every
+# member's tag is what prevents a half-mirrored release), and each group with
+# work gets ONE stable branch, update/<group>, force-recreated from main and
+# one PR refreshed in place. The branch name carries no version or tag slug
+# on purpose: the old scheme minted a new branch per upstream release, so
+# every release opened a net-new PR and stale siblings piled up conflicting
+# with each other. Now a newer release simply rewrites the same PR to the
+# newer target.
 name: Update Charts
 
 on:
@@ -12,8 +18,8 @@ on:
     - cron: "0 6 * * *"
   workflow_dispatch:
     inputs:
-      chart:
-        description: Only check this chart
+      entry:
+        description: Only check this entry
         required: false
 
 permissions:
@@ -31,125 +37,162 @@ jobs:
       - name: install tools
         uses: ./.github/actions/pipeline-tools
 
-      - name: open bump PRs
+      - name: compute the update plan
+        id: plan
+        env:
+          INPUT_ENTRY: ${{ inputs.entry }}
+        run: |
+          if [ -n "$INPUT_ENTRY" ]; then
+            patchy mirror upgrade --check -o json "$INPUT_ENTRY" > /tmp/plan.json
+          else
+            patchy mirror upgrade --check -o json --all > /tmp/plan.json
+          fi
+          jq . /tmp/plan.json
+          echo "groups=$(jq '.groups | length' /tmp/plan.json)" >> "$GITHUB_OUTPUT"
+
+      - name: open or refresh one PR per group
+        if: steps.plan.outputs.groups != '0'
         env:
           GH_TOKEN: ${{ github.token }}
-          INPUT_CHART: ${{ inputs.chart }}
         run: |
-          # shellcheck disable=SC2016 # the backticked markdown in the pr-body printf is literal
           set -euo pipefail
-          git config user.name "chart-update-bot"
-          git config user.email "chart-update-bot@users.noreply.github.com"
 
-          all_charts="$(ls charts)"
-          requested="$INPUT_CHART"
-          [ -n "$requested" ] || requested="$all_charts"
-
-          # Charts declaring .chart.lockstep share an upstream version stream
-          # and MUST move in one PR: a half-merged pair publishes an operator
-          # whose embedded flux release references controller images the
-          # mirror doesn't carry yet (or vice versa), stalling every cluster
-          # that picks it up. Standalone charts are their own group.
-          group_for() {
-            local g
-            g="$(yq '.chart.lockstep // ""' "charts/$1/manifest.yaml")"
-            [ -n "$g" ] && echo "$g" || echo "$1"
+          # Every commit below is minted through this mutation instead of
+          # `git commit`, so each one carries GitHub's own verified
+          # signature — the Git Data API has no such auto-signing, and the
+          # Contents API can't batch multiple file changes into one commit.
+          # shellcheck disable=SC2016 # $input is a literal GraphQL variable reference, not a shell expansion
+          graphql_query='
+          mutation($input: CreateCommitOnBranchInput!) {
+            createCommitOnBranch(input: $input) {
+              commit { oid }
+            }
           }
+          '
 
-          groups=""
-          for chart in $requested; do
-            groups="$groups $(group_for "$chart")"
-          done
-          groups="$(echo "$groups" | tr ' ' '\n' | sort -u | grep .)"
+          jq -c '.groups[]' /tmp/plan.json | while read -r group_json; do
+            group="$(jq -r '.group' <<<"$group_json")"
+            target="$(jq -r '.target' <<<"$group_json")"
+            branch="update/$group"
 
-          for group in $groups; do
-            members=""
-            for chart in $all_charts; do
-              [ "$(group_for "$chart")" = "$group" ] && members="$members $chart"
-            done
+            # Stable branch, recreated from main: the PR always shows the
+            # newest target, never a stack of stale siblings.
+            base_sha="$(git rev-parse origin/main)"
+            if ! gh api -X PATCH "repos/$GITHUB_REPOSITORY/git/refs/heads/$branch" \
+              -f sha="$base_sha" -F force=true >/dev/null 2>&1; then
+              gh api -X POST "repos/$GITHUB_REPOSITORY/git/refs" \
+                -f ref="refs/heads/$branch" -f sha="$base_sha" >/dev/null
+            fi
 
-            # The group target is the LOWEST of the members' newest
-            # satisfying versions: upstream publishes lockstep charts
-            # near-simultaneously, and holding the bump until every member
-            # carries the tag is what prevents the half-mirrored release.
-            target=""
-            for chart in $members; do
-              current="$(yq '.chart.version' "charts/$chart/manifest.yaml")"
-              new="$(scripts/check-updates.sh "$chart" | tail -1)"
-              [ -n "$new" ] || new="$current"
-              if [ -z "$target" ] || [ "$(printf '%s\n%s\n' "$new" "$target" | sort -V | head -1)" = "$new" ]; then
-                target="$new"
+            # The working tree is scratch space for `patchy` only — nothing
+            # here is ever committed locally.
+            git checkout -f -B "$branch" "$base_sha" >/dev/null
+            git clean -fd -- charts artifacts >/dev/null 2>&1 || true
+
+            head_oid="$base_sha"
+            summary=""
+            bumped=0
+            while IFS=$'\t' read -r member current; do
+              # One commit per member entry keeps the PR reviewable and the
+              # history attributable per chart.
+              patchy mirror upgrade "$member" --to "$target"
+
+              additions="[]"
+              deletions="[]"
+              member_changed=0
+              while IFS= read -r -d '' entry; do
+                member_changed=1
+                status="${entry:0:2}"
+                path="${entry:3}"
+                case "$status" in
+                  "??"|" M")
+                    content="$(base64 -w0 "$path")"
+                    additions="$(jq -c --arg path "$path" --arg content "$content" \
+                      '. + [{path: $path, contents: $content}]' <<<"$additions")"
+                    ;;
+                  " D")
+                    deletions="$(jq -c --arg path "$path" '. + [{path: $path}]' <<<"$deletions")"
+                    ;;
+                esac
+              done < <(git status --porcelain -z -- "charts/$member" "artifacts/$member")
+
+              if [ "$member_changed" = 0 ]; then
+                continue
               fi
-            done
 
-            bumped=""
-            for chart in $members; do
-              if [ "$(yq '.chart.version' "charts/$chart/manifest.yaml")" != "$target" ]; then
-                bumped="$bumped $chart"
-              fi
-            done
-
-            # Images a chart tracks on their own release train (.images.track,
-            # e.g. the actions runner) move independently of the chart pin, so
-            # a group can need a PR with its chart version already current.
-            # --check resolves the tag without writing, which keeps the
-            # already-open-PR test below ahead of any real work.
-            tracked=""
-            tracked_slug=""
-            tracked_summary=""
-            for chart in $members; do
-              while IFS=$'\t' read -r img old sel; do
-                [ -n "$sel" ] || continue
-                [ "$old" != "$sel" ] || continue
-                tracked="$tracked $chart"
-                tracked_slug="$tracked_slug-$sel"
+              if [ "$current" != "$target" ]; then
+                headline="feat($member): update chart to $target"
                 # shellcheck disable=SC2016 # the backticked markdown in the printf format is literal
-                tracked_summary="$(printf '%s`%s` %s **%s → %s**\n' "$tracked_summary" "$chart" "$img" "$old" "$sel")"
-              done < <(scripts/track-image-tags.sh --check "$chart")
-            done
+                summary="$(printf '%s`%s` **%s → %s**\n' "$summary" "$member" "$current" "$target")"
+                bumped=1
+              else
+                headline="feat($member): update tracked images"
+                # shellcheck disable=SC2016 # the backticked markdown in the printf format is literal
+                summary="$(printf '%s`%s` tracked images re-picked\n' "$summary" "$member")"
+              fi
 
-            work="$(echo "$bumped $tracked" | tr ' ' '\n' | sort -u | grep . || true)"
-            [ -n "$work" ] || continue
+              payload="$(jq -n \
+                --arg query "$graphql_query" \
+                --arg repo "$GITHUB_REPOSITORY" \
+                --arg branch "$branch" \
+                --arg oid "$head_oid" \
+                --arg headline "$headline" \
+                --argjson additions "$additions" \
+                --argjson deletions "$deletions" \
+                '{
+                  query: $query,
+                  variables: {
+                    input: {
+                      branch: {repositoryNameWithOwner: $repo, branchName: $branch},
+                      expectedHeadOid: $oid,
+                      message: {headline: $headline},
+                      fileChanges: {additions: $additions, deletions: $deletions}
+                    }
+                  }
+                }')"
 
-            branch="update/$group-$target$tracked_slug"
-            if gh pr list --head "$branch" --state open --json number --jq length | grep -qv '^0$'; then
-              echo "PR for $branch already open; skipping"
+              response="$(echo "$payload" | gh api graphql --input -)"
+              oid="$(jq -r '.data.createCommitOnBranch.commit.oid // empty' <<<"$response")"
+              if [ -z "$oid" ]; then
+                echo "::error::GraphQL commit failed for $member: $(jq -c '.errors // .' <<<"$response")"
+                exit 1
+              fi
+              head_oid="$oid"
+            done < <(jq -r '.members[] | [.name, .current] | @tsv' <<<"$group_json")
+
+            if [ "$head_oid" = "$base_sha" ]; then
+              echo "$group: plan had work but the tree is already converged; skipping"
               continue
             fi
 
-            if [ -n "$bumped" ]; then
+            if [ "$bumped" = 1 ]; then
               title="feat($group): update chart to $target"
             else
               title="feat($group): update tracked images"
             fi
-
-            git switch -C "$branch" origin/main
-            summary=""
-            for chart in $work; do
-              current="$(yq '.chart.version' "charts/$chart/manifest.yaml")"
-              if [ "$current" != "$target" ]; then
-                NEW="$target" yq -i '.chart.version = env(NEW)' "charts/$chart/manifest.yaml"
-                # shellcheck disable=SC2016 # the backticked markdown in the printf format is literal
-                summary="$(printf '%s`%s` **%s → %s**\n' "$summary" "$chart" "$current" "$target")"
-              fi
-              # No-op for charts without .images.track; re-picks the pin for the rest.
-              scripts/track-image-tags.sh "$chart" >/dev/null
-              make refresh CHART="$chart"
-              # No-op unless the chart sets .scan.allowlist.generate. Runs after refresh
-              # so it scans the images the new lock actually names; drops findings that
-              # went away and keeps the expiry on the ones that did not, so the PR shows
-              # exactly what the bump changed about accepted risk.
-              scripts/derive-allowlist.sh "$chart"
-              git add "charts/$chart"
-            done
-            summary="$summary$tracked_summary"
-            git commit -m "$title"
-            git push -f origin "$branch"
-
             # shellcheck disable=SC2016 # the backticked markdown in the printf format is literal
-            gh pr create \
-              --head "$branch" \
-              --title "$title" \
-              --body "$(printf 'Automated chart bump:\n\n%s\nThe diff of `vendor/` and `rendered/` below is the reviewable change; `images.lock.yaml` carries the resolved image set. pr-validate posts provenance and scan results as a sticky comment.\n' "$summary")"
-            git switch main
+            body="$(printf 'Automated chart bump:\n\n%s\nThe diff of `vendor/` and `rendered/` is the reviewable change; `images.lock.yaml` carries the resolved image set. pr-validate posts provenance and scan results as a sticky comment.\n' "$summary")"
+
+            open_pr="$(gh pr list --head "$branch" --state open --json number --jq '.[0].number // empty')"
+            if [ -n "$open_pr" ]; then
+              # Same branch, newer target: refresh the PR in place.
+              gh pr edit "$open_pr" --title "$title" --body "$body"
+            else
+              gh pr create --head "$branch" --title "$title" --body "$body"
+            fi
+          done
+
+      # One-time cleanup for the legacy per-version branches: every open
+      # update/<group>-<version...> PR is superseded by the stable
+      # update/<group> one. Harmless no-op once they are gone.
+      - name: close superseded legacy update PRs
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh pr list --state open --json number,headRefName \
+            --jq '.[] | select(.headRefName | test("^update/.+-[0-9]+\\.[0-9]+\\.[0-9]+")) | .number' |
+          while read -r pr; do
+            gh pr close "$pr" --delete-branch \
+              --comment "Superseded by the stable per-group update branch (update/<group>); the daily sweep now refreshes one PR per group in place."
           done
