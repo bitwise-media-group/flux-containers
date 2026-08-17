@@ -25,6 +25,17 @@ images:
   verifyUpstream:
     - match: "*"
       provider: none
+scan:
+  failOn: [CRITICAL, HIGH]
+  ignoreUnfixed: true
+  allowlist:
+    # Blocking findings are machine-transcribed into security/allowlist.yaml
+    # by `patchy mirror upgrade`; the PR review is where the risk is accepted.
+    generate: true
+    preamble: |
+      The scanned image is built upstream, so an entry means no fixed
+      image exists yet.
+
 # publish:
 #   # Override the default publish path (<registry.chartNamespace>/<name>).
 #   chartRepo: charts/example
