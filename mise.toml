@@ -7,6 +7,14 @@
 # there, and the Makefile is a thin forwarder (.mise/mise.mk). The pipeline
 # task surface lives in tasks.toml.
 
+[settings]
+lockfile = true
+locked = false
+minimum_release_age = "3d"
+# our own releases ship straight through — no cooldown wait (mirrors the
+# "no cooldown on bitwise-media-group/**" policy in the org's Renovate preset)
+minimum_release_age_excludes = ["github:bitwise-media-group/patchy"]
+
 [task_config]
 # markdown-lib archetype (prose fmt/lint + license + actionlint + shell lint)
 # plus the repo-local pipeline tasks; tasks.toml is included AFTER the
