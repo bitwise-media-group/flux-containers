@@ -1,6 +1,7 @@
 # Copyright 2026 BitWise Media Group Ltd
 # SPDX-License-Identifier: MIT
-apiVersion: flux-containers/v1alpha1
+apiVersion: mirror.patchy.bitwisemedia.uk/v1alpha1
+kind: Chart
 name: gha-runner-scale-set-controller
 chart:
   # The controller half of Actions Runner Controller: the four actions.github.com
@@ -26,6 +27,10 @@ discovery:
   valuesFiles: [values/discovery.yaml]
   kubeVersion: "1.34.0"
 images:
+  # No track rules: the controller and listener images are versioned in
+  # lockstep with the chart (tags = chart version); the chart pin is what
+  # moves them. The runner image rides its own train and is tracked in the
+  # sibling gha-runner-scale-set chart.
   extra: []
   exclude: []
   verifyUpstream:

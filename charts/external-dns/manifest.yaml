@@ -1,6 +1,7 @@
 # Copyright 2026 BitWise Media Group Ltd
 # SPDX-License-Identifier: MIT
-apiVersion: flux-containers/v1alpha1
+apiVersion: mirror.patchy.bitwisemedia.uk/v1alpha1
+kind: Chart
 name: external-dns
 chart:
   # https repo: kubernetes-sigs publishes no OCI chart yet
@@ -17,6 +18,15 @@ discovery:
   valuesFiles: [values/discovery.yaml]
   kubeVersion: "1.34.0"
 images:
+  # external-dns images release on their own train; the chart's appVersion
+  # can lag them. The track rule re-picks the newest soaked v0.x tag on every
+  # `patchy mirror upgrade` and writes it into valuesPath below, irrespective
+  # of chart movement. No versionConstraint: patchy derives the pinned tag's
+  # own release train (>=pin <1.0.0). The tag line in values/discovery.yaml
+  # is FACT — never hand-edit it.
+  track:
+    - image: registry.k8s.io/external-dns/external-dns
+      valuesPath: .image.tag
   extra: []
   exclude: []
   verifyUpstream:
@@ -30,5 +40,13 @@ images:
 scan:
   failOn: [CRITICAL, HIGH]
   ignoreUnfixed: true
+  allowlist:
+    # Blocking findings are machine-transcribed into security/allowlist.yaml
+    # by `patchy mirror upgrade`; the PR review is where the risk is accepted.
+    generate: true
+    preamble: |
+      Single-binary Go image tracked by images.track; entries are Go
+      module / stdlib lag in the newest external-dns image — no fixed
+      release exists yet.
 publish:
   chartRepo: charts/external-dns

@@ -1,6 +1,7 @@
 # Copyright 2026 BitWise Media Group Ltd
 # SPDX-License-Identifier: MIT
-apiVersion: flux-containers/v1alpha1
+apiVersion: mirror.patchy.bitwisemedia.uk/v1alpha1
+kind: Chart
 name: kyverno
 chart:
   repo: oci://ghcr.io/kyverno/charts
@@ -18,6 +19,8 @@ discovery:
   valuesFiles: [values/discovery.yaml]
   kubeVersion: "1.34.0"
 images:
+  # No track rules: kyverno images are versioned in lockstep with the chart
+  # (tags = appVersion); the chart pin is what moves them.
   extra: []
   exclude:
     # helm test hook pod on a mutable `latest` tag; tests never run under flux.
@@ -37,5 +40,14 @@ images:
 scan:
   failOn: [CRITICAL, HIGH]
   ignoreUnfixed: true
+  allowlist:
+    # Blocking findings are machine-transcribed into security/allowlist.yaml
+    # by `patchy mirror upgrade`; the PR review is where the risk is accepted.
+    generate: true
+    preamble: |
+      Kyverno images are released in lockstep with the chart, so an entry
+      means no fixed kyverno release exists yet. Historically the findings
+      come from the sigstore/notation verification stack the images
+      bundle.
 publish:
   chartRepo: charts/kyverno

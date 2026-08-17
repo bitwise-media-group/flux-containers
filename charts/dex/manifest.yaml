@@ -1,6 +1,7 @@
 # Copyright 2026 BitWise Media Group Ltd
 # SPDX-License-Identifier: MIT
-apiVersion: flux-containers/v1alpha1
+apiVersion: mirror.patchy.bitwisemedia.uk/v1alpha1
+kind: Chart
 name: dex
 chart:
   # https repo: dexidp publishes no OCI chart; tgzs are GitHub release assets
@@ -17,6 +18,16 @@ discovery:
   valuesFiles: [values/discovery.yaml]
   kubeVersion: "1.34.0"
 images:
+  # dex images release faster than the chart (the chart's appVersion lags new
+  # v2.x images for months), so the chart pin alone strands the platform on a
+  # vulnerable image. The track rule re-picks the newest soaked v2.x tag on
+  # every `patchy mirror upgrade` and writes it into valuesPath below —
+  # irrespective of chart movement. No versionConstraint: patchy derives the
+  # pinned tag's own release train (>=pin <3.0.0). The tag line in
+  # values/discovery.yaml is FACT — never hand-edit it.
+  track:
+    - image: ghcr.io/dexidp/dex
+      valuesPath: .image.tag
   extra: []
   exclude: []
   verifyUpstream:
@@ -30,5 +41,18 @@ images:
 scan:
   failOn: [CRITICAL, HIGH]
   ignoreUnfixed: true
+  allowlist:
+    # Blocking findings are machine-transcribed into security/allowlist.yaml
+    # by `patchy mirror upgrade`; the PR review is where the risk is accepted.
+    generate: true
+    preamble: |
+      The dex image is alpine-based: openssl/musl findings come from the
+      base image (the -distroless variant would drop them if the runtime
+      switched to it). Upstream bundles every connector's dependencies
+      whether or not a connector is configured; this platform runs no SAML
+      or git-based connectors, so goxmldsig and go-git findings are latent
+      — reachability lives in notes on those entries. The image is tracked
+      by images.track, so an entry here means no fixed dex image exists
+      yet.
 publish:
   chartRepo: charts/dex

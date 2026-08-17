@@ -1,22 +1,24 @@
 # Copyright 2026 BitWise Media Group Ltd
 # SPDX-License-Identifier: MIT
 
-# PR validation — the deep per-chart pipeline gate (the org reusable ci.yaml
-# runs only the cheap repo-wide lint): regenerate all derived state and demand
-# a byte-identical tree (proves the committed vendor/ matches a fresh upstream
-# pull, rendered/ regenerates identically and the image lock reflects the
-# reviewed chart), then verify upstream provenance and scan images + config.
-# The summary is uploaded as an artifact; pr-validate-comment.yaml (workflow_run)
-# posts it as a sticky PR comment, because fork PRs get a read-only GITHUB_TOKEN
-# here and pull_request_target is off the table (this job executes PR code).
+# PR validation — the deep per-entry pipeline gate (the org reusable ci.yaml
+# runs only the cheap repo-wide lint): `patchy mirror validate` regenerates
+# all derived state out-of-tree and demands byte-identity (proves the
+# committed vendor/ matches a fresh upstream pull, rendered/ regenerates
+# identically and the image lock reflects the reviewed chart), then verifies
+# upstream provenance, scans images + config, and lints manifests and
+# allowlists. The summary is uploaded as an artifact; pr-validate-comment.yaml
+# (workflow_run) posts it as a sticky PR comment, because fork PRs get a
+# read-only GITHUB_TOKEN here and pull_request_target is off the table (this
+# job executes PR code).
 name: PR Validate
 
 on:
   pull_request:
     paths:
       - "charts/**"
-      - "scripts/**"
-      - "config/**"
+      - "artifacts/**"
+      - "mirror.yaml"
       - "Makefile"
       - "mise.toml"
       - "mise.lock"
@@ -42,70 +44,47 @@ jobs:
       - name: install tools
         uses: ./.github/actions/pipeline-tools
 
-      - name: detect changed charts
-        id: charts
+      - name: detect changed entries
+        id: entries
         env:
           BASE_REF: ${{ github.base_ref }}
         run: |
-          changed="$(git diff --name-only "origin/$BASE_REF"...HEAD -- charts/ | cut -d/ -f2 | sort -u | xargs)"
+          changed="$(git diff --name-only "origin/$BASE_REF"...HEAD -- charts/ artifacts/ | cut -d/ -f2 | sort -u | xargs)"
+          # A mirror.yaml change affects every entry.
+          if ! git diff --quiet "origin/$BASE_REF"...HEAD -- mirror.yaml; then
+            changed="--all"
+          fi
           echo "changed=$changed" >> "$GITHUB_OUTPUT"
-          echo "changed charts: $changed"
+          echo "changed entries: $changed"
 
-      - name: regenerate pipeline state (vendor integrity + lock freshness)
-        if: steps.charts.outputs.changed != ''
+      - name: validate (regen byte-identity + provenance + scan + lint)
+        if: steps.entries.outputs.changed != ''
         run: |
-          for chart in ${{ steps.charts.outputs.changed }}; do
-            make refresh CHART="$chart"
-          done
-          # A clean tree proves: committed vendor/ matches a fresh upstream pull, rendered/
-          # regenerates identically, and the image lock reflects the reviewed chart.
-          git diff --exit-code -- charts/ \
-            || { echo '::error::committed pipeline state does not regenerate cleanly'; exit 1; }
-
-      - name: verify upstream provenance
-        if: steps.charts.outputs.changed != ''
-        run: |
-          for chart in ${{ steps.charts.outputs.changed }}; do
-            scripts/verify-upstream.sh "$chart" 2>&1 | tee -a /tmp/verify.log
-          done
-
-      - name: scan images and chart config
-        if: steps.charts.outputs.changed != ''
-        run: |
-          for chart in ${{ steps.charts.outputs.changed }}; do
-            scripts/scan.sh "$chart" 2>&1 | tee -a /tmp/scan.log
-          done
+          # -o markdown IS the reviewer summary — one section per entry,
+          # fenced detail blocks, "clean ✔" rows — so nothing here parses
+          # anything. The exit code is the gate.
+          echo "## Mirror pipeline validation" > /tmp/summary.md
+          echo >> /tmp/summary.md
+          # shellcheck disable=SC2086 # the entry list is intentionally word-split
+          patchy mirror validate ${{ steps.entries.outputs.changed }} -o markdown \
+            >> /tmp/summary.md || echo "failed=1" >> "$GITHUB_ENV"
 
       - name: summarize for reviewers
-        if: always() && steps.charts.outputs.changed != ''
-        env:
-          BASE_REF: ${{ github.base_ref }}
-        run: |
-          {
-            echo "## Chart pipeline validation"
-            echo
-            for chart in ${{ steps.charts.outputs.changed }}; do
-              echo "### \`$chart\`"
-              echo '```'
-              git diff --stat "origin/$BASE_REF"...HEAD -- "charts/$chart/vendor" "charts/$chart/rendered" | tail -3
-              echo '```'
-              echo "Images:"
-              echo '```yaml'
-              cat "charts/$chart/images.lock.yaml"
-              echo '```'
-            done
-            echo "### Provenance"
-            echo '```'
-            grep -E '^(>>|warning)' /tmp/verify.log 2>/dev/null || echo "(not reached)"
-            echo '```'
-          } > /tmp/summary.md
-          cat /tmp/summary.md >> "$GITHUB_STEP_SUMMARY"
+        if: always() && steps.entries.outputs.changed != ''
+        run: cat /tmp/summary.md >> "$GITHUB_STEP_SUMMARY"
 
-      # Fork PRs run with a read-only GITHUB_TOKEN, so the comment itself is posted by
-      # pr-validate-comment.yaml (workflow_run), which picks up this artifact.
+      # Fork PRs run with a read-only GITHUB_TOKEN, so the comment itself is
+      # posted by pr-validate-comment.yaml (workflow_run), which picks up
+      # this artifact.
       - name: upload summary for comment workflow
-        if: always() && steps.charts.outputs.changed != ''
+        if: always() && steps.entries.outputs.changed != ''
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: pr-validate-summary
           path: /tmp/summary.md
+
+      - name: gate
+        if: env.failed == '1'
+        run: |
+          echo '::error::mirror validation failed (see the summary and /tmp/validate.log)'
+          exit 1

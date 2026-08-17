@@ -1,6 +1,7 @@
 # Copyright 2026 BitWise Media Group Ltd
 # SPDX-License-Identifier: MIT
-apiVersion: flux-containers/v1alpha1
+apiVersion: mirror.patchy.bitwisemedia.uk/v1alpha1
+kind: Chart
 name: flux-instance
 chart:
   # Same OCI repo and version stream as flux-operator: the pair is released
@@ -9,7 +10,7 @@ chart:
   repo: oci://ghcr.io/controlplaneio-fluxcd/charts
   name: flux-instance
   lockstep: flux
-  version: "0.56.0"
+  version: "0.58.0"
   versionConstraint: ">=0.20.0 <1.0.0"
   verifyUpstream:
     provider: cosign-keyless
@@ -23,27 +24,20 @@ images:
   # Flux distribution controllers: deployed by the operator from the
   # FluxInstance CR this chart renders, so helm discovery can't see them —
   # yet clusters pull them from the mirror's images/ghcr.io/fluxcd path
-  # (the FluxInstance distribution.registry). derive-distribution-images.sh
-  # (the discover task) rewrites .images.extra below from this artifact at
+  # (the FluxInstance distribution.registry). `patchy mirror upgrade`
+  # derives the GENERATED images.extra.yaml sidecar from this artifact at
   # the tag matching the vendored appVersion — the exact controller set the
   # pinned operator's embedded manifests deploy, in lockstep with
-  # chart.version by construction. Never hand-edit the extra entries.
+  # chart.version by construction. The sidecar merges into discovery; this
+  # manifest stays pure intent.
   distributionManifests:
-    artifact: oci://ghcr.io/controlplaneio-fluxcd/flux-operator-manifests:{appVersion}
+    artifact: oci://ghcr.io/controlplaneio-fluxcd/flux-operator-manifests:latest
     components:
       - source-controller
       - kustomize-controller
       - helm-controller
       - notification-controller
-  extra:
-    - image: ghcr.io/fluxcd/source-controller:v1.9.3
-      reason: flux v2.9.3 distribution controller (derived from oci://ghcr.io/controlplaneio-fluxcd/flux-operator-manifests:v0.56.0)
-    - image: ghcr.io/fluxcd/kustomize-controller:v1.9.4
-      reason: flux v2.9.3 distribution controller (derived from oci://ghcr.io/controlplaneio-fluxcd/flux-operator-manifests:v0.56.0)
-    - image: ghcr.io/fluxcd/helm-controller:v1.6.3
-      reason: flux v2.9.3 distribution controller (derived from oci://ghcr.io/controlplaneio-fluxcd/flux-operator-manifests:v0.56.0)
-    - image: ghcr.io/fluxcd/notification-controller:v1.9.2
-      reason: flux v2.9.3 distribution controller (derived from oci://ghcr.io/controlplaneio-fluxcd/flux-operator-manifests:v0.56.0)
+  extra: []
   exclude: []
   verifyUpstream:
     - match: "ghcr.io/controlplaneio-fluxcd/*"
@@ -67,5 +61,15 @@ ociRefs:
 scan:
   failOn: [CRITICAL, HIGH]
   ignoreUnfixed: true
+  allowlist:
+    # Blocking findings are machine-transcribed into security/allowlist.yaml
+    # by `patchy mirror upgrade`; the PR review is where the risk is accepted.
+    generate: true
+    preamble: |
+      The scanned images are the flux distribution controllers the pinned
+      operator deploys (derived from images.distributionManifests, moving
+      with the flux lockstep group), so an entry means no fixed
+      distribution exists yet; the next flux-operator/flux-instance
+      release is what clears it.
 publish:
   chartRepo: charts/flux-instance

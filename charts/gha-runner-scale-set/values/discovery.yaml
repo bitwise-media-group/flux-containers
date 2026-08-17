@@ -21,7 +21,7 @@ controllerServiceAccount:
 # runtime values must reference this same mirrored tag.
 #
 # The image line below is FACT, not intent: it is written by
-# track-image-tags.sh from the .images.track rule in manifest.yaml (newest
+# `patchy mirror upgrade` from the .images.track rule in manifest.yaml (newest
 # actions/runner tag past the cooldown) and re-picked by `make update`.
 # Never hand-edit it — change the rule in manifest.yaml instead.
 template:

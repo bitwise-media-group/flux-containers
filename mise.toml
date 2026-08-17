@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: MIT
 #
 # flux-containers consumes the shared toolchain (bitwise-media-group/toolchain)
-# as the .mise/ submodule: pinned tools (helm, grype, kubescape, shellcheck,
+# as the .mise/ submodule: pinned tools (grype, kubescape, shellcheck,
 # prettier, markdownlint, addlicense, ...) and the universal tasks come from
 # there, and the Makefile is a thin forwarder (.mise/mise.mk). The pipeline
 # task surface lives in tasks.toml.

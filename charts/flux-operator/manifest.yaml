@@ -1,6 +1,7 @@
 # Copyright 2026 BitWise Media Group Ltd
 # SPDX-License-Identifier: MIT
-apiVersion: flux-containers/v1alpha1
+apiVersion: mirror.patchy.bitwisemedia.uk/v1alpha1
+kind: Chart
 name: flux-operator
 chart:
   repo: oci://ghcr.io/controlplaneio-fluxcd/charts
@@ -9,7 +10,7 @@ chart:
   # group makes update-check bump both in one PR (a half-merged pair ships
   # an operator whose embedded flux release the mirror can't serve yet).
   lockstep: flux
-  version: "0.56.0"
+  version: "0.58.0"
   versionConstraint: ">=0.20.0 <1.0.0"
   verifyUpstream:
     provider: cosign-keyless
@@ -20,6 +21,8 @@ discovery:
   valuesFiles: [values/discovery.yaml]
   kubeVersion: "1.34.0"
 images:
+  # No track rules: the operator image is versioned in lockstep with the
+  # chart (tag = appVersion); the chart pin is what moves it.
   extra: []
   exclude: []
   verifyUpstream:
@@ -30,5 +33,13 @@ images:
 scan:
   failOn: [CRITICAL, HIGH]
   ignoreUnfixed: true
+  allowlist:
+    # Blocking findings are machine-transcribed into security/allowlist.yaml
+    # by `patchy mirror upgrade`; the PR review is where the risk is accepted.
+    generate: true
+    preamble: |
+      The operator image is released in lockstep with the chart (one
+      version stream), so an entry here means no fixed flux-operator
+      release exists yet; the chart upgrade is what clears it.
 publish:
   chartRepo: charts/flux-operator

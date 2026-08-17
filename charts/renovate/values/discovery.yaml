@@ -1,0 +1,11 @@
+# Copyright 2026 BitWise Media Group Ltd
+# SPDX-License-Identifier: MIT
+#
+# Discovery-only values — LOAD-BEARING: the chart `required`-fails without
+# either renovate.config or renovate.existingConfigFile. Supplying
+# existingConfigFile (a file path handed to RENOVATE_CONFIG_FILE) makes the
+# chart skip its config ConfigMap/Secret template entirely, so no placeholder
+# self-hosted config ends up committed in rendered/manifests.yaml. The real
+# config and the rest of the runtime values live in flux-manifests, not here.
+renovate:
+  existingConfigFile: /etc/renovate/config.json

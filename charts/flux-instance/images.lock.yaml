@@ -1,7 +1,7 @@
 chart:
   name: flux-instance
-  version: 0.56.0
-  upstreamTgzSha256: 1cdd48f29290d8867411e2bd6f3ae8e26208cb58d4cc8a062798189afff5c032
+  version: 0.58.0
+  upstreamTgzSha256: 088440069c1425617112c05470bc149ac86f6d2685ae9a02e299988219d0fb80
 images:
   - source: ghcr.io/fluxcd/helm-controller:v1.6.3
     digest: sha256:16ada99456385100698a5d7adf90aba8a2089d987ab541c9566b6d7b0e897038
@@ -11,11 +11,11 @@ images:
     digest: sha256:2b8bec54ffb6caf421bd2a6c005d27f567d5dd4db7feb55794fb51fcabd69b8f
     target: us-central1-docker.pkg.dev/o-foundation-7e43/platform/images/ghcr.io/fluxcd/kustomize-controller:v1.9.4
     platforms: ["linux/amd64", "linux/arm", "linux/arm64"]
-  - source: ghcr.io/fluxcd/notification-controller:v1.9.2
-    digest: sha256:9ce503e7bcb8493fafe2aaef0c2ac4396df4f6890256acf9cd444a2dcd2a69ed
-    target: us-central1-docker.pkg.dev/o-foundation-7e43/platform/images/ghcr.io/fluxcd/notification-controller:v1.9.2
+  - source: ghcr.io/fluxcd/notification-controller:v1.9.3
+    digest: sha256:071c351a0fb163eeb6a2bb82f1e894f51b6b0734216d2e97d3d99c9ab9d710b9
+    target: us-central1-docker.pkg.dev/o-foundation-7e43/platform/images/ghcr.io/fluxcd/notification-controller:v1.9.3
     platforms: ["linux/amd64", "linux/arm", "linux/arm64"]
-  - source: ghcr.io/fluxcd/source-controller:v1.9.3
-    digest: sha256:ff8f3c92f1bcb433e858c948040c3a3393fe73f5dd72048a4502bfaf0a4c26cd
-    target: us-central1-docker.pkg.dev/o-foundation-7e43/platform/images/ghcr.io/fluxcd/source-controller:v1.9.3
+  - source: ghcr.io/fluxcd/source-controller:v1.9.4
+    digest: sha256:8a8ed0a57b8b86f561d5a4309a69f65e62f0cebe4de8801593c5ff35a3bc3c23
+    target: us-central1-docker.pkg.dev/o-foundation-7e43/platform/images/ghcr.io/fluxcd/source-controller:v1.9.4
     platforms: ["linux/amd64", "linux/arm", "linux/arm64"]

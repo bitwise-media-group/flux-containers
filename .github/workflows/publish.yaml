@@ -1,15 +1,21 @@
 # Copyright 2026 BitWise Media Group Ltd
 # SPDX-License-Identifier: MIT
 
-# Publish — mirror the changed charts' images (by digest) and the charts
-# themselves to the platform Artifact Registry, cosign-signing everything
-# KEYLESSLY: the job's GitHub OIDC token mints both the GCP access token (via
-# Workload Identity Federation, impersonating the chart-publisher service
-# account the artifact-store terraform created) and the Fulcio signing
-# certificate. Consumers pin this workflow's exact identity
-# (…/flux-containers/.github/workflows/publish.yaml@refs/heads/main), which is
-# why the job is hard-guarded to main: a dispatch from any other ref would
-# mint a different certificate subject than the clusters verify.
+# Publish — `patchy mirror sync` converges the platform Artifact Registry
+# onto the merged tree: mirror the locked images (by digest) and the charts
+# themselves, cosign-signing everything KEYLESSLY. The job's GitHub OIDC
+# token mints both the GCP access token (via Workload Identity Federation,
+# impersonating the chart-publisher service account the artifact-store
+# terraform created) and the Fulcio signing certificate. Consumers pin this
+# workflow's exact identity
+# (…/flux-containers/.github/workflows/publish.yaml@refs/heads/main), which
+# is why the job is hard-guarded to main: a dispatch from any other ref
+# would mint a different certificate subject than the clusters verify.
+#
+# sync is idempotent per tag (an existing chart tag is never replaced;
+# current-and-signed images are skipped), so it always runs over the whole
+# store — no changed-entry detection needed for correctness, and a re-run
+# after a partial failure finishes the remainder.
 name: Publish Charts
 
 on:
@@ -17,11 +23,9 @@ on:
     branches: [main]
     paths:
       - "charts/**"
-  workflow_dispatch:
-    inputs:
-      chart:
-        description: Chart to (re)publish
-        required: true
+      - "artifacts/**"
+      - "mirror.yaml"
+  workflow_dispatch: {}
 
 permissions: {}
 
@@ -46,22 +50,7 @@ jobs:
       - name: install tools
         uses: ./.github/actions/pipeline-tools
 
-      - name: detect charts to publish
-        id: charts
-        env:
-          INPUT_CHART: ${{ inputs.chart }}
-          BEFORE: ${{ github.event.before }}
-        run: |
-          if [ -n "$INPUT_CHART" ]; then
-            changed="$INPUT_CHART"
-          else
-            changed="$(git diff --name-only "$BEFORE"..HEAD -- charts/ | cut -d/ -f2 | sort -u | xargs)"
-          fi
-          echo "changed=$changed" >> "$GITHUB_OUTPUT"
-          echo "publishing: $changed"
-
       - name: authenticate to Google Cloud
-        if: steps.charts.outputs.changed != ''
         id: auth
         uses: google-github-actions/auth@7c6bc770dae815cd3e89ee6cdf493a5fab2cc093 # v3
         with:
@@ -71,35 +60,28 @@ jobs:
           token_format: access_token
 
       - name: login to Artifact Registry
-        if: steps.charts.outputs.changed != ''
         env:
           ACCESS_TOKEN: ${{ steps.auth.outputs.access_token }}
         run: |
-          host="$(yq '.registry.url' config/global.yaml | cut -d/ -f1)"
-          helm registry login "$host" --username oauth2accesstoken --password-stdin <<<"$ACCESS_TOKEN"
-          # crane auth login writes the docker keychain, which cosign also reads
+          # One docker-keychain login covers everything patchy does: image
+          # copies, chart pushes and cosign signing all read it.
+          host="$(yq '.registry.url' mirror.yaml | cut -d/ -f1)"
           crane auth login "$host" --username oauth2accesstoken --password-stdin <<<"$ACCESS_TOKEN"
 
       - name: re-verify and publish
-        if: steps.charts.outputs.changed != ''
         run: |
-          # Defense in depth: provenance is re-verified on main before anything is pushed,
-          # so nothing merged around the PR gate gets signed with the platform identity.
-          for chart in ${{ steps.charts.outputs.changed }}; do
-            scripts/verify-upstream.sh "$chart"
-            scripts/publish-images.sh "$chart"
-            scripts/publish-chart.sh "$chart"
-          done
+          # Defense in depth: provenance is re-verified on main before
+          # anything is pushed, so nothing merged around the PR gate gets
+          # signed with the platform identity. -o markdown IS the job
+          # summary — no parsing here.
+          patchy mirror validate --all --only verify
+          patchy mirror sync --all -o markdown | tee /tmp/sync.md
 
       - name: job summary
-        if: steps.charts.outputs.changed != ''
+        if: always()
         run: |
           {
             echo "## Published"
-            for chart in ${{ steps.charts.outputs.changed }}; do
-              echo "### \`$chart\`"
-              echo '```yaml'
-              cat "charts/$chart/images.lock.yaml"
-              echo '```'
-            done
+            echo
+            cat /tmp/sync.md 2>/dev/null || echo "(sync did not produce a report)"
           } >> "$GITHUB_STEP_SUMMARY"

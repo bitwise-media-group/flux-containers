@@ -2,5 +2,9 @@
 # SPDX-License-Identifier: MIT
 #
 # Discovery-only values: the google provider configuration the runtime uses
-# (flux-manifests) changes no images, so nothing to enable here.
-{}
+# (flux-manifests) changes no images. The tag below is FACT, not intent: it
+# is written by the .images.track rule in manifest.yaml (newest soaked
+# external-dns v0.x tag) and re-picked by `patchy mirror upgrade` — never
+# hand-edit it.
+image:
+  tag: v0.21.0

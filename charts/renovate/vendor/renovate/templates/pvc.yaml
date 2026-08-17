@@ -1,0 +1,24 @@
+{{- if .Values.renovate.persistence.cache.enabled }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "renovate.fullname" . }}-cache
+  namespace: {{ include "renovate.namespace" . }}
+  labels:
+    {{- include "renovate.labels" . | nindent 4 }}
+  {{- with .Values.renovate.persistence.cache.labels }}
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  {{- if .Values.renovate.persistence.cache.storageClass }}
+  storageClassName: {{ .Values.renovate.persistence.cache.storageClass }}
+  {{- end }}
+  {{- if .Values.renovate.persistence.cache.volumeName }}
+  volumeName: {{ .Values.renovate.persistence.cache.volumeName }}
+  {{- end }}
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ .Values.renovate.persistence.cache.storageSize }}
+{{- end }}

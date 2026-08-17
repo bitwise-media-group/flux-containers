@@ -1,0 +1,259 @@
+{{- $configFileName := "config.json" }}
+{{- if .Values.renovate.configIsJavaScript }}
+  {{- $configFileName = "config.js" }}
+{{- else if .Values.renovate.configIsJson5 }}
+  {{- $configFileName = "config.json5" }}
+{{- end }}
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ include "renovate.fullname" . }}
+  namespace: {{ include "renovate.namespace" . }}
+  labels:
+    {{- include "renovate.labels" . | nindent 4 }}
+  {{- with .Values.cronjob.labels }}
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+{{- if .Values.cronjob.annotations }}
+  annotations:
+    {{- toYaml .Values.cronjob.annotations | nindent 4 }}
+{{- end }}
+spec:
+  schedule: "{{ .Values.cronjob.schedule }}"
+  {{- with .Values.cronjob.timeZone }}
+  timeZone: {{ . }}
+  {{- end }}
+  {{- with .Values.cronjob.suspend }}
+  suspend: {{ . }}
+  {{- end }}
+  {{- with .Values.cronjob.concurrencyPolicy }}
+  concurrencyPolicy: {{ . }}
+  {{- end }}
+  {{- with .Values.cronjob.failedJobsHistoryLimit }}
+  failedJobsHistoryLimit: {{ . }}
+  {{- end }}
+  {{- with .Values.cronjob.successfulJobsHistoryLimit }}
+  successfulJobsHistoryLimit: {{ . }}
+  {{- end }}
+  {{- with .Values.cronjob.startingDeadlineSeconds }}
+  startingDeadlineSeconds: {{ . }}
+  {{- end }}
+  jobTemplate:
+    metadata:
+      labels:
+        {{- include "renovate.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.cronjob.completions }}
+      completions: {{ . }}
+      {{- end }}
+      {{- with .Values.cronjob.completionMode }}
+      completionMode: {{ . }}
+      {{- end }}
+      {{- with .Values.cronjob.parallelism}}
+      parallelism: {{ . }}
+      {{- end }}
+      {{- if .Values.cronjob.ttlSecondsAfterFinished }}
+      ttlSecondsAfterFinished: {{ .Values.cronjob.ttlSecondsAfterFinished }}
+      {{- end }}
+      {{- if .Values.cronjob.activeDeadlineSeconds }}
+      activeDeadlineSeconds: {{ .Values.cronjob.activeDeadlineSeconds }}
+      {{- end }}
+      {{- if .Values.cronjob.jobBackoffLimit }}
+      backoffLimit: {{ .Values.cronjob.jobBackoffLimit }}
+      {{- end }}
+      {{- with .Values.cronjob.backoffLimitPerIndex }}
+      backoffLimitPerIndex: {{ . }}
+      {{- end }}
+      {{- with .Values.cronjob.maxFailedIndexes }}
+      maxFailedIndexes: {{ . }}
+      {{- end }}
+      template:
+        metadata:
+          labels:
+            {{- include "renovate.selectorLabels" . | nindent 12 }}
+          {{- with .Values.pod.labels }}
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+        {{- if .Values.pod.annotations }}
+          annotations:
+            {{- toYaml .Values.pod.annotations | nindent 12 }}
+        {{- end }}
+        spec:
+          serviceAccountName: {{ include "renovate.serviceAccountName" . }}
+          restartPolicy: {{ .Values.cronjob.jobRestartPolicy }}
+        {{- with .Values.hostAliases }}
+          hostAliases:
+            {{- toYaml . | nindent 12 }}
+        {{- end }}
+        {{- with .Values.dnsPolicy }}
+          dnsPolicy: {{ . }}
+        {{- end }}
+        {{- with .Values.dnsConfig }}
+          dnsConfig:
+            {{- toYaml . | nindent 12 }}
+        {{- end }}
+          {{- if or .Values.cronjob.initContainers .Values.ssh_config.enabled }}
+          initContainers:
+            {{- if .Values.ssh_config.enabled }}
+            # Setting ownership on files from mounted secrets is not supported by K8s.
+            # See https://github.com/kubernetes/kubernetes/issues/81089.
+            # So we need to copy the files to an empty-dir mount and change the ownership of those files afterwards.
+            - name: ssh-init
+              image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.useFull | ternary (printf "%s-full" .Values.image.tag) .Values.image.tag }}"
+              imagePullPolicy: {{ .Values.image.pullPolicy }}
+              command: ["/bin/bash", "-c"]
+              args:
+                - |
+                  cp /ssh-secret-volume/* /home/ubuntu/.ssh
+                  chown -R ubuntu:ubuntu /home/ubuntu/.ssh/*
+                  chmod 600 /home/ubuntu/.ssh/*
+              volumeMounts:
+                - name: ssh-config-volume
+                  mountPath: /home/ubuntu/.ssh
+                - name: ssh-secret-volume
+                  mountPath: /ssh-secret-volume
+                  readOnly: true
+              {{- if .Values.renovate.securityContext }}
+              securityContext:
+                {{- include "common.compatibility.renderSecurityContext" (dict "secContext" .Values.renovate.securityContext "context" $) | nindent 16 }}
+              {{- end }}
+            {{- end }}
+            {{- if .Values.cronjob.initContainers }}
+            {{- toYaml .Values.cronjob.initContainers | nindent 12 }}
+            {{- end }}
+          {{- end }}
+          containers:
+            - name: {{ .Chart.Name }}
+              image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.useFull | ternary (printf "%s-full" .Values.image.tag) .Values.image.tag }}"
+              imagePullPolicy: {{ .Values.image.pullPolicy }}
+              {{- if or .Values.cronjob.commandOverride .Values.cronjob.argsOverride }}
+              {{- if .Values.cronjob.commandOverride }}
+              command:
+                {{- toYaml .Values.cronjob.commandOverride | nindent 16 }}
+              {{- end }}
+              {{- if .Values.cronjob.argsOverride }}
+              args:
+                {{- toYaml .Values.cronjob.argsOverride | nindent 16 }}
+              {{- end }}
+              {{- else if or .Values.cronjob.preCommand .Values.cronjob.postCommand }}
+              command: ["/bin/bash", "-c"]
+              args:
+                - |
+                  set -e;
+                {{- if .Values.cronjob.preCommand }}
+                  {{- .Values.cronjob.preCommand | nindent 18 }}
+                {{- end }}
+                  renovate
+                {{- if .Values.cronjob.postCommand }}
+                  {{- .Values.cronjob.postCommand | nindent 18 }}
+                {{- end }}
+              {{- end }}
+              {{- if or .Values.renovate.config .Values.ssh_config.enabled .Values.renovate.persistence.cache.enabled .Values.extraVolumeMounts }}
+              volumeMounts:
+              {{- if .Values.renovate.config }}
+                - name: config-volume
+                  mountPath: /usr/src/app/{{ $configFileName }}
+                  subPath: {{ $configFileName }}
+              {{- end }}
+              {{- if .Values.ssh_config.enabled }}
+                - name: ssh-config-volume
+                  mountPath: /home/ubuntu/.ssh
+                  readOnly: true
+              {{- end }}
+              {{- if .Values.extraVolumeMounts }}
+                {{- toYaml .Values.extraVolumeMounts | nindent 16 }}
+              {{- end }}
+              {{- if .Values.renovate.persistence.cache.enabled }}
+                - name: {{ include "renovate.fullname" . }}-cache
+                  mountPath: /tmp/renovate
+              {{- end }}
+              {{- end }}
+              env:
+                {{- if .Values.renovate.existingConfigFile }}
+                - name: RENOVATE_CONFIG_FILE
+                  value: {{ .Values.renovate.existingConfigFile }}
+                {{- else if .Values.renovate.config }}
+                - name: RENOVATE_CONFIG_FILE
+                  value: /usr/src/app/{{ $configFileName }}
+                {{- end }}
+                {{- range $k, $v := .Values.env }}
+                - name: {{ $k | quote }}
+                  value: {{ $v | quote }}
+                {{- end }}
+                {{- with .Values.envList }}
+                  {{- toYaml . | nindent 16 }}
+                {{- end }}
+              envFrom:
+                {{- if or .Values.secrets .Values.existingSecret }}
+                - secretRef:
+                    name: {{ template "renovate.secretName" . }}
+                {{- end }}
+                {{- with .Values.envFrom }}
+                  {{- toYaml . | nindent 16 }}
+                {{- end }}
+            {{- if .Values.renovate.securityContext }}
+              securityContext:
+                {{- include "common.compatibility.renderSecurityContext" (dict "secContext" .Values.renovate.securityContext "context" $) | nindent 16 }}
+            {{- end }}
+            {{- with .Values.resources }}
+              resources:
+                {{- toYaml . | nindent 16 }}
+            {{- end }}
+          {{- with .Values.extraContainers }}
+            {{- tpl (toYaml .) $ | nindent 12 }}
+          {{- end }}
+          volumes:
+            {{- if .Values.renovate.config }}
+              {{- if .Values.renovate.configIsSecret }}
+            - name: config-volume
+              secret:
+                secretName: {{ include "renovate.fullname" . }}-config
+              {{- else }}
+            - name: config-volume
+              configMap:
+                name: {{ include "renovate.fullname" . }}-config
+              {{- end }}
+            {{- end }}
+            {{- if .Values.renovate.persistence.cache.enabled }}
+            - name: {{ include "renovate.fullname" . }}-cache
+              persistentVolumeClaim:
+                claimName: {{ include "renovate.fullname" . }}-cache
+            {{- end }}
+            {{- if .Values.ssh_config.enabled }}
+            - name: ssh-config-volume
+              emptyDir:
+                medium: Memory
+            - name: ssh-secret-volume
+              secret:
+                secretName: {{ include "renovate.sshSecretName" .}}
+            {{- end }}
+            {{- if .Values.extraVolumes }}
+              {{- toYaml .Values.extraVolumes | nindent 12 }}
+            {{- end }}
+        {{- with .Values.nodeSelector }}
+          nodeSelector:
+            {{- toYaml . | nindent 12 }}
+        {{- end }}
+        {{- with .Values.affinity }}
+          affinity:
+            {{- toYaml . | nindent 12 }}
+        {{- end }}
+        {{- with .Values.tolerations }}
+          tolerations:
+            {{- toYaml . | nindent 12 }}
+        {{- end }}
+        {{- if or .Values.securityContext .Values.renovate.persistence.cache.enabled }}
+          {{- $securityDict := .Values.securityContext }}
+
+          {{- if and .Values.renovate.persistence.cache.enabled (not .Values.securityContext.fsGroup) }}
+            {{- $securityDict = merge $securityDict (dict "fsGroup" 1000) }}
+          {{- end }}
+          securityContext:
+            {{- if not (empty $securityDict) }}
+              {{- include "common.compatibility.renderSecurityContext" (dict "secContext" $securityDict "context" $) | nindent 12 }}
+            {{ end }}
+        {{- end }}
+        {{- with .Values.imagePullSecrets }}
+          imagePullSecrets:
+            {{- toYaml . | nindent 12 }}
+        {{- end }}

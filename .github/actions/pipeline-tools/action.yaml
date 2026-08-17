@@ -1,18 +1,20 @@
 # Copyright 2026 BitWise Media Group Ltd
 # SPDX-License-Identifier: MIT
 name: pipeline-tools
-description: Install the pinned chart pipeline toolchain via mise (helm, crane, cosign, grype, kubescape, yq, shellcheck, prettier, markdownlint-cli2)
+description: Install the pinned mirror pipeline toolchain via mise (patchy, crane, grype, kubescape, yq, shellcheck, prettier, markdownlint-cli2)
 
 # Tool versions come from two places: the shared toolchain submodule at .mise/
-# (config.toml + mise.lock — helm, grype, kubescape, shellcheck, prose tools)
-# and the root mise.toml (+ mise.lock) for the pipeline-only additions (crane,
-# cosign, yq). mise verifies every download against the lockfiles (plus
-# cosign/SLSA/GitHub attestations where the publisher provides them), so no
-# system Go or Node is needed anywhere. Callers must check out with
-# `submodules: true` so .mise/ exists. mise-action caches the tool store keyed
-# on the pins and puts mise shims on PATH, so both `make <target>`
-# (→ `mise run`) and direct `scripts/<step>.sh` invocations get the pinned
-# tools.
+# (config.toml + mise.lock — grype, kubescape, shellcheck, prose tools) and
+# the root mise.toml (+ mise.lock) for the pipeline-only additions (patchy,
+# crane, yq). patchy is the pipeline engine — `patchy mirror` carries the
+# vendor/render/discover/verify/scan/publish machinery that used to be
+# scripts/, with grype and kubescape the only remaining shell-outs. mise
+# verifies every download against the lockfiles (plus cosign/SLSA/GitHub
+# attestations where the publisher provides them), so no system Go or Node is
+# needed anywhere. Callers must check out with `submodules: true` so .mise/
+# exists. mise-action caches the tool store keyed on the pins and puts mise
+# shims on PATH, so both `make <target>` (→ `mise run`) and direct `patchy`
+# invocations get the pinned tools.
 runs:
   using: composite
   steps:
@@ -32,8 +34,8 @@ runs:
     - name: install pinned tools
       shell: bash
       env:
-        # mise resolves aqua-backend releases via the GitHub API; unauthenticated
-        # calls rate-limit on shared runners
+        # mise resolves aqua/ubi-backend releases via the GitHub API;
+        # unauthenticated calls rate-limit on shared runners
         GITHUB_TOKEN: ${{ github.token }}
       run: |
         mise trust --quiet mise.toml

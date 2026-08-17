@@ -1,0 +1,38 @@
+---
+# Source: renovate/templates/cronjob.yaml
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: renovate
+  namespace: renovate
+  labels:
+    helm.sh/chart: renovate-46.251.0
+    app.kubernetes.io/name: renovate
+    app.kubernetes.io/instance: renovate
+    app.kubernetes.io/version: "43.288.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  schedule: "0 1 * * *"
+  jobTemplate:
+    metadata:
+      labels:
+        app.kubernetes.io/name: renovate
+        app.kubernetes.io/instance: renovate
+    spec:
+      template:
+        metadata:
+          labels:
+            app.kubernetes.io/name: renovate
+            app.kubernetes.io/instance: renovate
+        spec:
+          serviceAccountName: default
+          restartPolicy: Never
+          containers:
+            - name: renovate
+              image: "ghcr.io/renovatebot/renovate:43.288.0"
+              imagePullPolicy: IfNotPresent
+              env:
+                - name: RENOVATE_CONFIG_FILE
+                  value: /etc/renovate/config.json
+              envFrom:
+          volumes:

@@ -1,11 +1,12 @@
 # Copyright 2026 BitWise Media Group Ltd
 # SPDX-License-Identifier: MIT
-apiVersion: flux-containers/v1alpha1
+apiVersion: mirror.patchy.bitwisemedia.uk/v1alpha1
+kind: Chart
 name: opentelemetry-collector
 chart:
   repo: oci://ghcr.io/open-telemetry/opentelemetry-helm-charts
   name: opentelemetry-collector
-  version: "0.165.0"
+  version: "0.170.0"
   versionConstraint: ">=0.130.0 <1.0.0"
   # open-telemetry publishes the OCI charts unsigned — documented gap. The
   # collector images below are keyless-signed by their release workflow.
@@ -16,6 +17,15 @@ discovery:
   valuesFiles: [values/discovery.yaml]
   kubeVersion: "1.34.0"
 images:
+  # Contrib collector images release weekly on their own train; the chart's
+  # appVersion lags them. The track rule re-picks the newest soaked 0.x tag
+  # on every `patchy mirror upgrade` and writes it into valuesPath below,
+  # irrespective of chart movement. No versionConstraint: patchy derives the
+  # pinned tag's own release train (>=pin <1.0.0). The tag line in
+  # values/discovery.yaml is FACT — never hand-edit it.
+  track:
+    - image: ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-contrib
+      valuesPath: .image.tag
   extra: []
   exclude: []
   verifyUpstream:
@@ -26,5 +36,13 @@ images:
 scan:
   failOn: [CRITICAL, HIGH]
   ignoreUnfixed: true
+  allowlist:
+    # Blocking findings are machine-transcribed into security/allowlist.yaml
+    # by `patchy mirror upgrade`; the PR review is where the risk is accepted.
+    generate: true
+    preamble: |
+      The scanned image is the -contrib collector the runtime deploys
+      (tracked by images.track), so an entry means no fixed collector
+      image exists yet.
 publish:
   chartRepo: charts/opentelemetry-collector

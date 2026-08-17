@@ -87204,6 +87204,7 @@ aggregationRule:
         app.kubernetes.io/component: admission-controller
         app.kubernetes.io/instance: kyverno
         app.kubernetes.io/part-of: kyverno
+
 ---
 # Source: kyverno/templates/admission-controller/clusterrole.yaml
 apiVersion: rbac.authorization.k8s.io/v1
@@ -87414,6 +87415,7 @@ aggregationRule:
         app.kubernetes.io/component: background-controller
         app.kubernetes.io/instance: kyverno
         app.kubernetes.io/part-of: kyverno
+
 ---
 # Source: kyverno/templates/background-controller/clusterrole.yaml
 apiVersion: rbac.authorization.k8s.io/v1
@@ -87585,6 +87587,7 @@ aggregationRule:
         app.kubernetes.io/component: cleanup-controller
         app.kubernetes.io/instance: kyverno
         app.kubernetes.io/part-of: kyverno
+
 ---
 # Source: kyverno/templates/cleanup-controller/clusterrole.yaml
 apiVersion: rbac.authorization.k8s.io/v1
@@ -87734,6 +87737,7 @@ rules:
       - patch
       - update
       - watch
+
 ---
 # Source: kyverno/templates/rbac/policies.yaml
 apiVersion: rbac.authorization.k8s.io/v1
@@ -87788,6 +87792,7 @@ rules:
       - patch
       - update
       - watch
+
 ---
 # Source: kyverno/templates/rbac/policyreports.yaml
 apiVersion: rbac.authorization.k8s.io/v1
@@ -87840,6 +87845,7 @@ rules:
       - patch
       - update
       - watch
+
 ---
 # Source: kyverno/templates/rbac/reports.yaml
 apiVersion: rbac.authorization.k8s.io/v1
@@ -87891,6 +87897,7 @@ rules:
       - patch
       - update
       - watch
+
 ---
 # Source: kyverno/templates/rbac/updaterequests.yaml
 apiVersion: rbac.authorization.k8s.io/v1
@@ -87936,6 +87943,7 @@ aggregationRule:
         app.kubernetes.io/component: reports-controller
         app.kubernetes.io/instance: kyverno
         app.kubernetes.io/part-of: kyverno
+
 ---
 # Source: kyverno/templates/reports-controller/clusterrole.yaml
 apiVersion: rbac.authorization.k8s.io/v1
@@ -88102,6 +88110,7 @@ subjects:
   - kind: ServiceAccount
     name: kyverno-admission-controller
     namespace: kyverno
+
 ---
 # Source: kyverno/templates/admission-controller/clusterrolebinding.yaml
 kind: ClusterRoleBinding
@@ -88146,6 +88155,7 @@ subjects:
 - kind: ServiceAccount
   name: kyverno-background-controller
   namespace: kyverno
+
 ---
 # Source: kyverno/templates/background-controller/clusterrolebinding.yaml
 kind: ClusterRoleBinding
@@ -88212,6 +88222,7 @@ subjects:
 - kind: ServiceAccount
   name: kyverno-reports-controller
   namespace: kyverno
+
 ---
 # Source: kyverno/templates/reports-controller/clusterrolebinding.yaml
 kind: ClusterRoleBinding
@@ -88595,6 +88606,7 @@ spec:
     app.kubernetes.io/instance: kyverno
     app.kubernetes.io/part-of: kyverno
   type: ClusterIP
+
 ---
 # Source: kyverno/templates/admission-controller/service.yaml
 apiVersion: v1
@@ -88674,6 +88686,7 @@ spec:
     app.kubernetes.io/instance: kyverno
     app.kubernetes.io/part-of: kyverno
   type: ClusterIP
+
 ---
 # Source: kyverno/templates/cleanup-controller/service.yaml
 apiVersion: v1
@@ -89430,6 +89443,7 @@ metadata:
     helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded
     helm.sh/hook-weight: "100"
 automountServiceAccountToken: false
+
 ---
 # Source: kyverno/templates/hooks/post-upgrade-migrate-resources.yaml
 apiVersion: rbac.authorization.k8s.io/v1
@@ -89477,6 +89491,7 @@ rules:
     - customresourcedefinitions/status
     verbs:
     - update
+
 ---
 # Source: kyverno/templates/hooks/post-upgrade-migrate-resources.yaml
 kind: ClusterRoleBinding
@@ -89503,6 +89518,7 @@ subjects:
   - kind: ServiceAccount
     name: kyverno-migrate-resources
     namespace: kyverno
+
 ---
 # Source: kyverno/templates/tests/admission-controller-metrics.yaml
 apiVersion: v1

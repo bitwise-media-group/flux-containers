@@ -1,11 +1,16 @@
 # Copyright 2026 BitWise Media Group Ltd
 # SPDX-License-Identifier: MIT
 
-# Weekly rescan of every chart's published image set with a fresh grype DB —
-# the feedback loop for CVEs published after merge. Never blocks anything:
-# findings land as security-labelled issues, fixed by bumping the chart (new
-# upstream images) or allowlisting with a statement and expiry. The final step
-# re-lints so allowlist entries nearing expiry surface here too.
+# Weekly rescan of every entry's published image set with a fresh
+# vulnerability database — the feedback loop for CVEs published after merge.
+# Never blocks anything: findings land as security-labelled issues, fixed by
+# bumping the chart (new upstream images) or allowlisting with a statement
+# and expiry. The lint stage runs alongside so allowlist entries nearing
+# expiry surface here too.
+#
+# One `patchy mirror validate <entry> -o markdown` per entry: the exit code
+# says whether the entry needs an issue, and the markdown IS the issue body
+# — no JSON parsing anywhere.
 name: Rescan Charts
 
 on:
@@ -30,17 +35,16 @@ jobs:
 
       - name: rescan all published image sets with a fresh DB
         id: scan
-        env:
-          GH_TOKEN: ${{ github.token }}
         run: |
-          set -uo pipefail
+          shopt -s nullglob
           failed=""
-          for dir in charts/*/; do
-            chart="$(basename "$dir")"
-            echo "::group::$chart"
-            if ! scripts/scan.sh "$chart" 2>&1 | tee "/tmp/rescan-$chart.log"; then
-              failed="$failed $chart"
+          for dir in charts/*/ artifacts/*/; do
+            entry="$(basename "$dir")"
+            echo "::group::$entry"
+            if ! patchy mirror validate "$entry" --only scan,lint -o markdown > "/tmp/rescan-$entry.md"; then
+              failed="$failed $entry"
             fi
+            cat "/tmp/rescan-$entry.md"
             echo "::endgroup::"
           done
           echo "failed=${failed# }" >> "$GITHUB_OUTPUT"
@@ -50,10 +54,9 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          # shellcheck disable=SC2016 # the backticked markdown in the printf format is literal
-          for chart in ${{ steps.scan.outputs.failed }}; do
-            title="rescan: blocking vulnerabilities in $chart"
-            body="$(printf 'Weekly rescan found blocking findings in already-published images.\n\n```\n%s\n```\n\nFix by bumping the chart (new upstream images) or allowlisting with a statement and expiry.\n' "$(tail -40 "/tmp/rescan-$chart.log")")"
+          for entry in ${{ steps.scan.outputs.failed }}; do
+            title="rescan: blocking vulnerabilities in $entry"
+            body="$(printf 'Weekly rescan found blocking findings in already-published images.\n\n%s\n\nFix by bumping the chart (new upstream images) or allowlisting with a statement and expiry.\n' "$(cat "/tmp/rescan-$entry.md")")"
             existing="$(gh issue list --state open --search "in:title \"$title\"" --json number --jq '.[0].number // empty')"
             if [ -n "$existing" ]; then
               gh issue comment "$existing" --body "$body"
@@ -61,7 +64,3 @@ jobs:
               gh issue create --title "$title" --body "$body" --label security
             fi
           done
-
-      - name: flag expiring allowlist entries
-        if: always()
-        run: scripts/lint-manifests.sh

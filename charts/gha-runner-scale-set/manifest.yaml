@@ -1,6 +1,7 @@
 # Copyright 2026 BitWise Media Group Ltd
 # SPDX-License-Identifier: MIT
-apiVersion: flux-containers/v1alpha1
+apiVersion: mirror.patchy.bitwisemedia.uk/v1alpha1
+kind: Chart
 name: gha-runner-scale-set
 chart:
   # One half of Actions Runner Controller: this chart is the *scale set* (an
@@ -29,14 +30,15 @@ discovery:
 images:
   # The runner image rides its own release train (actions/runner 2.x), which
   # says nothing about this chart's version — so `chart.version` can't imply
-  # it and the chart's own default is the mutable `:latest`. track-image-tags.sh
-  # picks the newest tag that has cleared the cooldown and writes it into
-  # valuesPath below; `make update` and the daily update-check workflow re-pick
-  # it. The pinned line in values/discovery.yaml is FACT — never hand-edit it.
+  # it and the chart's own default is the mutable `:latest`. `patchy mirror
+  # upgrade` picks the newest tag that has cleared the cooldown and writes it
+  # into valuesPath below; `make update` and the daily update-check workflow
+  # re-pick it. The pinned line in values/discovery.yaml is FACT — never
+  # hand-edit it.
   track:
     - image: ghcr.io/actions/actions-runner
       versionConstraint: ">=2.320.0 <3.0.0"
-      # cooldownDays inherits config/global.yaml .update.cooldownDays (3).
+      # cooldownDays inherits mirror.yaml .update.cooldownDays (3).
       valuesFile: values/discovery.yaml
       valuesPath: .template.spec.containers[0].image
   extra: []
@@ -57,7 +59,7 @@ scan:
   allowlist:
     # The runner image bumps on its own cadence (.images.track above), and each
     # bump rewrites the finding set — hand-transcribing 30-odd CVE entries per
-    # bump is not review, it is dictation. derive-allowlist.sh regenerates the
+    # bump is not review, it is dictation. `patchy mirror upgrade` regenerates the
     # file from the scan; the PR is where the risk is actually accepted.
     generate: true
     # Whole-file context for reviewers. Per-finding analysis goes in a `notes`

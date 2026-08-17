@@ -1,20 +1,22 @@
 # Copyright 2026 BitWise Media Group Ltd
 # SPDX-License-Identifier: MIT
 #
-# The pipeline surface. Most tasks operate on a single chart selected by the
-# CHART environment variable (`make vendor CHART=flux-operator` — the Makefile
-# exports CHART into the task env). Scripts follow the stdout-for-data,
-# stderr-for-logging convention. Aggregates are sequential composites — the
-# steps are a hard dependency chain, and mutating passes must not race.
+# The pipeline surface — thin forwarding to `patchy mirror`, which carries
+# the whole engine (vendor, render, discovery, provenance verification,
+# scanning, allowlist derivation, publish). Most tasks operate on a single
+# entry selected by the CHART environment variable (`make update
+# CHART=flux-operator` — the Makefile exports CHART into the task env);
+# the *-all variants attempt every entry and summarize. patchy follows the
+# stdout-for-data, stderr-for-logging convention throughout.
 
 [lint]
-description = "chart manifests, CVE allowlists, prose, scripts, workflows"
+description = "entry manifests, CVE allowlists, prose, scripts, workflows"
 run = [
   { task = "license-check" },
   { task = "lint-shell" },
   { task = "lint-prose" },
   { task = "actionlint" },
-  "scripts/lint-manifests.sh",
+  "patchy mirror validate --all --only lint",
 ]
 
 # Prose + license headers only: vendored charts, rendered output and image
@@ -24,146 +26,54 @@ run = [
 description = "format prose + inject license headers"
 run = [{ task = "fmt-prose" }, { task = "license" }]
 
-[vendor]
-description = "vendor the pinned upstream chart (CHART=<name>)"
-run = 'scripts/vendor-chart.sh "${CHART:?usage: make vendor CHART=<name>}"'
-
-[render]
-description = "render the vendored chart with discovery values (CHART=<name>)"
-run = 'scripts/render-chart.sh "${CHART:?usage: make render CHART=<name>}"'
-
-[discover]
-description = "discover referenced images and write the lock (CHART=<name>)"
-# derive first: charts declaring .images.distributionManifests (flux-instance)
-# get their .images.extra rewritten from the distribution artifact matching
-# the vendored appVersion, so extraction locks the exact controller set the
-# pinned operator deploys (no-op elsewhere)
-run = """
-set -eu
-: "${CHART:?usage: make discover CHART=<name>}"
-scripts/derive-distribution-images.sh "$CHART"
-scripts/extract-images.sh "$CHART"
-"""
-
-[verify]
-description = "verify upstream provenance of chart and images (CHART=<name>)"
-run = 'scripts/verify-upstream.sh "${CHART:?usage: make verify CHART=<name>}"'
-
-[scan]
-description = "scan locked images and chart configuration (CHART=<name>)"
-run = 'scripts/scan.sh "${CHART:?usage: make scan CHART=<name>}"'
+[add]
+description = "scaffold a new entry (URL=<upstream>, optionally CHART=<name>)"
+run = 'patchy mirror add ${CHART:-} --url "${URL:?usage: make add URL=<upstream url> [CHART=<name>]}"'
 
 [check-updates]
-description = "print the newest upstream version satisfying the constraint (CHART=<name>)"
-run = 'scripts/check-updates.sh "${CHART:?usage: make check-updates CHART=<name>}"'
+description = "print the lockstep-aware update plan without touching the tree"
+run = "patchy mirror upgrade --check --all"
 
-# Re-pick the tags of images the chart tracks on their own release train
-# (.images.track). Kept out of refresh on purpose: the pick is time-dependent
-# (cooldown), and refresh must regenerate byte-identically. `update` runs it.
-[track]
-description = "re-pick tracked image tags past their cooldown (CHART=<name>)"
-run = 'scripts/track-image-tags.sh "${CHART:?usage: make track CHART=<name>}"'
-
-# Regenerate the CVE allowlist from a fresh scan, for charts opting in with
-# .scan.allowlist.generate. Like `track`, kept out of refresh: the finding set
-# moves with grype's database, so regenerating under pr-validate would diff a
-# tree nobody touched. `update` runs it after refresh.
-[derive-allowlist]
-description = "regenerate the CVE allowlist from a fresh scan (CHART=<name>)"
-run = 'scripts/derive-allowlist.sh "${CHART:?usage: make derive-allowlist CHART=<name>}"'
-
-[publish]
-description = "publish mirrored images and the chart (CHART=<name>)"
-run = [
-  'scripts/publish-images.sh "${CHART:?usage: make publish CHART=<name>}"',
-  'scripts/publish-chart.sh "$CHART"',
-]
-
-# Regenerate all derived state for a chart (what the update PR job runs after a bump).
-[refresh]
-description = "vendor + render + discover (CHART=<name>)"
-run = [{ task = "vendor" }, { task = "render" }, { task = "discover" }]
-
-# Full local pipeline for one chart (everything pr-validate runs, minus publish).
-[validate]
-description = "full local pipeline for one chart (CHART=<name>)"
-run = [{ task = "refresh" }, { task = "verify" }, { task = "scan" }]
-
-# Bump one chart to the newest upstream version satisfying its constraint AND
-# re-pick any images it tracks on their own release train, then regenerate all
-# derived state. No-op when both are already current. The two move
-# independently — a chart can be current while its tracked runner image is a
-# release behind — so neither short-circuits the other.
+# Bump one entry to the newest upstream version satisfying its constraint
+# AND re-pick any images it tracks on their own release train, then
+# regenerate all derived state (vendor, rendered manifests, image locks,
+# generated allowlists). No-op when everything is already current. The only
+# verb allowed to consult the wall clock: tracked-tag cooldown picks and
+# allowlist expiry stamps happen here, never in validate.
 [update]
-description = "bump chart version + tracked image tags (CHART=<name>)"
-run = """
-set -eu
-: "${CHART:?usage: make update CHART=<name>}"
-changed=""
-new="$(scripts/check-updates.sh "$CHART")"
-if [ -n "$new" ]; then
-  NEW="$new" yq -i '.chart.version = env(NEW)' "charts/$CHART/manifest.yaml"
-  changed=1
-fi
-tracked="$(scripts/track-image-tags.sh "$CHART")"
-if echo "$tracked" | awk -F'\t' 'NF >= 3 && $2 != $3 { hit = 1 } END { exit !hit }'; then
-  changed=1
-fi
-[ -n "$changed" ] || exit 0
-mise run refresh
-# After refresh: the lock now names the images the allowlist must describe.
-scripts/derive-allowlist.sh "$CHART"
-"""
+description = "bump entry version + tracked image tags + derived state (CHART=<name>)"
+run = 'patchy mirror upgrade "${CHART:?usage: make update CHART=<name>}"'
 
-# The *-all loops attempt every chart even when one fails and summarize at the end.
 [update-all]
-description = "update every chart to its latest available version"
-run = """
-set -eu
-failed=""
-for dir in charts/*/; do
-  chart="$(basename "$dir")"
-  echo "==> $chart"
-  CHART="$chart" mise run update || failed="$failed $chart"
-done
-echo "==> summary"
-for dir in charts/*/; do
-  chart="$(basename "$dir")"
-  case " $failed " in
-    *" $chart "*) echo "  FAIL  $chart" ;;
-    *) echo "  ok    $chart" ;;
-  esac
-done
-[ -z "$failed" ]
-"""
+description = "update every entry to its latest available version"
+run = "patchy mirror upgrade --all"
 
-[validate-charts]
-hide = true
-run = """
-set -eu
-failed=""
-for dir in charts/*/; do
-  chart="$(basename "$dir")"
-  echo "==> $chart"
-  CHART="$chart" mise run validate || failed="$failed $chart"
-done
-echo "==> summary"
-for dir in charts/*/; do
-  chart="$(basename "$dir")"
-  case " $failed " in
-    *" $chart "*) echo "  FAIL  $chart" ;;
-    *) echo "  ok    $chart" ;;
-  esac
-done
-[ -z "$failed" ]
-"""
+# Full local pipeline for one entry (everything pr-validate runs, minus
+# publish): regenerate out-of-tree and demand byte-identity, verify upstream
+# provenance, scan images + configuration, lint manifests + allowlists.
+[validate]
+description = "full validation for one entry (CHART=<name>)"
+run = 'patchy mirror validate "${CHART:?usage: make validate CHART=<name>}"'
 
 [validate-all]
-description = "full pipeline for every chart plus the repo-wide lint gates"
-run = [{ task = "lint" }, { task = "validate-charts" }]
+description = "full validation for every entry plus the repo-wide lint gates"
+run = [{ task = "lint" }, "patchy mirror validate --all"]
+
+# Converge the registry onto the committed tree: mirror locked images by
+# digest, push charts (never replacing an existing tag), sign everything
+# published. Idempotent — skips are successes. Needs a registry login
+# (`crane auth login …`) with push rights; normally the publish workflow's
+# job, not a workstation's.
+[publish]
+description = "publish one entry's mirrored images and chart (CHART=<name>)"
+run = 'patchy mirror sync "${CHART:?usage: make publish CHART=<name>}"'
+
+[publish-all]
+description = "publish every entry (the publish workflow's verb)"
+run = "patchy mirror sync --all"
 
 [ci]
-description = "what the reusable CI workflow runs (the deep per-chart pipeline lives in pr-validate)"
+description = "what the reusable CI workflow runs (the deep per-entry pipeline lives in pr-validate)"
 run = [{ task = "lint" }]
 
 [pr]

@@ -25,7 +25,7 @@ namespaceOverride: ""
 # values.yaml to configure k8s as necessary.
 presets:
   # Configures the collector to collect logs.
-  # Adds the filelog receiver to the logs pipeline
+  # Adds the file_log receiver to the logs pipeline
   # and adds the necessary volumes and volume mounts.
   # Best used with mode = daemonset.
   # See https://opentelemetry.io/docs/kubernetes/collector/components/#filelog-receiver for details on the receiver.
@@ -72,6 +72,8 @@ presets:
   # See https://opentelemetry.io/docs/kubernetes/collector/components/#kubernetes-objects-receiver for details on the receiver.
   kubernetesEvents:
     enabled: false
+    # When enabled, the preset uses the k8s_events receiver instead of k8sobjects. Will default to true in a future release.
+    useK8sEventsReceiver: false
   # Collects Kubernetes objects via the k8sobjects receiver in pull mode (default interval: 1h).
   # Can be used with mode = deployment, statefulset, or daemonset.
   # Compatible with kubernetesEvents preset. Extra resources can be added via
@@ -106,6 +108,9 @@ presets:
     # API extensions resources: customresourcedefinitions
     apiExtensions:
       enabled: true
+    # Kubernetes events, collected in watch mode.
+    events:
+      enabled: false
   # Configures the Kubernetes Cluster Receiver to collect cluster-level metrics.
   # Adds the k8s_cluster receiver to the metrics pipeline
   # and adds the necessary rules to ClusterRole.
@@ -131,7 +136,7 @@ presets:
   # Adds profiles pipeline with the profiling receiver,
   # and adds the necessary volumes, security context and host PID access.
   #
-  # Warning: The profiling receiver requires privileged access and hostPID,
+  # Warning: The profiling receiver requires elevated capabilities and hostPID,
   # so it should be used with a dedicated collector distribution (e.g. otelcol-ebpf-profiler)
   # rather than the general-purpose k8s distribution. This avoids granting elevated privileges
   # to the same collector that handles metrics, traces, and logs.

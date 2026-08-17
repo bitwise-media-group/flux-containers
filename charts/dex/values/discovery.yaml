@@ -1,6 +1,10 @@
 # Copyright 2026 BitWise Media Group Ltd
 # SPDX-License-Identifier: MIT
 #
-# Discovery-only values: the chart renders its single dex image (tag from
-# appVersion) with default values, so nothing to enable here.
-{}
+# Discovery-only values. The tag below is FACT, not intent: it is written by
+# the .images.track rule in manifest.yaml (newest soaked dex v2.x tag) and
+# re-picked by `patchy mirror upgrade` — never hand-edit it. Without the pin
+# the chart falls back to its appVersion, which lags dex image releases by
+# months.
+image:
+  tag: v2.45.1

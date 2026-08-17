@@ -1,0 +1,81 @@
+# Copyright 2026 BitWise Media Group Ltd
+# SPDX-License-Identifier: MIT
+
+# Pipeline-wide configuration for `patchy mirror`. Chart-specific intent
+# lives in each chart's manifest.yaml; everything here applies to the whole
+# store. The tree is the registry of entries: patchy discovers
+# charts/*/manifest.yaml and artifacts/*/manifest.yaml — nothing lists them.
+#
+# The registry value comes from the terraform-google-gke-flux artifact-store
+# module output (platform_registry). The WIF wiring the publish workflow
+# authenticates with stays in the GCP_WIF_PROVIDER / GCP_CHART_PUBLISHER_SA
+# repository variables — it is workflow configuration, not mirror policy.
+apiVersion: mirror.patchy.bitwisemedia.uk/v1alpha1
+kind: MirrorConfig
+
+registry:
+  # artifact-store `platform_registry` output:
+  # <location>-docker.pkg.dev/<project>/<repository>
+  url: us-central1-docker.pkg.dev/o-foundation-7e43/platform
+  # path prefixes inside the single Artifact Registry repository — AR serves
+  # arbitrary slash paths, so no per-path repository creation exists anywhere
+  chartNamespace: charts
+  imageNamespace: images
+  artifactNamespace: artifacts
+
+signing:
+  # Keyless: GitHub Actions OIDC -> Fulcio certificate -> public Rekor entry.
+  # These repos are public; a public transparency log is deliberate. No KMS.
+  provider: keyless
+  keyless:
+    # The exact certificate identity the publish workflow's signatures carry —
+    # used for publish idempotency self-verification, and the value consumers
+    # (the OCIRepositories, the Kyverno policy, the instance verify patch) pin
+    # as SIGNED_IDENTITY_CHARTS / SIGNED_IDENTITY_IMAGES.
+    certificateIdentity: https://github.com/bitwise-media-group/flux-containers/.github/workflows/publish.yaml@refs/heads/main
+    certificateOidcIssuer: https://token.actions.githubusercontent.com
+    tlogUpload: true
+
+update:
+  # Soak period for images tracked by .images.track (and artifact version
+  # picks): a tag published this recently can still be yanked or hot-fixed,
+  # and the platform should not be what discovers that. patchy mirror upgrade
+  # walks candidate tags newest-first and takes the first published at least
+  # this long ago. Per-image override: .images.track[].cooldownDays in a
+  # chart manifest; 0 disables the soak for an image that should track head.
+  #
+  # Kept short on purpose: the soak also delays *fixes*, so every day here is
+  # a day the platform knowingly runs a release behind on security patches.
+  cooldownDays: 3
+
+scan:
+  scanners:
+    # grype carries the store's history: every committed allowlist was
+    # derived from its finding set, so the migration keeps it as the one
+    # image scanner. Flipping osv on is a policy change of its own — it
+    # will surface a different finding set that needs allowlist re-review
+    # in the same PR.
+    osv:
+      enabled: false
+    grype:
+      enabled: true
+    # Chart configuration findings (RBAC breadth, security contexts) are
+    # usually inherent to what an upstream operator chart must do; they
+    # inform review rather than block by default.
+    kubescape:
+      enabled: true
+      mode: warn
+  failOn: [CRITICAL, HIGH]
+  ignoreUnfixed: true
+  # allowlist entries must carry expired_at within this horizon — expiry
+  # forces re-review instead of silently accepted-forever CVEs
+  allowlistMaxDays: 90
+  # expiry given to *new* entries by allowlist derivation. Surviving entries
+  # keep the date they were first accepted with, so regeneration can never
+  # roll the clock forward — must stay <= allowlistMaxDays.
+  allowlistNewDays: 90
+
+# Rewrites applied when PULLING from an upstream registry (e.g. a mirror in
+# front of docker.io); target paths in images.lock.yaml keep the canonical
+# source path regardless.
+sourceRegistryRewrites: {}
