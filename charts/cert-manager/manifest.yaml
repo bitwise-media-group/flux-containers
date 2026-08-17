@@ -6,7 +6,7 @@ name: cert-manager
 chart:
   repo: oci://quay.io/jetstack/charts
   name: cert-manager
-  version: "1.21.1"
+  version: "v1.21.1"
   versionConstraint: ">=1.18.0 <2.0.0"
   # cert-manager documents PGP signing for chart tgzs; the OCI chart artifact
   # carries no cosign signature we can verify here — documented gap. Image
