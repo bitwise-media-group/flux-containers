@@ -20,11 +20,18 @@ discovery:
 images:
   extra: []
   exclude: []
-  # Every locked image must match a rule; first match wins. Replace the
-  # catch-all below with real provenance rules where upstream signs.
+  # Every locked image must match a rule; first match wins.
   verifyUpstream:
-    - match: "*"
-      provider: none
+    # renovatebot/renovate images are keyless-signed by the "release" job in
+    # build.yml (id-token: write, sigstore/cosign-installer) on push to
+    # main/next/maint/**. The bundle is attached via OCI referrers rather
+    # than a .sig tag; cosign v3 resolves it either way. No GitHub
+    # build-provenance attestation is published for this image (the
+    # Attestations API 404s) — only the cosign signature.
+    - match: "ghcr.io/renovatebot/renovate:*"
+      provider: cosign-keyless
+      certificateIdentityRegexp: "^https://github.com/renovatebot/renovate/"
+      certificateOidcIssuer: "https://token.actions.githubusercontent.com"
 scan:
   failOn: [CRITICAL, HIGH]
   ignoreUnfixed: true
