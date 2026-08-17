@@ -3,3 +3,4 @@ charts/**/rendered/**
 charts/**/images.lock.yaml
 charts/**/images.extra.yaml
 artifacts/**/lock.yaml
+**/allowlist.yaml
