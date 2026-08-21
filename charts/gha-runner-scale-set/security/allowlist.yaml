@@ -22,6 +22,12 @@
 # Ubuntu base package findings, when they appear, belong to neither group and
 # deserve a closer look than the two above.
 vulnerabilities:
+  - id: CVE-2026-48617
+    statement: Fixed in node 22.23.0; the locked image ships 20.20.2. Derived from the image scan at bump time; accepted in PR review.
+    expired_at: "2026-11-19"
+  - id: CVE-2026-48937
+    statement: Fixed in node 22.23.0; the locked image ships 20.20.2. Derived from the image scan at bump time; accepted in PR review.
+    expired_at: "2026-11-19"
   - id: CVE-2026-56846
     statement: Fixed in node 24.18.1; the locked image ships 20.20.2/24.18.0. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2026-11-09"
@@ -76,9 +82,9 @@ vulnerabilities:
   - id: GHSA-9ppj-qmqm-q256
     statement: Fixed in tar 7.5.11; the locked image ships 6.2.1. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2026-10-15"
-  - id: GHSA-hfvc-g4fc-pqhx
-    statement: Fixed in go.opentelemetry.io/otel/sdk 1.43.0; the locked image ships v1.38.0. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2026-10-15"
+  - id: GHSA-hfg8-hc9c-6c3h
+    statement: Fixed in github.com/moby/go-archive 0.3.0; the locked image ships v0.2.0. Derived from the image scan at bump time; accepted in PR review.
+    expired_at: "2026-11-19"
   - id: GHSA-hrxh-6v49-42gf
     statement: Fixed in google.golang.org/grpc 1.82.1; the locked image ships v1.78.0/v1.81.1. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2026-10-15"
@@ -115,17 +121,14 @@ vulnerabilities:
   - id: GHSA-xhf5-7wjv-pqxp
     statement: Fixed in github.com/containerd/containerd/v2 2.2.5; the locked image ships v2.2.4. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2026-10-15"
-  - id: GO-2026-4918
-    statement: Fixed in golang.org/x/net 0.53.0; the locked image ships v0.35.0. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2026-10-15"
   - id: GO-2026-4970
     statement: Fixed in stdlib 1.26.5; the locked image ships go1.26.4. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2026-10-15"
   - id: GO-2026-5026
-    statement: Fixed in golang.org/x/net/stdlib 1.26.6; the locked image ships go1.26.4/v0.35.0. Derived from the image scan at bump time; accepted in PR review.
+    statement: Fixed in stdlib 1.26.6; the locked image ships go1.26.4. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2026-10-15"
   - id: GO-2026-5942
-    statement: Fixed in golang.org/x/net/stdlib 1.26.6; the locked image ships go1.26.4/v0.35.0/v0.55.0. Derived from the image scan at bump time; accepted in PR review.
+    statement: Fixed in stdlib 1.26.6; the locked image ships go1.26.4. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2026-10-15"
   - id: GO-2026-5970
     statement: Fixed in golang.org/x/text 0.39.0; the locked image ships v0.37.0/v0.38.0. Derived from the image scan at bump time; accepted in PR review.
@@ -141,10 +144,4 @@ vulnerabilities:
     expired_at: "2026-11-15"
   - id: GO-2026-6090
     statement: Fixed in stdlib 1.26.6; the locked image ships go1.26.4. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2026-11-15"
-  - id: GO-2026-6179
-    statement: Fixed in golang.org/x/mod 0.40.0; the locked image ships v0.36.0/v0.37.0. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2026-11-15"
-  - id: GO-2026-6180
-    statement: Fixed in golang.org/x/mod 0.40.0; the locked image ships v0.36.0/v0.37.0. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2026-11-15"
