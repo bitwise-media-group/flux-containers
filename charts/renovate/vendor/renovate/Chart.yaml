@@ -1,7 +1,7 @@
 annotations:
   artifacthub.io/images: |
-    - name: ghcr.io/renovatebot/renovate:43.288.0
-      image: ghcr.io/renovatebot/renovate:43.288.0
+    - name: ghcr.io/renovatebot/renovate:44.37.1
+      image: ghcr.io/renovatebot/renovate:44.37.1
       platforms:
         - linux/amd64
         - linux/arm64
@@ -10,7 +10,7 @@ annotations:
     - name: docs
       url: https://docs.renovatebot.com
 apiVersion: v2
-appVersion: 43.288.0
+appVersion: 44.37.1
 dependencies:
 - name: common
   repository: oci://registry-1.docker.io/bitnamicharts
@@ -33,4 +33,4 @@ name: renovate
 sources:
 - https://github.com/renovatebot/renovate
 - https://github.com/renovatebot/helm-charts
-version: 46.251.0
+version: 46.252.0
