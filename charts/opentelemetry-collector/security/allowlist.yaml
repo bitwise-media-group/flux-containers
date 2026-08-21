@@ -8,28 +8,4 @@
 # The scanned image is the -contrib collector the runtime deploys
 # (tracked by images.track), so an entry means no fixed collector
 # image exists yet.
-vulnerabilities:
-  - id: GO-2026-5026
-    statement: Fixed in stdlib 1.26.6; the locked image ships go1.26.5. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2026-11-15"
-  - id: GO-2026-5942
-    statement: Fixed in stdlib 1.26.6; the locked image ships go1.26.5. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2026-11-15"
-  - id: GO-2026-5972
-    statement: Fixed in stdlib 1.26.6; the locked image ships go1.26.5. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2026-11-15"
-  - id: GO-2026-6088
-    statement: Fixed in stdlib 1.26.6; the locked image ships go1.26.5. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2026-11-15"
-  - id: GO-2026-6089
-    statement: Fixed in stdlib 1.26.6; the locked image ships go1.26.5. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2026-11-15"
-  - id: GO-2026-6090
-    statement: Fixed in stdlib 1.26.6; the locked image ships go1.26.5. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2026-11-15"
-  - id: GO-2026-6179
-    statement: Fixed in golang.org/x/mod 0.40.0; the locked image ships v0.38.0. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2026-11-15"
-  - id: GO-2026-6180
-    statement: Fixed in golang.org/x/mod 0.40.0; the locked image ships v0.38.0. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2026-11-15"
+vulnerabilities: []
