@@ -5,5 +5,6 @@ chart:
 images:
   - source: ghcr.io/actions/gha-runner-scale-set-controller:0.14.2
     digest: sha256:1b4c7f62e971ab259a4b8798e48e2adaad4af747f45990f474ea5feefa03531d
-    target: us-central1-docker.pkg.dev/o-foundation-7e43/platform/images/ghcr.io/actions/gha-runner-scale-set-controller:0.14.2
+    targets:
+      google: us-central1-docker.pkg.dev/o-foundation-7e43/platform/images/ghcr.io/actions/gha-runner-scale-set-controller:0.14.2
     platforms: ["linux/amd64", "linux/arm64"]

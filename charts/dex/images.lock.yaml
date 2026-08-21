@@ -5,5 +5,6 @@ chart:
 images:
   - source: ghcr.io/dexidp/dex:v2.45.1
     digest: sha256:8499afd690c437f52301efd2b05b2455da5bd2dfc20332cd697dc9937f808462
-    target: us-central1-docker.pkg.dev/o-foundation-7e43/platform/images/ghcr.io/dexidp/dex:v2.45.1
+    targets:
+      google: us-central1-docker.pkg.dev/o-foundation-7e43/platform/images/ghcr.io/dexidp/dex:v2.45.1
     platforms: ["linux/amd64", "linux/arm", "linux/arm64", "linux/ppc64le", "linux/s390x"]

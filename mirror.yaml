@@ -13,15 +13,16 @@
 apiVersion: mirror.patchy.bitwisemedia.uk/v1alpha1
 kind: MirrorConfig
 
-registry:
-  # artifact-store `platform_registry` output:
-  # <location>-docker.pkg.dev/<project>/<repository>
-  url: us-central1-docker.pkg.dev/o-foundation-7e43/platform
-  # path prefixes inside the single Artifact Registry repository — AR serves
-  # arbitrary slash paths, so no per-path repository creation exists anywhere
-  chartNamespace: charts
-  imageNamespace: images
-  artifactNamespace: artifacts
+registries:
+  - name: google
+    # artifact-store `platform_registry` output:
+    # <location>-docker.pkg.dev/<project>/<repository>
+    url: us-central1-docker.pkg.dev/o-foundation-7e43/platform
+    # path prefixes inside the single Artifact Registry repository — AR serves
+    # arbitrary slash paths, so no per-path repository creation exists anywhere
+    chartNamespace: charts
+    imageNamespace: images
+    artifactNamespace: artifacts
 
 signing:
   # Keyless: GitHub Actions OIDC -> Fulcio certificate -> public Rekor entry.
@@ -50,13 +51,6 @@ update:
 
 scan:
   scanners:
-    # grype carries the store's history: every committed allowlist was
-    # derived from its finding set, so the migration keeps it as the one
-    # image scanner. Flipping osv on is a policy change of its own — it
-    # will surface a different finding set that needs allowlist re-review
-    # in the same PR.
-    osv:
-      enabled: false
     grype:
       enabled: true
     # Chart configuration findings (RBAC breadth, security contexts) are
