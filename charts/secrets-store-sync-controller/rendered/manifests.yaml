@@ -1,0 +1,952 @@
+---
+# Source: secrets-store-sync-controller/crds/secret-sync.x-k8s.io_secretsyncs.yaml
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.20.0
+  name: secretsyncs.secret-sync.x-k8s.io
+spec:
+  group: secret-sync.x-k8s.io
+  names:
+    kind: SecretSync
+    listKind: SecretSyncList
+    plural: secretsyncs
+    singular: secretsync
+  scope: Namespaced
+  versions:
+  - name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: |-
+          SecretSync represents the desired and observed state of the secret synchronization process.
+          The SecretSync name is used as the name of the secret object created by the controller.
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: SecretSyncSpec defines the desired state for synchronizing
+              secret.
+            properties:
+              forceSynchronization:
+                description: |-
+                  forceSynchronization can be used to force the secret synchronization. The secret synchronization is
+                  triggered by changing the value in this field.
+                  This field is not used to resolve synchronization conflicts.
+                  It is not related with the force query parameter in the Apply operation.
+                  https://kubernetes.io/docs/reference/using-api/server-side-apply/#conflicts
+                maxLength: 253
+                pattern: ^[A-Za-z0-9]([-A-Za-z0-9]+([-._a-zA-Z0-9]?[A-Za-z0-9])*)?$
+                type: string
+              secretObject:
+                description: secretObject specifies the configuration for the synchronized
+                  Kubernetes secret object.
+                properties:
+                  annotations:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      annotations contains key-value pairs representing annotations associated with the Kubernetes secret object.
+                      The following annotation prefix is reserved: secrets-store.sync.x-k8s.io/.
+                      Creation fails if the annotation key is specified in the SecretSync object by the user.
+                    type: object
+                    x-kubernetes-validations:
+                    - message: Annotations keys must not exceed 317 characters (254
+                        for prefix+separator, 63 for name), annotation values must
+                        not exceed 256 kB.
+                      rule: (self.all(x, x.size() < 317 && self[x].size() <= 262144)
+                        == true)
+                    - message: Annotations should not contain secrets-store.sync.x-k8s.io.
+                        This key is reserved for the controller.
+                      rule: (self.all(x, x.startsWith('secrets-store.sync.x-k8s.io')
+                        == false))
+                  data:
+                    description: |-
+                      data is a list of SecretObjectData containing secret data source from the Secret Provider Class and the
+                      corresponding data field key used in the Kubernetes secret object.
+                    items:
+                      description: SecretObjectData defines the desired state of synchronized
+                        data within a Kubernetes secret object.
+                      properties:
+                        sourcePath:
+                          description: |-
+                            sourcePath is the data source value of the secret defined in the Secret Provider Class.
+                            This matches the path of a file in the MountResponse returned from the provider.
+                          maxLength: 253
+                          minLength: 1
+                          pattern: ^[A-Za-z0-9.]([-A-Za-z0-9]+([-._a-zA-Z0-9]?[A-Za-z0-9])*)?(\/([0-9]+))*$
+                          type: string
+                        targetKey:
+                          description: |-
+                            targetKey is the key in the Kubernetes secret's data field as described in the Kubernetes API reference:
+                            https://kubernetes.io/docs/reference/kubernetes-api/config-and-storage-resources/secret-v1/
+                          maxLength: 253
+                          minLength: 1
+                          pattern: ^[A-Za-z0-9.]([-A-Za-z0-9]+([-._a-zA-Z0-9]?[A-Za-z0-9])*)?(\/([0-9]+))*$
+                          type: string
+                      required:
+                      - sourcePath
+                      - targetKey
+                      type: object
+                    minItems: 1
+                    type: array
+                    x-kubernetes-list-map-keys:
+                    - targetKey
+                    x-kubernetes-list-type: map
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      labels contains key-value pairs representing labels associated with the Kubernetes secret object.
+                      The labels are used to identify the secret object created by the controller.
+                      On secret creation, the following label is added: secrets-store.sync.x-k8s.io/secretsync=<secret-sync-name>.
+                      The following label prefix is reserved: secrets-store.sync.x-k8s.io/.
+                      Creation fails if the label is specified in the SecretSync object with a different value.
+                      On secret update, if the validation admission policy is set, the controller will check if the label
+                      secrets-store.sync.x-k8s.io/secretsync=<secret-sync-name> is present. If the label is not present,
+                      controller fails to update the secret.
+                    type: object
+                    x-kubernetes-validations:
+                    - message: Label keys must not exceed 317 characters (254 for
+                        prefix+separator, 63 for name), label values must not exceed
+                        63 characters.
+                      rule: (self.all(x, x.size() <= 317 && self[x].size() <= 63)
+                        == true)
+                    - message: Labels should not contain secrets-store.sync.x-k8s.io.
+                        This key is reserved for the controller.
+                      rule: (self.all(x, x.startsWith('secrets-store.sync.x-k8s.io')
+                        == false))
+                  type:
+                    default: Opaque
+                    description: |-
+                      type specifies the type of the Kubernetes secret object,
+                      e.g. "Opaque";"kubernetes.io/basic-auth";"kubernetes.io/ssh-auth";"kubernetes.io/tls"
+                      The controller must have permission to create secrets of the specified type.
+                    maxLength: 253
+                    type: string
+                required:
+                - data
+                type: object
+              secretProviderClassName:
+                description: |-
+                  secretProviderClassName specifies the name of the secret provider class used to pass information to
+                  access the secret store.
+                maxLength: 253
+                minLength: 1
+                pattern: ^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$
+                type: string
+              secretSyncControllerName:
+                default: ""
+                description: |-
+                  secretSyncControllerName specifies the name of the secrets store sync controller used to synchronize
+                  the secret.
+                type: string
+              serviceAccountName:
+                description: |-
+                  serviceAccountName specifies the name of the service account used to access the secret store.
+                  The audience field in the service account token must be passed as parameter in the controller configuration.
+                  The audience is used when requesting a token from the API server for the service account; the supported
+                  audiences are defined by each provider.
+                maxLength: 253
+                minLength: 1
+                pattern: ^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$
+                type: string
+            required:
+            - secretObject
+            - secretProviderClassName
+            - serviceAccountName
+            type: object
+          status:
+            description: SecretSyncStatus defines the observed state of the secret
+              synchronization process.
+            properties:
+              conditions:
+                items:
+                  description: Condition contains details for one aspect of the current
+                    state of this API Resource.
+                  properties:
+                    lastTransitionTime:
+                      description: |-
+                        lastTransitionTime is the last time the condition transitioned from one status to another.
+                        This should be when the underlying condition changed.  If that is not known, then using the time when the API field changed is acceptable.
+                      format: date-time
+                      type: string
+                    message:
+                      description: |-
+                        message is a human readable message indicating details about the transition.
+                        This may be an empty string.
+                      maxLength: 32768
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        observedGeneration represents the .metadata.generation that the condition was set based upon.
+                        For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      minimum: 0
+                      type: integer
+                    reason:
+                      description: |-
+                        reason contains a programmatic identifier indicating the reason for the condition's last transition.
+                        Producers of specific condition types may define expected values and meanings for this field,
+                        and whether the values are considered a guaranteed API.
+                        The value should be a CamelCase string.
+                        This field may not be empty.
+                      maxLength: 1024
+                      minLength: 1
+                      pattern: ^[A-Za-z]([A-Za-z0-9_,:]*[A-Za-z0-9_])?$
+                      type: string
+                    status:
+                      description: status of the condition, one of True, False, Unknown.
+                      enum:
+                      - "True"
+                      - "False"
+                      - Unknown
+                      type: string
+                    type:
+                      description: type of condition in CamelCase or in foo.example.com/CamelCase.
+                      maxLength: 316
+                      pattern: ^([a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*/)?(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])$
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - message
+                  - reason
+                  - status
+                  - type
+                  type: object
+                maxItems: 16
+                type: array
+                x-kubernetes-list-map-keys:
+                - type
+                x-kubernetes-list-type: map
+              lastSuccessfulSyncTime:
+                description: lastSuccessfulSyncTime represents the last time the secret
+                  was retrieved from the Provider and updated.
+                format: date-time
+                type: string
+              syncHash:
+                description: "syncHash contains the hash of the secret object data,
+                  data from the SecretProviderClass (e.g. UID,\nand metadata.generation),
+                  and similar data from the SecretSync. This hash is used to\ndetermine
+                  if the secret changed.\nThe hash is calculated using the HMAC (Hash-based
+                  Message Authentication Code) algorithm, using bcrypt\nhashing, with
+                  the SecretsSync's UID as the key.\nThe secret is updated if:\n\t\t1.
+                  the hash is different\n\t\t2. the lastSuccessfulSyncTime indicates
+                  a rotation is required\n\t\t\t- the rotation poll interval is passed
+                  as a parameter in the controller configuration\n\t\t3. the SecretUpdateStatus
+                  is 'Failed'"
+                type: string
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+
+---
+# Source: secrets-store-sync-controller/crds/secrets-store.csi.x-k8s.io_secretproviderclasses.yaml
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.12.1
+  name: secretproviderclasses.secrets-store.csi.x-k8s.io
+spec:
+  group: secrets-store.csi.x-k8s.io
+  names:
+    kind: SecretProviderClass
+    listKind: SecretProviderClassList
+    plural: secretproviderclasses
+    singular: secretproviderclass
+  scope: Namespaced
+  versions:
+  - name: v1
+    schema:
+      openAPIV3Schema:
+        description: SecretProviderClass is the Schema for the secretproviderclasses
+          API
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: SecretProviderClassSpec defines the desired state of SecretProviderClass
+            properties:
+              parameters:
+                additionalProperties:
+                  type: string
+                description: Configuration for specific provider
+                type: object
+              provider:
+                description: Configuration for provider name
+                type: string
+              secretObjects:
+                items:
+                  description: SecretObject defines the desired state of synced K8s
+                    secret objects
+                  properties:
+                    annotations:
+                      additionalProperties:
+                        type: string
+                      description: annotations of k8s secret object
+                      type: object
+                    data:
+                      items:
+                        description: SecretObjectData defines the desired state of
+                          synced K8s secret object data
+                        properties:
+                          key:
+                            description: data field to populate
+                            type: string
+                          objectName:
+                            description: name of the object to sync
+                            type: string
+                        type: object
+                      type: array
+                    labels:
+                      additionalProperties:
+                        type: string
+                      description: labels of K8s secret object
+                      type: object
+                    secretName:
+                      description: name of the K8s secret object
+                      type: string
+                    type:
+                      description: type of K8s secret object
+                      type: string
+                  type: object
+                type: array
+            type: object
+          status:
+            description: SecretProviderClassStatus defines the observed state of SecretProviderClass
+            type: object
+        type: object
+    served: true
+    storage: true
+  - deprecated: true
+    deprecationWarning: secrets-store.csi.x-k8s.io/v1alpha1 is deprecated. Use secrets-store.csi.x-k8s.io/v1
+      instead.
+    name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: SecretProviderClass is the Schema for the secretproviderclasses
+          API
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: SecretProviderClassSpec defines the desired state of SecretProviderClass
+            properties:
+              parameters:
+                additionalProperties:
+                  type: string
+                description: Configuration for specific provider
+                type: object
+              provider:
+                description: Configuration for provider name
+                type: string
+              secretObjects:
+                items:
+                  description: SecretObject defines the desired state of synced K8s
+                    secret objects
+                  properties:
+                    annotations:
+                      additionalProperties:
+                        type: string
+                      description: annotations of k8s secret object
+                      type: object
+                    data:
+                      items:
+                        description: SecretObjectData defines the desired state of
+                          synced K8s secret object data
+                        properties:
+                          key:
+                            description: data field to populate
+                            type: string
+                          objectName:
+                            description: name of the object to sync
+                            type: string
+                        type: object
+                      type: array
+                    labels:
+                      additionalProperties:
+                        type: string
+                      description: labels of K8s secret object
+                      type: object
+                    secretName:
+                      description: name of the K8s secret object
+                      type: string
+                    type:
+                      description: type of K8s secret object
+                      type: string
+                  type: object
+                type: array
+            type: object
+          status:
+            description: SecretProviderClassStatus defines the observed state of SecretProviderClass
+            properties:
+              byPod:
+                items:
+                  description: ByPodStatus defines the state of SecretProviderClass
+                    as seen by an individual controller
+                  properties:
+                    id:
+                      description: id of the pod that wrote the status
+                      type: string
+                    namespace:
+                      description: namespace of the pod that wrote the status
+                      type: string
+                  type: object
+                type: array
+            type: object
+        type: object
+    served: true
+    storage: false
+
+---
+# Source: secrets-store-sync-controller/templates/secrets-store-sync-controller.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  labels:
+    app.kubernetes.io/instance: controller-manager
+    app.kubernetes.io/component: rbac
+    app.kubernetes.io/created-by: secrets-store-sync-controller
+    app.kubernetes.io/name: serviceaccount
+    app.kubernetes.io/part-of: secrets-store-sync-controller
+    secrets-store.io/system: "true"
+  name: "secrets-store-sync-controller-manager"
+  namespace: secret-sync
+  annotations:
+    
+
+---
+# Source: secrets-store-sync-controller/templates/secrets-store-sync-controller.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: secrets-store-sync-controller-manager-role
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - events
+  verbs:
+  - create
+  - patch
+- apiGroups:
+  - ""
+  resources:
+  - secrets
+  verbs:
+  - create
+  - patch
+- apiGroups:
+  - ""
+  resources:
+  - serviceaccounts/token
+  verbs:
+  - create
+- apiGroups:
+  - secrets-store.csi.x-k8s.io
+  resources:
+  - secretproviderclasses
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - secret-sync.x-k8s.io
+  resources:
+  - secretsyncs
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - secret-sync.x-k8s.io
+  resources:
+  - secretsyncs/status
+  verbs:
+  - get
+  - patch
+  - update
+
+---
+# Source: secrets-store-sync-controller/templates/secretsync_editor_role.yaml
+# permissions for end users to edit secretsyncs.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    app.kubernetes.io/name: clusterrole
+    app.kubernetes.io/instance: secretsync-editor-role
+    app.kubernetes.io/component: rbac
+    app.kubernetes.io/created-by: secrets-store-sync-controller
+    app.kubernetes.io/part-of: secrets-store-sync-controller
+    app.kubernetes.io/managed-by: kustomize
+  name: secretsync-editor-role
+rules:
+- apiGroups:
+  - secret-sync.x-k8s.io
+  resources:
+  - secretsyncs
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - secret-sync.x-k8s.io
+  resources:
+  - secretsyncs/status
+  verbs:
+  - get
+
+---
+# Source: secrets-store-sync-controller/templates/secretsync_viewer_role.yaml
+# permissions for end users to view secretsyncs.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    app.kubernetes.io/name: clusterrole
+    app.kubernetes.io/instance: secretsync-viewer-role
+    app.kubernetes.io/component: rbac
+    app.kubernetes.io/created-by: secrets-store-sync-controller
+    app.kubernetes.io/part-of: secrets-store-sync-controller
+    app.kubernetes.io/managed-by: kustomize
+  name: secretsync-viewer-role
+rules:
+- apiGroups:
+  - secret-sync.x-k8s.io
+  resources:
+  - secretsyncs
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - secret-sync.x-k8s.io
+  resources:
+  - secretsyncs/status
+  verbs:
+  - get
+
+---
+# Source: secrets-store-sync-controller/templates/secrets-store-sync-controller.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  labels:
+    app.kubernetes.io/component: rbac
+    app.kubernetes.io/created-by: secrets-store-sync-controller
+    app.kubernetes.io/instance: manager-rolebinding
+    
+    app.kubernetes.io/name: clusterrolebinding
+    app.kubernetes.io/part-of: secrets-store-sync-controller
+    secrets-store.io/system: "true"
+  name: secrets-store-sync-controller-manager-rolebinding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: secrets-store-sync-controller-manager-role
+subjects:
+  - kind: ServiceAccount
+    name: "secrets-store-sync-controller-manager"
+    namespace: secret-sync
+
+---
+# Source: secrets-store-sync-controller/templates/leader_election_role.yaml
+# permissions to do leader election.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  labels:
+    app.kubernetes.io/name: role
+    app.kubernetes.io/instance: leader-election-role
+    app.kubernetes.io/component: rbac
+    app.kubernetes.io/created-by: secrets-store-sync-controller
+    app.kubernetes.io/part-of: secrets-store-sync-controller
+    app.kubernetes.io/managed-by: kustomize
+    secrets-store.io/system: "true"
+  name: secrets-store-sync-controller-leader-election-role
+  namespace: secret-sync
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - configmaps
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - update
+  - patch
+  - delete
+- apiGroups:
+  - coordination.k8s.io
+  resources:
+  - leases
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - update
+  - patch
+  - delete
+- apiGroups:
+  - ""
+  resources:
+  - events
+  verbs:
+  - create
+  - patch
+
+---
+# Source: secrets-store-sync-controller/templates/leader_election_role_binding.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  labels:
+    app.kubernetes.io/name: rolebinding
+    app.kubernetes.io/instance: leader-election-rolebinding
+    app.kubernetes.io/component: rbac
+    app.kubernetes.io/created-by: secrets-store-sync-controller
+    app.kubernetes.io/part-of: secrets-store-sync-controller
+    app.kubernetes.io/managed-by: kustomize
+    secrets-store.io/system: "true"
+  name: secrets-store-sync-controller-leader-election-rolebinding
+  namespace: secret-sync
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: secrets-store-sync-controller-leader-election-role
+subjects:
+  - kind: ServiceAccount
+    name: "secrets-store-sync-controller-manager"
+    namespace: secret-sync
+
+---
+# Source: secrets-store-sync-controller/templates/secrets-store-sync-controller.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: secrets-store-sync-controller-manager
+  namespace: secret-sync
+  labels:
+    app.kubernetes.io/component: manager
+    app.kubernetes.io/created-by: secrets-store-sync-controller
+    control-plane: controller-manager
+    app.kubernetes.io/name: deployment
+    app.kubernetes.io/part-of: secrets-store-sync-controller
+    app.kubernetes.io/instance: controller-manager
+    secrets-store.io/system: "true"
+spec:
+  selector:
+    matchLabels:
+      control-plane: controller-manager
+      secrets-store.io/system: "true"
+  replicas: 1
+  template:
+    metadata:
+      annotations:
+        kubectl.kubernetes.io/default-container: manager
+      labels:
+        app: secrets-store-sync-controller
+        control-plane: controller-manager
+        secrets-store.io/system: "true"
+    spec:
+      nodeSelector:
+        kubernetes.io/os: linux
+        role: system
+      tolerations:
+        - operator: Exists
+      affinity:
+        null
+      containers:
+      - name: manager
+        image: registry.k8s.io/secrets-store-sync/controller:v0.0.5
+        imagePullPolicy: IfNotPresent
+        args:
+        - --provider-volume=/provider
+        - --token-request-audience=pods.eks.amazonaws.com
+        - --health-probe-bind-address=:8081
+        - --metrics-bind-address=:8085
+        - --leader-elect
+        - --rotation-poll-interval=12h
+        env:
+          - name: SYNC_CONTROLLER_POD_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name
+          - name: SYNC_CONTROLLER_POD_UID
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.uid
+          - name: SYNC_CONTROLLER_POD_NAMESPACE
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.namespace
+        ports:
+        - name: metrics
+          containerPort: 8085
+          protocol: TCP
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 8081
+          initialDelaySeconds: 15
+          periodSeconds: 20
+        readinessProbe:
+          httpGet:
+            path: /readyz
+            port: 8081
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        command:
+        - /secrets-store-sync-controller
+        resources:
+          limits:
+            cpu: 500m
+            memory: 128Mi
+          requests:
+            cpu: 10m
+            memory: 64Mi
+        volumeMounts:
+        - mountPath: "/provider"
+          name: providervol
+      serviceAccountName: "secrets-store-sync-controller-manager"
+      terminationGracePeriodSeconds: 10
+      volumes:
+      - name: providervol
+        hostPath:
+          path: "/var/run/secrets-store-sync-providers"
+          type: DirectoryOrCreate
+
+---
+# Source: secrets-store-sync-controller/templates/create_update_secrets_types.yaml
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingAdmissionPolicy
+metadata:
+  name: "secrets-store-sync-controller-create-update-policy"
+spec:
+  failurePolicy: Fail
+  matchConditions:
+    - name: 'user-is-secrets-store-sync-controller'
+      expression: "request.userInfo.username == 'system:serviceaccount:secret-sync:secrets-store-sync-controller-manager'"
+  matchConstraints:
+    resourceRules:
+      - apiGroups: [""]
+        apiVersions: ["v1"]
+        operations: ["CREATE", "UPDATE"]
+        resources: ["secrets"]
+  variables:
+    - name: hasOneSecretSyncOwner
+      expression: "(size(object.metadata.ownerReferences) == 1 && object.metadata.ownerReferences.all(o, o.kind == 'SecretSync' && o.apiVersion.startsWith('secret-sync.x-k8s.io/') && o.name == object.metadata.name))"
+    - name: isNotServiceAccountSecretType
+      expression: object.type != "kubernetes.io/service-account-token"
+    - name: allowedSecretTypes
+      expression: "(object.type in [\"Opaque\", \"kubernetes.io/basic-auth\", \"bootstrap.kubernetes.io/token\", \"kubernetes.io/dockerconfigjson\", \"kubernetes.io/dockercfg\", \"kubernetes.io/ssh-auth\", \"kubernetes.io/tls\"])"
+  validations:
+    - expression: "variables.isNotServiceAccountSecretType"
+      message: "Secrets with type \"kubernetes.io/service-account-token\" are not allowed."
+      messageExpression: "'secrets-store-sync-controller has failed to ' +  string(request.operation) + ' secret with ' + string(object.type) + ' type ' + 'in the ' + string(request.namespace) + ' namespace. The controller is not allowed to create or update secrets with this type.'"
+    - expression: "variables.allowedSecretTypes == true && variables.hasOneSecretSyncOwner == true"
+      message: "Only secrets with types defined in the allowedSecretTypes are allowed."
+      messageExpression: "'secrets-store-sync-controller has failed to ' +  string(request.operation) + ' secret with ' + string(object.type) + ' type ' + 'in the ' + string(request.namespace) + ' namespace. The controller can only create or update secrets in the allowed types list with a single secretsync owner.'"
+---
+# Source: secrets-store-sync-controller/templates/delete_secrets.yaml
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingAdmissionPolicy
+metadata:
+  name: "secrets-store-sync-controller-delete-policy"
+spec:
+  failurePolicy: Fail
+  matchConditions:
+    - name: 'user-is-secrets-store-sync-controller'
+      expression: "request.userInfo.username == 'system:serviceaccount:secret-sync:secrets-store-sync-controller-manager'"
+  matchConstraints:
+    resourceRules:
+    - apiGroups:   [""]
+      apiVersions: ["v1"]
+      operations:  ["DELETE"]
+      resources:   ["secrets"]
+  validations:
+  - expression: "request.operation == 'delete'"
+    message: "The controller is not allowed to delete secrets."
+    messageExpression: "'secrets-store-sync-controller has failed to ' +  string(request.operation) + ' secrets in the ' + string(request.namespace) + ' namespace. The controller is not allowed to delete secrets.'"
+---
+# Source: secrets-store-sync-controller/templates/update_owners_check_old_object.yaml
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingAdmissionPolicy
+metadata:
+  name: "secrets-store-sync-controller-update-check-oldobject-policy"
+spec:
+  failurePolicy: Fail
+  matchConditions:
+    - name: 'user-is-secrets-store-sync-controller'
+      expression: "request.userInfo.username == 'system:serviceaccount:secret-sync:secrets-store-sync-controller-manager'"
+  matchConstraints:
+    resourceRules:
+    - apiGroups:   [""]
+      apiVersions: ["v1"]
+      operations:  ["UPDATE"]
+      resources:   ["secrets"]
+  variables:
+  - name: hasOneSecretSyncOwner
+    expression: "has(oldObject.metadata.ownerReferences) && size(oldObject.metadata.ownerReferences) == 1 && oldObject.metadata.ownerReferences.all(o, o.kind == 'SecretSync' && o.apiVersion.startsWith('secret-sync.x-k8s.io/') && o.name == object.metadata.name)"
+  validations:
+  - expression: "variables.hasOneSecretSyncOwner == true"
+    message: "Only secrets with one secret sync owner can be updated by the controller"
+    messageExpression: "'secrets-store-sync-controller has failed to ' +  string(request.operation) + ' old secret in the ' + string(request.namespace) + ' namespace. The controller can only update secrets with a single secrets-store-sync-controller owner.'"
+    reason: "Forbidden"
+---
+# Source: secrets-store-sync-controller/templates/update_secrets_based_on_label.yaml
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingAdmissionPolicy
+metadata:
+  name: "secrets-store-sync-controller-update-label-policy"
+spec:
+  failurePolicy: Fail
+  matchConditions:
+    - name: 'user-is-secrets-store-sync-controller'
+      expression: "request.userInfo.username == 'system:serviceaccount:secret-sync:secrets-store-sync-controller-manager'"
+  matchConstraints:
+    resourceRules:
+    - apiGroups:   [""]
+      apiVersions: ["v1"]
+      operations:  ["UPDATE"]
+      resources:   ["secrets"]
+  variables:
+  - name: oldSecretHasLabels
+    expression: "has(oldObject.metadata.labels) ? true : false"
+  - name: oldSecretHasExpectedLabelKey
+    expression: "variables.oldSecretHasLabels && ('secrets-store.sync.x-k8s.io' in oldObject.metadata.labels) ? true : false"
+  - name: oldSecretHasExpectedLabelValue
+    expression: "'' == oldObject.metadata.labels['secrets-store.sync.x-k8s.io'] ? true : false"
+  validations:
+  - expression: "variables.oldSecretHasExpectedLabelKey && variables.oldSecretHasExpectedLabelValue"
+    message: "Only secrets with the correct label can be updated"
+    messageExpression: "'secrets-store-sync-controller has failed to ' +  string(request.operation) + ' secret with ' + string(object.type) + ' type ' + 'in the ' + string(request.namespace) + ' namespace because it does not have the correct label. Delete the secret and force the controller to recreate it with the correct label.'"
+---
+# Source: secrets-store-sync-controller/templates/validate_token_config.yaml
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingAdmissionPolicy
+metadata:
+  name: "secrets-store-sync-controller-validate-token-policy"
+spec:
+  failurePolicy: Fail
+  matchConditions:
+    - name: 'user-is-secrets-store-sync-controller'
+      expression: "request.userInfo.username == 'system:serviceaccount:secret-sync:secrets-store-sync-controller-manager'"
+  matchConstraints:
+    resourceRules:
+    - apiGroups:   [""]
+      apiVersions: ["v1"]
+      operations:  ["CREATE"]
+      resources:   ["serviceaccounts/token"]
+  variables:
+  - name: expirationSeconds
+    expression: "string(object.spec.expirationSeconds) == '600'"
+  - name: hasCorrectAudience
+    expression: "object.spec.audiences.exists(w, w == 'pods.eks.amazonaws.com')"
+  - name: requestHasOnlyOneAudience
+    expression: "object.spec.audiences.size() == 1"
+  validations:
+  - expression: "variables.hasCorrectAudience == true && variables.expirationSeconds == true && variables.requestHasOnlyOneAudience == true"
+    message: "'Creating a serviceaccount token has failed because the configuration isn't correct.'"
+    messageExpression: "'secrets-store-sync-controller has failed to ' +  string(request.operation) + ' ' + string(request.name) + ' token in the ' + string(request.namespace) + ' namespace. Check the configuration.'"
+    reason: "Forbidden"
+---
+# Source: secrets-store-sync-controller/templates/VAPB_create_update_secrets_type.yaml
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingAdmissionPolicyBinding
+metadata:
+  name: "secrets-store-sync-controller-create-update-policy-binding"
+spec:
+  policyName: "secrets-store-sync-controller-create-update-policy"
+  validationActions: [Deny]
+---
+# Source: secrets-store-sync-controller/templates/VAPB_delete_secrets.yaml
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingAdmissionPolicyBinding
+metadata:
+  name: "secrets-store-sync-controller-delete-policy-binding"
+spec:
+  policyName: "secrets-store-sync-controller-delete-policy"
+  validationActions: [Deny]
+---
+# Source: secrets-store-sync-controller/templates/VAPB_update_owners_check_old_object.yaml
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingAdmissionPolicyBinding
+metadata:
+  name: "secrets-store-sync-controller-update-check-oldobject-policy-binding"
+spec:
+  policyName: "secrets-store-sync-controller-update-check-oldobject-policy"
+  validationActions: [Deny]
+---
+# Source: secrets-store-sync-controller/templates/VAPB_update_secrets_based_on_label.yaml
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingAdmissionPolicyBinding
+metadata:
+  name: "secrets-store-sync-controller-update-label-policy-binding"
+spec:
+  policyName: "secrets-store-sync-controller-update-label-policy"
+  validationActions: [Deny]
+---
+# Source: secrets-store-sync-controller/templates/VAPB_validate_token_config.yaml
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingAdmissionPolicyBinding
+metadata:
+  name: "secrets-store-sync-controller-validate-token-policy-binding"
+spec:
+  policyName: "secrets-store-sync-controller-validate-token-policy"
+  validationActions: [Deny]

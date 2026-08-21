@@ -1,0 +1,47 @@
+# Copyright 2026 BitWise Media Group Ltd
+# SPDX-License-Identifier: MIT
+apiVersion: mirror.patchy.bitwisemedia.uk/v1alpha1
+kind: Chart
+name: secrets-store-sync-controller
+chart:
+  # https repo: kubernetes-sigs publishes no OCI chart; tgzs are GitHub
+  # release assets behind the gh-pages index (helm/chart-releaser, no
+  # signing). Unsigned — documented gap. Image provenance below is
+  # keyless-verified. Pre-1.0 upstream: the constraint floor matches
+  # SECRET_SYNC_SEMVER in flux-manifests (components/secret-sync) — raise
+  # both together as upstream stabilises.
+  repo: https://kubernetes-sigs.github.io/secrets-store-sync-controller/charts
+  name: secrets-store-sync-controller
+  version: "0.0.5"
+  versionConstraint: ">=0.0.5 <1.0.0"
+  verifyUpstream:
+    provider: none
+discovery:
+  # The namespace the secret-sync component deploys into (flux-manifests
+  # components/secret-sync), not the chart's default.
+  namespace: secret-sync
+  valuesFiles: [values/discovery.yaml]
+  kubeVersion: "1.34.0"
+images:
+  extra: []
+  exclude: []
+  verifyUpstream:
+    # registry.k8s.io images are keyless-signed by the kubernetes release
+    # promoter (same rule as external-dns). If signature serving regresses
+    # for this path, downgrade to provider: none with a comment.
+    - match: "registry.k8s.io/secrets-store-sync/*"
+      provider: cosign-keyless
+      certificateIdentityRegexp: "^krel-trust@k8s-releng-prod\\.iam\\.gserviceaccount\\.com$"
+      certificateOidcIssuer: "https://accounts.google.com"
+scan:
+  failOn: [CRITICAL, HIGH]
+  ignoreUnfixed: true
+  allowlist:
+    # Blocking findings are machine-transcribed into security/allowlist.yaml
+    # by `patchy mirror upgrade`; the PR review is where the risk is accepted.
+    generate: true
+    preamble: |
+      Single-binary Go controller image; entries are Go module / stdlib
+      lag in the newest upstream image — no fixed release exists yet.
+publish:
+  chartRepo: charts/secrets-store-sync-controller

@@ -1,0 +1,11 @@
+# Copyright 2026 BitWise Media Group Ltd
+# SPDX-License-Identifier: MIT
+#
+# Values used to render the chart for review and image discovery. Kept the
+# closest thing to how the platform actually deploys it (the secret-sync
+# HelmRelease in flux-manifests), minus the platform-registry image
+# rewrite: discovery must see the upstream image path.
+tokenRequestAudience:
+  - audience: pods.eks.amazonaws.com
+nodeSelector:
+  role: system

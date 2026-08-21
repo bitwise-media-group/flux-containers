@@ -1,0 +1,10 @@
+chart:
+  name: secrets-store-sync-controller
+  version: 0.0.5
+  upstreamTgzSha256: 8ff5533c8eb00a88f0723a0561af89c3cd604da9890bfa47ca58efe323dd6a48
+images:
+  - source: registry.k8s.io/secrets-store-sync/controller:v0.0.5
+    digest: sha256:72abeb657cfbdd6a5891fc102a16429875d70c5932ad5994524d0246db914013
+    targets:
+      google: us-central1-docker.pkg.dev/o-foundation-7e43/platform/images/registry.k8s.io/secrets-store-sync/controller:v0.0.5
+    platforms: ["linux/amd64", "linux/arm64"]
