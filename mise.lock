@@ -155,6 +155,7 @@ checksum = "sha256:18ceba634b67f8d44778729bae53997d8629f8c7692e1ed969370b875c6d1
 url = "https://github.com/bitwise-media-group/patchy/releases/download/v0.11.0/patchy-cli_0.11.0_linux_amd64.tar.gz"
 url_api = "https://api.github.com/repos/bitwise-media-group/patchy/releases/assets/523478536"
 provenance = "github-attestations"
+provenance_verified = true
 
 [tools."github:bitwise-media-group/patchy"."platforms.linux-x64-musl"]
 checksum = "sha256:18ceba634b67f8d44778729bae53997d8629f8c7692e1ed969370b875c6d14e4"
