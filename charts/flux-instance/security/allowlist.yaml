@@ -11,12 +11,15 @@
 # distribution exists yet; the next flux-operator/flux-instance
 # release is what clears it.
 vulnerabilities:
+  - id: CVE-2026-11822
+    statement: Fixed in sqlite-libs 3.53.4-r0; the locked image ships 3.51.2-r0. Derived from the image scan at bump time; accepted in PR review.
+    expired_at: "2026-11-19"
+  - id: CVE-2026-11824
+    statement: Fixed in sqlite-libs 3.53.4-r0; the locked image ships 3.51.2-r0. Derived from the image scan at bump time; accepted in PR review.
+    expired_at: "2026-11-19"
   - id: GHSA-f5mr-q85p-6hh6
     statement: Fixed in github.com/sigstore/fulcio 1.8.6; the locked image ships v1.8.5. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2026-10-01"
-  - id: GHSA-fxhp-mv3v-67qp
-    statement: Fixed in oras.land/oras-go/v2 2.6.2; the locked image ships v2.6.1. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2026-11-11"
   - id: GHSA-hc8v-wwc9-vgxm
     statement: Fixed in github.com/go-git/go-git/v5 5.19.2; the locked image ships v5.19.1. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2026-11-11"
@@ -43,10 +46,4 @@ vulnerabilities:
     expired_at: "2026-11-15"
   - id: GO-2026-6090
     statement: Fixed in stdlib 1.26.6; the locked image ships go1.26.5. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2026-11-15"
-  - id: GO-2026-6179
-    statement: Fixed in golang.org/x/mod 0.40.0; the locked image ships v0.36.0. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2026-11-15"
-  - id: GO-2026-6180
-    statement: Fixed in golang.org/x/mod 0.40.0; the locked image ships v0.36.0. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2026-11-15"

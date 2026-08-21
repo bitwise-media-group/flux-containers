@@ -8,25 +8,4 @@
 # The operator image is released in lockstep with the chart (one
 # version stream), so an entry here means no fixed flux-operator
 # release exists yet; the chart upgrade is what clears it.
-vulnerabilities:
-  - id: GHSA-hc8v-wwc9-vgxm
-    statement: Fixed in github.com/go-git/go-git/v5 5.19.2; the locked image ships v5.19.1. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2026-11-11"
-  - id: GO-2026-5026
-    statement: Fixed in stdlib 1.26.6; the locked image ships go1.26.5. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2026-11-12"
-  - id: GO-2026-5942
-    statement: Fixed in stdlib 1.26.6; the locked image ships go1.26.5. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2026-11-12"
-  - id: GO-2026-5972
-    statement: Fixed in stdlib 1.26.6; the locked image ships go1.26.5. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2026-11-15"
-  - id: GO-2026-6088
-    statement: Fixed in stdlib 1.26.6; the locked image ships go1.26.5. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2026-11-15"
-  - id: GO-2026-6089
-    statement: Fixed in stdlib 1.26.6; the locked image ships go1.26.5. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2026-11-15"
-  - id: GO-2026-6090
-    statement: Fixed in stdlib 1.26.6; the locked image ships go1.26.5. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2026-11-15"
+vulnerabilities: []
