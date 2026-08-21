@@ -1,29 +1,35 @@
 chart:
   name: kyverno
-  version: 3.8.2
-  upstreamTgzSha256: 7a9bdaeba4334337b7ff231baad1ec2044429893008a00bf398933bc033abc8e
+  version: 3.9.0
+  upstreamTgzSha256: 2a5c0c9ea2e6afe9737383db59d0430162b56ae692105fe140ddcac15bc2cc61
 images:
-  - source: reg.kyverno.io/kyverno/background-controller:v1.18.2
-    digest: sha256:d62566ce41bd0d4a32bf2cf44b9ebfc02c36374f821f83070890287f62f68671
-    target: us-central1-docker.pkg.dev/o-foundation-7e43/platform/images/reg.kyverno.io/kyverno/background-controller:v1.18.2
+  - source: reg.kyverno.io/kyverno/background-controller:v1.19.0
+    digest: sha256:5d9a49b0a36bb25c981bd55e57f360850ea37bfe1b4914e00ec898cc5d27cc4f
+    targets:
+      google: us-central1-docker.pkg.dev/o-foundation-7e43/platform/images/reg.kyverno.io/kyverno/background-controller:v1.19.0
     platforms: ["linux/amd64", "linux/arm", "linux/arm64", "linux/ppc64le", "linux/s390x"]
-  - source: reg.kyverno.io/kyverno/cleanup-controller:v1.18.2
-    digest: sha256:b0395d29ae332276e6910eb40418be9bc127c068d659f90aa1bcddd6be99ccb4
-    target: us-central1-docker.pkg.dev/o-foundation-7e43/platform/images/reg.kyverno.io/kyverno/cleanup-controller:v1.18.2
+  - source: reg.kyverno.io/kyverno/cleanup-controller:v1.19.0
+    digest: sha256:6f76c84d5305898d4db455515cdb80a8af81fbfe3ac4cecad43e39266ba13944
+    targets:
+      google: us-central1-docker.pkg.dev/o-foundation-7e43/platform/images/reg.kyverno.io/kyverno/cleanup-controller:v1.19.0
     platforms: ["linux/amd64", "linux/arm", "linux/arm64", "linux/ppc64le", "linux/s390x"]
-  - source: reg.kyverno.io/kyverno/kyverno-cli:v1.18.2
-    digest: sha256:7224ed05508c24419c3df98114c28ba682ad0a940dcdb7b9fdba0a4b6bf943cf
-    target: us-central1-docker.pkg.dev/o-foundation-7e43/platform/images/reg.kyverno.io/kyverno/kyverno-cli:v1.18.2
+  - source: reg.kyverno.io/kyverno/kyverno-cli:v1.19.0
+    digest: sha256:f40718123e3eea8dc36960023e2af7a980bcc76dec24842ad8705c82f4c9172e
+    targets:
+      google: us-central1-docker.pkg.dev/o-foundation-7e43/platform/images/reg.kyverno.io/kyverno/kyverno-cli:v1.19.0
     platforms: ["linux/amd64", "linux/arm", "linux/arm64", "linux/ppc64le", "linux/s390x"]
-  - source: reg.kyverno.io/kyverno/kyverno:v1.18.2
-    digest: sha256:0a540e2ddf74d0d2d3d45f9ef248d7dbc96576accdbcc6a2dd7eaff9fea56504
-    target: us-central1-docker.pkg.dev/o-foundation-7e43/platform/images/reg.kyverno.io/kyverno/kyverno:v1.18.2
+  - source: reg.kyverno.io/kyverno/kyverno:v1.19.0
+    digest: sha256:e5bf3b96de9ad9475f5282804859e5c8f09d351d4fb988d1c1ee77f825591742
+    targets:
+      google: us-central1-docker.pkg.dev/o-foundation-7e43/platform/images/reg.kyverno.io/kyverno/kyverno:v1.19.0
     platforms: ["linux/amd64", "linux/arm", "linux/arm64", "linux/ppc64le", "linux/s390x"]
-  - source: reg.kyverno.io/kyverno/kyvernopre:v1.18.2
-    digest: sha256:cd8cb4a31d25b3992734fb8f24a90ef691c90ce49338c89bea96792160eacb98
-    target: us-central1-docker.pkg.dev/o-foundation-7e43/platform/images/reg.kyverno.io/kyverno/kyvernopre:v1.18.2
+  - source: reg.kyverno.io/kyverno/kyvernopre:v1.19.0
+    digest: sha256:3fd1640d9c77181be107d3e3c5fb9efcab9d98494bede51b64f93bf591a20276
+    targets:
+      google: us-central1-docker.pkg.dev/o-foundation-7e43/platform/images/reg.kyverno.io/kyverno/kyvernopre:v1.19.0
     platforms: ["linux/amd64", "linux/arm", "linux/arm64", "linux/ppc64le", "linux/s390x"]
-  - source: reg.kyverno.io/kyverno/reports-controller:v1.18.2
-    digest: sha256:f09cf305170014e191b94e1c54f5be73163d8824eefad49349675c4efe43159a
-    target: us-central1-docker.pkg.dev/o-foundation-7e43/platform/images/reg.kyverno.io/kyverno/reports-controller:v1.18.2
+  - source: reg.kyverno.io/kyverno/reports-controller:v1.19.0
+    digest: sha256:02013e2288600f514b71f814699441007fcce7aff188f1eb9e8c5da877c6e911
+    targets:
+      google: us-central1-docker.pkg.dev/o-foundation-7e43/platform/images/reg.kyverno.io/kyverno/reports-controller:v1.19.0
     platforms: ["linux/amd64", "linux/arm", "linux/arm64", "linux/ppc64le", "linux/s390x"]

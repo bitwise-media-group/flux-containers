@@ -10,54 +10,27 @@
 # come from the sigstore/notation verification stack the images
 # bundle.
 vulnerabilities:
-  - id: GHSA-389r-gv7p-r3rp
-    statement: Fixed in github.com/go-git/go-git/v5 5.19.0; the locked image ships v5.18.0. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2026-10-01"
-  - id: GHSA-f5mr-q85p-6hh6
-    statement: Fixed in github.com/sigstore/fulcio 1.8.6; the locked image ships v1.8.5. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2026-10-01"
-  - id: GHSA-fxhp-mv3v-67qp
-    statement: Fixed in oras.land/oras-go/v2 2.6.2; the locked image ships v2.6.0. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2026-11-11"
-  - id: GHSA-hc8v-wwc9-vgxm
-    statement: Fixed in github.com/go-git/go-git/v5 5.19.2; the locked image ships v5.18.0. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2026-11-11"
-  - id: GHSA-hrxh-6v49-42gf
-    statement: Fixed in google.golang.org/grpc 1.82.1; the locked image ships v1.80.0. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2026-11-11"
-  - id: GHSA-jxpm-75mh-9fp7
-    statement: Fixed in oras.land/oras-go/v2 2.6.1; the locked image ships v2.6.0. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2026-10-01"
-  - id: GHSA-qw64-3x98-g7q2
-    statement: Fixed in github.com/go-git/go-billy/v5 5.9.0; the locked image ships v5.8.0. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2026-10-01"
-  - id: GO-2026-4970
-    statement: Fixed in stdlib 1.26.5; the locked image ships go1.26.4. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2026-10-01"
   - id: GO-2026-5026
-    statement: Fixed in stdlib 1.26.6; the locked image ships go1.26.4. Derived from the image scan at bump time; accepted in PR review.
+    statement: Fixed in stdlib 1.26.6; the locked image ships go1.26.5. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2026-11-12"
   - id: GO-2026-5942
-    statement: Fixed in stdlib 1.26.6; the locked image ships go1.26.4. Derived from the image scan at bump time; accepted in PR review.
+    statement: Fixed in stdlib 1.26.6; the locked image ships go1.26.5. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2026-11-12"
-  - id: GO-2026-5970
-    statement: Fixed in golang.org/x/text 0.39.0; the locked image ships v0.38.0. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2026-11-11"
   - id: GO-2026-5972
-    statement: Fixed in stdlib 1.26.6; the locked image ships go1.26.4. Derived from the image scan at bump time; accepted in PR review.
+    statement: Fixed in stdlib 1.26.6; the locked image ships go1.26.5. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2026-11-15"
   - id: GO-2026-6088
-    statement: Fixed in stdlib 1.26.6; the locked image ships go1.26.4. Derived from the image scan at bump time; accepted in PR review.
+    statement: Fixed in stdlib 1.26.6; the locked image ships go1.26.5. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2026-11-15"
   - id: GO-2026-6089
-    statement: Fixed in stdlib 1.26.6; the locked image ships go1.26.4. Derived from the image scan at bump time; accepted in PR review.
+    statement: Fixed in stdlib 1.26.6; the locked image ships go1.26.5. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2026-11-15"
   - id: GO-2026-6090
-    statement: Fixed in stdlib 1.26.6; the locked image ships go1.26.4. Derived from the image scan at bump time; accepted in PR review.
+    statement: Fixed in stdlib 1.26.6; the locked image ships go1.26.5. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2026-11-15"
   - id: GO-2026-6179
-    statement: Fixed in golang.org/x/mod 0.40.0; the locked image ships v0.36.0. Derived from the image scan at bump time; accepted in PR review.
+    statement: Fixed in golang.org/x/mod 0.40.0; the locked image ships v0.38.0. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2026-11-15"
   - id: GO-2026-6180
-    statement: Fixed in golang.org/x/mod 0.40.0; the locked image ships v0.36.0. Derived from the image scan at bump time; accepted in PR review.
+    statement: Fixed in golang.org/x/mod 0.40.0; the locked image ships v0.38.0. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2026-11-15"

@@ -6,7 +6,7 @@ name: kyverno
 chart:
   repo: oci://ghcr.io/kyverno/charts
   name: kyverno
-  version: "3.8.2"
+  version: "3.9.0"
   versionConstraint: ">=3.8.0 <4.0.0"
   verifyUpstream:
     provider: cosign-keyless
