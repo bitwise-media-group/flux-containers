@@ -1,0 +1,38 @@
+# Copyright 2026 BitWise Media Group Ltd
+# SPDX-License-Identifier: MIT
+
+apiVersion: mirror.patchy.bitwisemedia.uk/v1alpha1
+kind: Chart
+name: cilium
+chart:
+  repo: oci://quay.io/cilium/charts
+  name: cilium
+  version: "1.20.1"
+  versionConstraint: ">=1.20.1 <2.0.0"
+  verifyUpstream:
+    provider: cosign-keyless
+    certificateIdentityRegexp: "^https://github.com/cilium/cilium/"
+    certificateOidcIssuer: "https://token.actions.githubusercontent.com"
+discovery:
+  namespace: cilium
+  valuesFiles: [values/discovery.yaml]
+  kubeVersion: "1.34.0"
+scan:
+  failOn: [CRITICAL, HIGH]
+  ignoreUnfixed: true
+  allowlist:
+    # Blocking findings are machine-transcribed into security/allowlist.yaml
+    # by `patchy mirror upgrade`; the PR review is where the risk is accepted.
+    generate: true
+    preamble: |
+      cilium images are released in lockstep with the chart (one
+      version stream), so an entry here means no fixed cilium release
+      exists yet; the chart upgrade is what clears it.
+images:
+  extra: []
+  exclude: []
+  verifyUpstream:
+    - match: "quay.io/cilium/*"
+      provider: cosign-keyless
+      certificateIdentityRegexp: "^https://github.com/cilium/"
+      certificateOidcIssuer: "https://token.actions.githubusercontent.com"

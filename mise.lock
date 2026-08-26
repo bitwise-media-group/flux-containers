@@ -168,6 +168,7 @@ checksum = "sha256:3be0076691b1d39fae8e186508e302bbbef594b45087e2957231257c59b21
 url = "https://github.com/bitwise-media-group/patchy/releases/download/v0.11.1/patchy-cli_0.11.1_darwin_arm64.tar.gz"
 url_api = "https://api.github.com/repos/bitwise-media-group/patchy/releases/assets/529976499"
 provenance = "github-attestations"
+provenance_verified = true
 
 [tools."github:bitwise-media-group/patchy"."platforms.macos-x64"]
 checksum = "sha256:bbe49fb4c35566b6084e1e2ec616501f6c86d1375fb8df798430e20f4ffc36e3"
