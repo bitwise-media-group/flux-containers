@@ -30,4 +30,4 @@ includes = [".mise/tasks/markdown-lib.toml", "tasks.toml"]
 "aqua:google/go-containerregistry" = "0.21.9"  # crane
 "aqua:sigstore/cosign" = "3.1.3"  # v3: signs sigstore bundles via OCI referrers
 "aqua:mikefarah/yq" = "4.53.6"
-"github:bitwise-media-group/patchy" = { version = "0.11.0", matching = "patchy-cli" }
+"github:bitwise-media-group/patchy" = { version = "v0.11.1", matching = "patchy-cli" }
