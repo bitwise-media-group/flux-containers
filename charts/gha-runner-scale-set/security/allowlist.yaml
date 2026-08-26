@@ -103,6 +103,9 @@ vulnerabilities:
   - id: GHSA-qffp-2rhf-9h96
     statement: Fixed in tar 7.5.10; the locked image ships 6.2.1. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2026-10-15"
+  - id: GHSA-r292-9mhp-454m
+    statement: Fixed in tar 7.5.21; the locked image ships 6.2.1/7.5.15. Derived from the image scan at bump time; accepted in PR review.
+    expired_at: "2026-11-24"
   - id: GHSA-r6q2-hw4h-h46w
     statement: Fixed in tar 7.5.4; the locked image ships 6.2.1. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2026-10-15"
@@ -114,9 +117,6 @@ vulnerabilities:
     expired_at: "2026-11-09"
   - id: GHSA-vxpw-j846-p89q
     statement: Fixed in undici 6.27.0; the locked image ships 6.26.0. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2026-10-15"
-  - id: GHSA-x744-4wpc-v9h2
-    statement: Fixed in github.com/docker/docker 29.3.1; the locked image ships v28.5.2+incompatible. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2026-10-15"
   - id: GHSA-xhf5-7wjv-pqxp
     statement: Fixed in github.com/containerd/containerd/v2 2.2.5; the locked image ships v2.2.4. Derived from the image scan at bump time; accepted in PR review.

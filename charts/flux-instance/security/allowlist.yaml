@@ -17,6 +17,27 @@ vulnerabilities:
   - id: CVE-2026-11824
     statement: Fixed in sqlite-libs 3.53.4-r0; the locked image ships 3.51.2-r0. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2026-11-19"
+  - id: CVE-2026-14456
+    statement: Fixed in libcrypto3/libssl3 3.5.8-r0; the locked image ships 3.5.7-r0. Derived from the image scan at bump time; accepted in PR review.
+    expired_at: "2026-11-24"
+  - id: CVE-2026-14457
+    statement: Fixed in libcrypto3/libssl3 3.5.8-r0; the locked image ships 3.5.7-r0. Derived from the image scan at bump time; accepted in PR review.
+    expired_at: "2026-11-24"
+  - id: CVE-2026-18798
+    statement: Fixed in libcrypto3/libssl3 3.5.8-r0; the locked image ships 3.5.7-r0. Derived from the image scan at bump time; accepted in PR review.
+    expired_at: "2026-11-24"
+  - id: CVE-2026-54874
+    statement: Fixed in libcrypto3/libssl3 3.5.8-r0; the locked image ships 3.5.7-r0. Derived from the image scan at bump time; accepted in PR review.
+    expired_at: "2026-11-24"
+  - id: CVE-2026-63072
+    statement: Fixed in libcrypto3/libssl3 3.5.8-r0; the locked image ships 3.5.7-r0. Derived from the image scan at bump time; accepted in PR review.
+    expired_at: "2026-11-24"
+  - id: CVE-2026-63075
+    statement: Fixed in libcrypto3/libssl3 3.5.8-r0; the locked image ships 3.5.7-r0. Derived from the image scan at bump time; accepted in PR review.
+    expired_at: "2026-11-24"
+  - id: CVE-2026-63076
+    statement: Fixed in libcrypto3/libssl3 3.5.8-r0; the locked image ships 3.5.7-r0. Derived from the image scan at bump time; accepted in PR review.
+    expired_at: "2026-11-24"
   - id: GHSA-f5mr-q85p-6hh6
     statement: Fixed in github.com/sigstore/fulcio 1.8.6; the locked image ships v1.8.5. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2026-10-01"
