@@ -1,0 +1,10 @@
+chart:
+  name: aws-load-balancer-controller
+  version: 3.5.0
+  upstreamTgzSha256: 45051f634b33e10baccb3354d0681b7de787c60445e599fa276e0c9aedd4ccd5
+images:
+  - source: public.ecr.aws/eks/aws-load-balancer-controller:v3.5.0
+    digest: sha256:298acdff5a571731276aaea3d5cc450a264e4ad710a5bddf3e518f68a3f9f6cb
+    targets:
+      google: us-central1-docker.pkg.dev/o-foundation-7e43/platform/images/public.ecr.aws/eks/aws-load-balancer-controller:v3.5.0
+    platforms: ["linux/amd64", "linux/arm64"]
