@@ -7,7 +7,7 @@ name: renovate
 chart:
   repo: oci://ghcr.io/renovatebot/charts
   name: renovate
-  version: "46.260.4"
+  version: "46.265.0"
   versionConstraint: ">=46.251.0 <47.0.0"
   # Declare the chart's upstream provenance; provider: none documents a
   # verification gap rather than hiding it.

@@ -1,10 +1,10 @@
 chart:
   name: renovate
-  version: 46.260.4
-  upstreamTgzSha256: 8756c3ae0e7d0c55f8cd0735f55ffb8318650761873dba7a6fa15e2d8b747c41
+  version: 46.265.0
+  upstreamTgzSha256: 6f95f88525cc8f61186e7466510a8756334571cabddf77b44666e5aa28fe7033
 images:
-  - source: ghcr.io/renovatebot/renovate:44.46.4
-    digest: sha256:3b64619da15eec8cc7eb7e422698736d6e129bf0832e8b90fe956706cde3c133
+  - source: ghcr.io/renovatebot/renovate:44.52.1
+    digest: sha256:6922c734849f2ed1c01e3a7924bd60e25e0ea904731a67bad72b02d563c0c3c3
     targets:
-      google: us-central1-docker.pkg.dev/o-foundation-7e43/platform/images/ghcr.io/renovatebot/renovate:44.46.4
+      google: us-central1-docker.pkg.dev/o-foundation-7e43/platform/images/ghcr.io/renovatebot/renovate:44.52.1
     platforms: ["linux/amd64", "linux/arm64"]
