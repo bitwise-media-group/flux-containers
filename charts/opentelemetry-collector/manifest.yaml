@@ -6,7 +6,7 @@ name: opentelemetry-collector
 chart:
   repo: oci://ghcr.io/open-telemetry/opentelemetry-helm-charts
   name: opentelemetry-collector
-  version: "0.171.0"
+  version: "0.172.0"
   versionConstraint: ">=0.130.0 <1.0.0"
   # open-telemetry publishes the OCI charts unsigned — documented gap. The
   # collector images below are keyless-signed by their release workflow.

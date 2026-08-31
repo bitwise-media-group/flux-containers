@@ -1,7 +1,7 @@
 chart:
   name: opentelemetry-collector
-  version: 0.171.0
-  upstreamTgzSha256: 5526010c00b6319ced10dd9e711149b10d5539dfa1e23ee22546648f7f702352
+  version: 0.172.0
+  upstreamTgzSha256: c8215764e860cc0a3963b28c1197ebfb983fa9243248029fe70513dd0acae82d
 images:
   - source: ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-contrib:0.159.0
     digest: sha256:1f2c54a30e713fac6b3ae77a1ec84010c2007e29ced8ec666214fc2f6739c1cc
