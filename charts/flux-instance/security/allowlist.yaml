@@ -11,12 +11,24 @@
 # distribution exists yet; the next flux-operator/flux-instance
 # release is what clears it.
 vulnerabilities:
-  - id: CVE-2026-11822
-    statement: Fixed in sqlite-libs 3.53.4-r0; the locked image ships 3.51.2-r0. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2026-11-19"
-  - id: CVE-2026-11824
-    statement: Fixed in sqlite-libs 3.53.4-r0; the locked image ships 3.51.2-r0. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2026-11-19"
+  - id: CVE-2026-10536
+    statement: Fixed in libcurl 8.22.0-r0; the locked image ships 8.20.0-r0. Derived from the image scan at bump time; accepted in PR review.
+    expired_at: "2026-12-05"
+  - id: CVE-2026-11352
+    statement: Fixed in libcurl 8.22.0-r0; the locked image ships 8.20.0-r0. Derived from the image scan at bump time; accepted in PR review.
+    expired_at: "2026-12-05"
+  - id: CVE-2026-11564
+    statement: Fixed in libcurl 8.22.0-r0; the locked image ships 8.20.0-r0. Derived from the image scan at bump time; accepted in PR review.
+    expired_at: "2026-12-05"
+  - id: CVE-2026-11586
+    statement: Fixed in libcurl 8.22.0-r0; the locked image ships 8.20.0-r0. Derived from the image scan at bump time; accepted in PR review.
+    expired_at: "2026-12-05"
+  - id: CVE-2026-11856
+    statement: Fixed in libcurl 8.22.0-r0; the locked image ships 8.20.0-r0. Derived from the image scan at bump time; accepted in PR review.
+    expired_at: "2026-12-05"
+  - id: CVE-2026-12064
+    statement: Fixed in libcurl 8.22.0-r0; the locked image ships 8.20.0-r0. Derived from the image scan at bump time; accepted in PR review.
+    expired_at: "2026-12-05"
   - id: CVE-2026-14456
     statement: Fixed in libcrypto3/libssl3 3.5.8-r0; the locked image ships 3.5.7-r0. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2026-11-24"
@@ -32,12 +44,57 @@ vulnerabilities:
   - id: CVE-2026-63072
     statement: Fixed in libcrypto3/libssl3 3.5.8-r0; the locked image ships 3.5.7-r0. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2026-11-24"
+  - id: CVE-2026-63073
+    statement: Fixed in libcrypto3/libssl3 3.5.8-r0; the locked image ships 3.5.7-r0. Derived from the image scan at bump time; accepted in PR review.
+    expired_at: "2026-12-05"
   - id: CVE-2026-63075
     statement: Fixed in libcrypto3/libssl3 3.5.8-r0; the locked image ships 3.5.7-r0. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2026-11-24"
   - id: CVE-2026-63076
     statement: Fixed in libcrypto3/libssl3 3.5.8-r0; the locked image ships 3.5.7-r0. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2026-11-24"
+  - id: CVE-2026-66046
+    statement: Fixed in libexpat 2.8.4-r0; the locked image ships 2.8.3-r0. Derived from the image scan at bump time; accepted in PR review.
+    expired_at: "2026-12-05"
+  - id: CVE-2026-75803
+    statement: Fixed in libcrypto3/libssl3 3.5.8-r0; the locked image ships 3.5.7-r0. Derived from the image scan at bump time; accepted in PR review.
+    expired_at: "2026-12-05"
+  - id: CVE-2026-76641
+    statement: Fixed in libexpat 2.8.4-r0; the locked image ships 2.8.3-r0. Derived from the image scan at bump time; accepted in PR review.
+    expired_at: "2026-12-05"
+  - id: CVE-2026-8286
+    statement: Fixed in libcurl 8.22.0-r0; the locked image ships 8.20.0-r0. Derived from the image scan at bump time; accepted in PR review.
+    expired_at: "2026-12-05"
+  - id: CVE-2026-8924
+    statement: Fixed in libcurl 8.22.0-r0; the locked image ships 8.20.0-r0. Derived from the image scan at bump time; accepted in PR review.
+    expired_at: "2026-12-05"
+  - id: CVE-2026-8925
+    statement: Fixed in libcurl 8.22.0-r0; the locked image ships 8.20.0-r0. Derived from the image scan at bump time; accepted in PR review.
+    expired_at: "2026-12-05"
+  - id: CVE-2026-8926
+    statement: Fixed in libcurl 8.22.0-r0; the locked image ships 8.20.0-r0. Derived from the image scan at bump time; accepted in PR review.
+    expired_at: "2026-12-05"
+  - id: CVE-2026-8927
+    statement: Fixed in libcurl 8.22.0-r0; the locked image ships 8.20.0-r0. Derived from the image scan at bump time; accepted in PR review.
+    expired_at: "2026-12-05"
+  - id: CVE-2026-8932
+    statement: Fixed in libcurl 8.22.0-r0; the locked image ships 8.20.0-r0. Derived from the image scan at bump time; accepted in PR review.
+    expired_at: "2026-12-05"
+  - id: CVE-2026-9079
+    statement: Fixed in libcurl 8.22.0-r0; the locked image ships 8.20.0-r0. Derived from the image scan at bump time; accepted in PR review.
+    expired_at: "2026-12-05"
+  - id: CVE-2026-9080
+    statement: Fixed in libcurl 8.22.0-r0; the locked image ships 8.20.0-r0. Derived from the image scan at bump time; accepted in PR review.
+    expired_at: "2026-12-05"
+  - id: CVE-2026-9545
+    statement: Fixed in libcurl 8.22.0-r0; the locked image ships 8.20.0-r0. Derived from the image scan at bump time; accepted in PR review.
+    expired_at: "2026-12-05"
+  - id: CVE-2026-9546
+    statement: Fixed in libcurl 8.22.0-r0; the locked image ships 8.20.0-r0. Derived from the image scan at bump time; accepted in PR review.
+    expired_at: "2026-12-05"
+  - id: CVE-2026-9547
+    statement: Fixed in libcurl 8.22.0-r0; the locked image ships 8.20.0-r0. Derived from the image scan at bump time; accepted in PR review.
+    expired_at: "2026-12-05"
   - id: GHSA-f5mr-q85p-6hh6
     statement: Fixed in github.com/sigstore/fulcio 1.8.6; the locked image ships v1.8.5. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2026-10-01"
@@ -45,26 +102,14 @@ vulnerabilities:
     statement: Fixed in github.com/go-git/go-git/v5 5.19.2; the locked image ships v5.19.1. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2026-11-11"
   - id: GHSA-hrxh-6v49-42gf
-    statement: Fixed in google.golang.org/grpc 1.82.1; the locked image ships v1.80.0/v1.81.1. Derived from the image scan at bump time; accepted in PR review.
+    statement: Fixed in google.golang.org/grpc 1.82.1; the locked image ships v1.81.1. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2026-11-11"
-  - id: GO-2026-5026
-    statement: Fixed in stdlib 1.26.6; the locked image ships go1.26.5. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2026-11-12"
-  - id: GO-2026-5942
-    statement: Fixed in stdlib 1.26.6; the locked image ships go1.26.5. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2026-11-12"
-  - id: GO-2026-5970
-    statement: Fixed in golang.org/x/text 0.39.0; the locked image ships v0.38.0. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2026-11-11"
-  - id: GO-2026-5972
-    statement: Fixed in stdlib 1.26.6; the locked image ships go1.26.5. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2026-11-15"
-  - id: GO-2026-6088
-    statement: Fixed in stdlib 1.26.6; the locked image ships go1.26.5. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2026-11-15"
-  - id: GO-2026-6089
-    statement: Fixed in stdlib 1.26.6; the locked image ships go1.26.5. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2026-11-15"
-  - id: GO-2026-6090
-    statement: Fixed in stdlib 1.26.6; the locked image ships go1.26.5. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2026-11-15"
+  - id: GHSA-vp52-pcj8-j9qc
+    statement: Fixed in google.golang.org/grpc 1.83.1; the locked image ships v1.81.1/v1.82.1. Derived from the image scan at bump time; accepted in PR review.
+    expired_at: "2026-12-05"
+  - id: GO-2026-6354
+    statement: Fixed in golang.org/x/crypto 0.56.0; the locked image ships v0.53.0/v0.54.0. Derived from the image scan at bump time; accepted in PR review.
+    expired_at: "2026-12-05"
+  - id: GO-2026-6355
+    statement: Fixed in golang.org/x/crypto 0.56.0; the locked image ships v0.53.0/v0.54.0. Derived from the image scan at bump time; accepted in PR review.
+    expired_at: "2026-12-05"
