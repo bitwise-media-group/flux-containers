@@ -3,8 +3,8 @@ chart:
   version: 0.14.2
   upstreamTgzSha256: 1a2d104e55486cad373a9c33f3cefd0b268cd567743e57ea5da8e1ddf75e0cc0
 images:
-  - source: ghcr.io/actions/actions-runner:2.336.0
-    digest: sha256:0cfdcc701ce933c6d243c6b0b2da767366dc9f2e99961d4c3754b0b78084cdda
+  - source: ghcr.io/actions/actions-runner:2.337.0
+    digest: sha256:e5496277be5d09bc968b3d64911b74e219ac4a3f2edce956a3ecf9271bea1ef4
     targets:
-      google: us-central1-docker.pkg.dev/o-foundation-7e43/platform/images/ghcr.io/actions/actions-runner:2.336.0
+      google: us-central1-docker.pkg.dev/o-foundation-7e43/platform/images/ghcr.io/actions/actions-runner:2.337.0
     platforms: ["linux/amd64", "linux/arm64"]
