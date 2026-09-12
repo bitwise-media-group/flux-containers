@@ -145,7 +145,7 @@ metadata:
     actions.github.com/scale-set-name: gha-runner-scale-set
     actions.github.com/scale-set-namespace: arc-runners
   annotations:
-    actions.github.com/values-hash: d1148a0389818837457229c4b5eb7875c7fcf273827c4de15c7161a36bc7f3d
+    actions.github.com/values-hash: 27c94b54f3a55ae90942b9599bcdf7289da23eada9526778f5e1731af218d36
     actions.github.com/cleanup-manager-role-binding: gha-runner-scale-set-gha-rs-manager
     actions.github.com/cleanup-manager-role-name: gha-runner-scale-set-gha-rs-manager
     actions.github.com/cleanup-no-permission-service-account-name: gha-runner-scale-set-gha-rs-no-permission
@@ -164,4 +164,4 @@ spec:
         command: 
           - /home/runner/run.sh
         image: 
-          ghcr.io/actions/actions-runner:2.336.0
+          ghcr.io/actions/actions-runner:2.337.0
