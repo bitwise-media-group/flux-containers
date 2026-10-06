@@ -2,10 +2,13 @@
 # SPDX-License-Identifier: MIT
 #
 # flux-containers consumes the shared toolchain (bitwise-media-group/toolchain)
-# as the .mise/ submodule: pinned tools (grype, kubescape, shellcheck,
-# prettier, markdownlint, addlicense, ...) and the universal tasks come from
-# there, and the Makefile is a thin forwarder (.mise/mise.mk). The pipeline
-# task surface lives in tasks.toml.
+# as the .mise/ submodule: mise loads its config.toml natively as
+# .mise/config.toml (pinned tools -- grype, kubescape, cosign, shellcheck,
+# actionlint, zizmor, prettier, markdownlint, addlicense, ... -- and the [vars]
+# knob defaults), and this file selects the task files and pins the
+# pipeline-only tools below. The repo has nothing to compile or test, so it
+# includes only common/ -- no archetype -- and the Makefile is a thin forwarder
+# (.mise/common/include.mk). The pipeline task surface lives in tasks.toml.
 
 [settings]
 lockfile = true
@@ -16,18 +19,19 @@ minimum_release_age = "3d"
 minimum_release_age_excludes = ["github:bitwise-media-group/patchy"]
 
 [task_config]
-# markdown-lib archetype (prose fmt/lint + license + actionlint + shell lint)
-# plus the repo-local pipeline tasks; tasks.toml is included AFTER the
-# archetype so its same-named aggregates (fmt, lint, ci, pr) win.
-includes = [".mise/tasks/markdown-lib.toml", "tasks.toml"]
+# common (prose fmt/lint + license, container, shell and workflow lint) plus
+# the repo-local pipeline tasks; tasks.toml is included AFTER common so its
+# same-named rollups (lint, pr) win.
+includes = [".mise/common/tasks.toml", "tasks.toml"]
 
 [tools]
 # Pipeline tools the toolchain does not pin (candidates for upstreaming to
 # toolchain config.toml; locked in this repo's own mise.lock meanwhile —
 # never run a repo-wide `mise upgrade`, it would write into the submodule).
-# jq is deliberately unpinned: extract-images.sh uses it, and every GitHub
-# runner and dev machine ships one (same posture as the scripts' upstream).
+# cosign is NOT pinned here: the toolchain pins it, and a root pin would
+# shadow the shared one.
+# jq is deliberately unpinned: the update-check workflow uses it, and every
+# GitHub runner and dev machine ships one.
 "aqua:google/go-containerregistry" = "0.22.1"  # crane
-"aqua:sigstore/cosign" = "3.1.3"  # v3: signs sigstore bundles via OCI referrers
 "aqua:mikefarah/yq" = "4.53.6"
 "github:bitwise-media-group/patchy" = { version = "v0.11.2", matching = "patchy-cli" }

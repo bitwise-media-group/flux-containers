@@ -104,7 +104,8 @@ scanner change.
 
 ## CI / publishing
 
-- **ci.yaml** (reusable): repo-wide lint (manifests, allowlists, shellcheck, license headers, prose, actionlint).
+- **ci.yaml** (reusable): repo-wide lint (manifests, allowlists, shellcheck, license headers, prose, actionlint +
+  zizmor).
 - **pr-validate.yaml**: the deep per-entry gate — `patchy mirror validate` (regeneration byte-identity, provenance,
   scans, lint), sticky PR comment.
 - **publish.yaml** (push to main touching the store): WIF auth as the chart-publisher service account

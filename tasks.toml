@@ -9,22 +9,24 @@
 # the *-all variants attempt every entry and summarize. patchy follows the
 # stdout-for-data, stderr-for-logging convention throughout.
 
+# Included after common, so this lint replaces common's whole-task: it repeats
+# common's rollup (license, container, shell, workflow and prose checks) and
+# appends the patchy lint pass over the entry manifests and CVE allowlists.
 [lint]
-description = "entry manifests, CVE allowlists, prose, scripts, workflows"
+description = "prose lint + license, container, shell and workflow checks, plus entry manifests and CVE allowlists"
 run = [
   { task = "license-check" },
+  { task = "lint-containers" },
   { task = "lint-shell" },
+  { task = "lint-workflows" },
   { task = "lint-prose" },
-  { task = "actionlint" },
   "patchy mirror validate --all --only lint",
 ]
 
-# Prose + license headers only: vendored charts, rendered output and image
-# locks must stay byte-identical to what the pipeline generates (see
-# .prettierignore / .licenseignore), so nothing here ever rewrites YAML facts.
-[fmt]
-description = "format prose + inject license headers"
-run = [{ task = "fmt-prose" }, { task = "license" }]
+# fmt (prose + license headers only) and ci (lint) come from common unchanged:
+# vendored charts, rendered output and image locks must stay byte-identical to
+# what the pipeline generates (see .prettierignore / .licenseignore), so
+# nothing ever rewrites YAML facts.
 
 [add]
 description = "scaffold a new entry (URL=<upstream>, optionally CHART=<name>)"
@@ -72,10 +74,8 @@ run = 'patchy mirror sync "${CHART:?usage: make publish CHART=<name>}"'
 description = "publish every entry (the publish workflow's verb)"
 run = "patchy mirror sync --all"
 
-[ci]
-description = "what the reusable CI workflow runs (the deep per-entry pipeline lives in pr-validate)"
-run = [{ task = "lint" }]
-
+# common's pr is fmt + lint; this one runs the full pipeline instead
+# (validate-all includes lint). Like common's, it has no commit step.
 [pr]
 description = "full pipeline + lint gates — run before opening a pull request"
-run = [{ task = "fmt" }, { task = "validate-all" }, { task = "commit" }]
+run = [{ task = "fmt" }, { task = "validate-all" }]

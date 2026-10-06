@@ -1,12 +1,13 @@
 # Copyright 2026 BitWise Media Group Ltd
 # SPDX-License-Identifier: MIT
 
-# Continuous integration — thin caller for the org's reusable ci workflow (v5+:
-# mise-task aware). It discovers the canonical tasks this repo defines and runs
-# `make lint` — the repo-wide gates: chart manifest/allowlist lint, shellcheck,
-# addlicense, actionlint and prose. The deep per-chart pipeline (regeneration
-# gate, provenance verification, scans) is pr-validate.yaml, which only runs
-# when chart-affecting paths change.
+# Continuous integration — thin caller for the org's reusable ci workflow (v7:
+# installs the mise pins). It discovers the canonical tasks this repo defines
+# and runs `mise run lint` (there is no build or test) — the repo-wide gates:
+# chart manifest/allowlist lint, shellcheck, addlicense, actionlint + zizmor
+# and prose. The deep per-chart pipeline (regeneration gate, provenance
+# verification, scans) is pr-validate.yaml, which only runs when
+# chart-affecting paths change.
 #
 # The reusable workflow is pinned to a full commit SHA (tag in the comment) so a
 # moved tag can never change what runs; Renovate keeps the pin fresh.
