@@ -28,10 +28,11 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
+          persist-credentials: false
           submodules: true
 
       - name: install tools
-        uses: ./.github/actions/pipeline-tools
+        uses: ./.github/actions/pipeline-tools # zizmor: ignore[self-repository] -- actionlint 1.7.12 does not accept $/ yet
 
       - name: rescan all published image sets with a fresh DB
         id: scan

@@ -10,7 +10,7 @@
 # head_sha, never from artifact contents.
 name: PR Validate Comment
 
-on:
+on: # zizmor: ignore[dangerous-triggers] -- required: fork PRs only get a read-only token in PR Validate; nothing is checked out, and the fork-built summary artifact is only read as the comment body file, never executed or interpolated into a shell
   workflow_run:
     workflows: [PR Validate]
     types: [completed]
