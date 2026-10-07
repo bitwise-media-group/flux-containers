@@ -29,6 +29,17 @@ images:
   extra: []
   exclude: []
   verifyUpstream:
+    # One-off exception, first match wins: the 0.162.0 release workflow
+    # dropped the multi-arch manifest (open-telemetry/opentelemetry-collector-
+    # releases#1686), so a releases maintainer assembled the index by hand
+    # and signed it with their GitHub login (open-telemetry/community#3738).
+    # Every per-arch child it lists is still workflow-signed and matches its
+    # 0.162.0-<arch> tag. Scoped to this tag only — delete once the track
+    # rule moves past 0.162.0.
+    - match: "ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-contrib:0.162.0"
+      provider: cosign-keyless
+      certificateIdentityRegexp: "^6901203\\+mowies@users\\.noreply\\.github\\.com$"
+      certificateOidcIssuer: "https://github.com/login/oauth"
     - match: "ghcr.io/open-telemetry/opentelemetry-collector-releases/*"
       provider: cosign-keyless
       certificateIdentityRegexp: "^https://github.com/open-telemetry/opentelemetry-collector-releases/"
