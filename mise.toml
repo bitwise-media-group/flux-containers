@@ -33,5 +33,5 @@ includes = [".mise/common/tasks.toml", "tasks.toml"]
 # jq is deliberately unpinned: the update-check workflow uses it, and every
 # GitHub runner and dev machine ships one.
 "aqua:google/go-containerregistry" = "0.22.1"  # crane
-"aqua:mikefarah/yq" = "4.53.6"
+"aqua:mikefarah/yq" = "4.54.1"
 "github:bitwise-media-group/patchy" = { version = "v0.11.2", matching = "patchy-cli" }
