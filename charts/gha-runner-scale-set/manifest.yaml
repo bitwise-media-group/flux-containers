@@ -16,7 +16,7 @@ chart:
   # controller version — the lockstep group makes update-check bump both in
   # one PR.
   lockstep: arc
-  version: "0.14.2"
+  version: "0.15.0"
   versionConstraint: ">=0.14.0 <1.0.0"
   # actions/actions-runner-controller publishes the OCI charts unsigned: no
   # .sig tag and no sigstore bundle among the artifact's referrers — documented

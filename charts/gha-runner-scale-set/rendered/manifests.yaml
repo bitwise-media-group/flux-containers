@@ -6,10 +6,10 @@ metadata:
   name: gha-runner-scale-set-gha-rs-no-permission
   namespace: arc-runners
   labels:
-    helm.sh/chart: gha-rs-0.14.2
+    helm.sh/chart: gha-rs-0.15.0
     app.kubernetes.io/name: gha-runner-scale-set
     app.kubernetes.io/instance: gha-runner-scale-set
-    app.kubernetes.io/version: "0.14.2"
+    app.kubernetes.io/version: "0.15.0"
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: gha-rs
     actions.github.com/scale-set-name: gha-runner-scale-set
@@ -26,10 +26,10 @@ metadata:
   name: gha-runner-scale-set-gha-rs-manager
   namespace: arc-runners
   labels:
-    helm.sh/chart: gha-rs-0.14.2
+    helm.sh/chart: gha-rs-0.15.0
     app.kubernetes.io/name: gha-runner-scale-set
     app.kubernetes.io/instance: gha-runner-scale-set
-    app.kubernetes.io/version: "0.14.2"
+    app.kubernetes.io/version: "0.15.0"
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: gha-rs
     actions.github.com/scale-set-name: gha-runner-scale-set
@@ -104,10 +104,10 @@ metadata:
   name: gha-runner-scale-set-gha-rs-manager
   namespace: arc-runners
   labels:
-    helm.sh/chart: gha-rs-0.14.2
+    helm.sh/chart: gha-rs-0.15.0
     app.kubernetes.io/name: gha-runner-scale-set
     app.kubernetes.io/instance: gha-runner-scale-set
-    app.kubernetes.io/version: "0.14.2"
+    app.kubernetes.io/version: "0.15.0"
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: gha-rs
     actions.github.com/scale-set-name: gha-runner-scale-set
@@ -136,16 +136,16 @@ metadata:
   namespace: arc-runners
   labels:
     app.kubernetes.io/component: "autoscaling-runner-set"
-    helm.sh/chart: gha-rs-0.14.2
+    helm.sh/chart: gha-rs-0.15.0
     app.kubernetes.io/name: gha-runner-scale-set
     app.kubernetes.io/instance: gha-runner-scale-set
-    app.kubernetes.io/version: "0.14.2"
+    app.kubernetes.io/version: "0.15.0"
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: gha-rs
     actions.github.com/scale-set-name: gha-runner-scale-set
     actions.github.com/scale-set-namespace: arc-runners
   annotations:
-    actions.github.com/values-hash: d1148a0389818837457229c4b5eb7875c7fcf273827c4de15c7161a36bc7f3d
+    actions.github.com/values-hash: 0ed5affc7df394057142a7d6e7ce50703bd3f830a669dd30a52b07d743105d3
     actions.github.com/cleanup-manager-role-binding: gha-runner-scale-set-gha-rs-manager
     actions.github.com/cleanup-manager-role-name: gha-runner-scale-set-gha-rs-manager
     actions.github.com/cleanup-no-permission-service-account-name: gha-runner-scale-set-gha-rs-no-permission
@@ -153,6 +153,10 @@ metadata:
 spec:
   githubConfigUrl: https://github.com/bitwise-media-group
   githubConfigSecret: gha-runner-scale-set-github-config
+  listenerConfig:
+    scaler:
+      burst: 100
+      qps: 50
 
   template:
     spec:
@@ -164,4 +168,4 @@ spec:
         command: 
           - /home/runner/run.sh
         image: 
-          ghcr.io/actions/actions-runner:2.336.0
+          ghcr.io/actions/actions-runner:2.337.0

@@ -11,31 +11,4 @@
 # tooling. Nothing here is unreachable; the acceptance is purely that upstream
 # has published no release carrying the fixes. Treat a growing list here as a
 # signal to check whether ARC has cut a release, not as routine.
-vulnerabilities:
-  - id: GO-2026-4918
-    statement: Fixed in golang.org/x/net 0.53.0; the locked image ships v0.52.0. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2026-10-15"
-  - id: GO-2026-5026
-    statement: Fixed in golang.org/x/net/stdlib 1.26.6; the locked image ships go1.26.3/v0.52.0. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2026-10-15"
-  - id: GO-2026-5037
-    statement: Fixed in stdlib 1.26.4; the locked image ships go1.26.3. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2026-10-15"
-  - id: GO-2026-5038
-    statement: Fixed in stdlib 1.26.4; the locked image ships go1.26.3. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2026-10-15"
-  - id: GO-2026-5970
-    statement: Fixed in golang.org/x/text 0.39.0; the locked image ships v0.35.0. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2026-10-15"
-  - id: GO-2026-5972
-    statement: Fixed in stdlib 1.26.6; the locked image ships go1.26.3. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2026-11-15"
-  - id: GO-2026-6088
-    statement: Fixed in stdlib 1.26.6; the locked image ships go1.26.3. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2026-11-15"
-  - id: GO-2026-6089
-    statement: Fixed in stdlib 1.26.6; the locked image ships go1.26.3. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2026-11-15"
-  - id: GO-2026-6090
-    statement: Fixed in stdlib 1.26.6; the locked image ships go1.26.3. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2026-11-15"
+vulnerabilities: []
