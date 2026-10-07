@@ -1,20 +1,20 @@
 chart:
   name: cilium
-  version: 1.20.1
-  upstreamTgzSha256: 06210eef7c23d15f7699c79e2fe3a1ec9c389024c5c5c006ea04022d322449a2
+  version: 1.20.2
+  upstreamTgzSha256: b2afd87b7f75f875f92a14559f14f59b7babbb479d968e3fd625a20bf30ec20e
 images:
-  - source: quay.io/cilium/cilium-envoy:v1.37.5-1786810558-766ccfb37260a43e9d228837aa84ce3faf9f64e7@sha256:75b8094c7127736a2ffd2dce3945e0931cb6df21b0372ff661940eca26730b91
-    digest: sha256:75b8094c7127736a2ffd2dce3945e0931cb6df21b0372ff661940eca26730b91
+  - source: quay.io/cilium/cilium-envoy:v1.37.6-1789133542-cbec91f666af0bf742da986d43832932dbb26b82@sha256:af7382699576b9e65e9184efa52eeca0b58aea70ad6e511bf260c91d9f740463
+    digest: sha256:af7382699576b9e65e9184efa52eeca0b58aea70ad6e511bf260c91d9f740463
     targets:
-      google: us-central1-docker.pkg.dev/o-foundation-7e43/platform/images/quay.io/cilium/cilium-envoy:v1.37.5-1786810558-766ccfb37260a43e9d228837aa84ce3faf9f64e7
+      google: us-central1-docker.pkg.dev/o-foundation-7e43/platform/images/quay.io/cilium/cilium-envoy:v1.37.6-1789133542-cbec91f666af0bf742da986d43832932dbb26b82
     platforms: ["linux/amd64", "linux/arm64"]
-  - source: quay.io/cilium/cilium:v1.20.1@sha256:ae9ea21f7427fe24bc6ea7247eb552157a1b0a431744045d3f641545ca71d11b
-    digest: sha256:ae9ea21f7427fe24bc6ea7247eb552157a1b0a431744045d3f641545ca71d11b
+  - source: quay.io/cilium/cilium:v1.20.2@sha256:2939231d0d3e3ebddcd80fffa168b7ddcc78fdf0dc864d1c8c126ff523c54f01
+    digest: sha256:2939231d0d3e3ebddcd80fffa168b7ddcc78fdf0dc864d1c8c126ff523c54f01
     targets:
-      google: us-central1-docker.pkg.dev/o-foundation-7e43/platform/images/quay.io/cilium/cilium:v1.20.1
+      google: us-central1-docker.pkg.dev/o-foundation-7e43/platform/images/quay.io/cilium/cilium:v1.20.2
     platforms: ["linux/amd64", "linux/arm64"]
-  - source: quay.io/cilium/operator-generic:v1.20.1@sha256:6c3885fc7b629099fdbe2a5c87869c86feb825fa18fae299eac0f61918d16ecf
-    digest: sha256:6c3885fc7b629099fdbe2a5c87869c86feb825fa18fae299eac0f61918d16ecf
+  - source: quay.io/cilium/operator-generic:v1.20.2@sha256:64d8798350e8569b8e7622563fed6e44dce2625f311e4651b774816516c744fc
+    digest: sha256:64d8798350e8569b8e7622563fed6e44dce2625f311e4651b774816516c744fc
     targets:
-      google: us-central1-docker.pkg.dev/o-foundation-7e43/platform/images/quay.io/cilium/operator-generic:v1.20.1
+      google: us-central1-docker.pkg.dev/o-foundation-7e43/platform/images/quay.io/cilium/operator-generic:v1.20.2
     platforms: ["linux/amd64", "linux/arm64"]

@@ -7,7 +7,7 @@ name: cilium
 chart:
   repo: oci://quay.io/cilium/charts
   name: cilium
-  version: "1.20.1"
+  version: "1.20.2"
   versionConstraint: ">=1.20.1 <2.0.0"
   verifyUpstream:
     provider: cosign-keyless
