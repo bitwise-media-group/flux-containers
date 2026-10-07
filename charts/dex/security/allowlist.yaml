@@ -71,6 +71,9 @@ vulnerabilities:
   - id: CVE-2026-63072
     statement: Fixed in libcrypto3/libssl3 3.5.8-r0; the locked image ships 3.5.5-r0. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2026-11-24"
+  - id: CVE-2026-63073
+    statement: Fixed in libcrypto3/libssl3 3.5.8-r0; the locked image ships 3.5.5-r0. Derived from the image scan at bump time; accepted in PR review.
+    expired_at: "2027-01-05"
   - id: CVE-2026-63075
     statement: Fixed in libcrypto3/libssl3 3.5.8-r0; the locked image ships 3.5.5-r0. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2026-11-24"
@@ -80,9 +83,18 @@ vulnerabilities:
   - id: CVE-2026-7383
     statement: Fixed in libcrypto3/libssl3 3.5.7-r0; the locked image ships 3.5.5-r0. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2026-10-15"
+  - id: CVE-2026-75803
+    statement: Fixed in libcrypto3/libssl3 3.5.8-r0; the locked image ships 3.5.5-r0. Derived from the image scan at bump time; accepted in PR review.
+    expired_at: "2027-01-05"
+  - id: CVE-2026-85091
+    statement: Fixed in zlib 1.3.2-r1; the locked image ships 1.3.1-r2. Derived from the image scan at bump time; accepted in PR review.
+    expired_at: "2027-01-05"
   - id: CVE-2026-9076
     statement: Fixed in libcrypto3/libssl3 3.5.7-r0; the locked image ships 3.5.5-r0. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2026-10-15"
+  - id: GHSA-2v4p-qf9q-27wj
+    statement: Fixed in google.golang.org/grpc 1.82.2; the locked image ships v1.77.0/v1.79.1. Derived from the image scan at bump time; accepted in PR review.
+    expired_at: "2027-01-05"
   - id: GHSA-389r-gv7p-r3rp
     statement: Fixed in github.com/go-git/go-git/v5 5.19.0; the locked image ships v5.16.4. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2026-10-15"
@@ -131,6 +143,9 @@ vulnerabilities:
   - id: GHSA-vgwf-h737-ff37
     statement: Fixed in golang.org/x/crypto 0.52.0; the locked image ships v0.47.0. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2026-10-15"
+  - id: GHSA-vp52-pcj8-j9qc
+    statement: Fixed in google.golang.org/grpc 1.83.1; the locked image ships v1.77.0/v1.79.1. Derived from the image scan at bump time; accepted in PR review.
+    expired_at: "2027-01-05"
   - id: GHSA-w879-237q-wc7r
     statement: Fixed in golang.org/x/crypto 0.52.0; the locked image ships v0.47.0. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2026-10-15"
@@ -191,3 +206,9 @@ vulnerabilities:
   - id: GO-2026-6090
     statement: Fixed in stdlib 1.26.6; the locked image ships go1.25.6/go1.26.0. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2026-11-15"
+  - id: GO-2026-6354
+    statement: Fixed in golang.org/x/crypto 0.56.0; the locked image ships v0.47.0. Derived from the image scan at bump time; accepted in PR review.
+    expired_at: "2027-01-05"
+  - id: GO-2026-6355
+    statement: Fixed in golang.org/x/crypto 0.56.0; the locked image ships v0.47.0. Derived from the image scan at bump time; accepted in PR review.
+    expired_at: "2027-01-05"
