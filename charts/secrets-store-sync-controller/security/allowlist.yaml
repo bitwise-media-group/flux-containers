@@ -8,9 +8,15 @@
 # Single-binary Go controller image; entries are Go module / stdlib
 # lag in the newest upstream image — no fixed release exists yet.
 vulnerabilities:
+  - id: GHSA-2v4p-qf9q-27wj
+    statement: Fixed in google.golang.org/grpc 1.82.2; the locked image ships v1.81.1. Derived from the image scan at bump time; accepted in PR review.
+    expired_at: "2027-01-05"
   - id: GHSA-hrxh-6v49-42gf
     statement: Fixed in google.golang.org/grpc 1.82.1; the locked image ships v1.81.1. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2026-11-19"
+  - id: GHSA-vp52-pcj8-j9qc
+    statement: Fixed in google.golang.org/grpc 1.83.1; the locked image ships v1.81.1. Derived from the image scan at bump time; accepted in PR review.
+    expired_at: "2027-01-05"
   - id: GO-2026-5026
     statement: Fixed in stdlib 1.26.6; the locked image ships go1.26.4. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2026-11-19"

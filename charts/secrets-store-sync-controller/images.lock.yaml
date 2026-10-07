@@ -1,7 +1,7 @@
 chart:
   name: secrets-store-sync-controller
   version: 0.0.5
-  upstreamTgzSha256: 8ff5533c8eb00a88f0723a0561af89c3cd604da9890bfa47ca58efe323dd6a48
+  upstreamTgzSha256: 25ff8c2b07959861752f751246c214ac7fb58c45df00c98c714bc131487894eb
 images:
   - source: registry.k8s.io/secrets-store-sync/controller:v0.0.5
     digest: sha256:72abeb657cfbdd6a5891fc102a16429875d70c5932ad5994524d0246db914013
