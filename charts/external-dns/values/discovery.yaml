@@ -7,4 +7,5 @@
 # external-dns v0.x tag) and re-picked by `patchy mirror upgrade` — never
 # hand-edit it.
 image:
-  tag: v0.22.0
+  tag: v0.23.0
+policy: sync
