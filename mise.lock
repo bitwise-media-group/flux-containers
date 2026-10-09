@@ -90,52 +90,51 @@ url_api = "https://api.github.com/repos/mikefarah/yq/releases/assets/597222575"
 provenance = "cosign"
 
 [[tools."github:bitwise-media-group/patchy"]]
-version = "0.11.2"
+version = "0.11.3"
 backend = "github:bitwise-media-group/patchy"
-specifiers = ["v0.11.2"]
+specifiers = ["v0.11.3"]
 
 [tools."github:bitwise-media-group/patchy".options]
 matching = "patchy-cli"
 
 [tools."github:bitwise-media-group/patchy"."platforms.linux-arm64"]
-checksum = "sha256:3aa8a2d8107f9d098a69fac5db89598152b057a4fbafe5820bd58afac1ca507a"
-url = "https://github.com/bitwise-media-group/patchy/releases/download/v0.11.2/patchy-cli_0.11.2_linux_arm64.tar.gz"
-url_api = "https://api.github.com/repos/bitwise-media-group/patchy/releases/assets/532937697"
+checksum = "sha256:688b08dfbdf6985849d93d4fc7c99cbb5b2696368e65a9660fa0e16766d5800f"
+url = "https://github.com/bitwise-media-group/patchy/releases/download/v0.11.3/patchy-cli_0.11.3_linux_arm64.tar.gz"
+url_api = "https://api.github.com/repos/bitwise-media-group/patchy/releases/assets/625154565"
 provenance = "github-attestations"
 
 [tools."github:bitwise-media-group/patchy"."platforms.linux-arm64-musl"]
-checksum = "sha256:3aa8a2d8107f9d098a69fac5db89598152b057a4fbafe5820bd58afac1ca507a"
-url = "https://github.com/bitwise-media-group/patchy/releases/download/v0.11.2/patchy-cli_0.11.2_linux_arm64.tar.gz"
-url_api = "https://api.github.com/repos/bitwise-media-group/patchy/releases/assets/532937697"
+checksum = "sha256:688b08dfbdf6985849d93d4fc7c99cbb5b2696368e65a9660fa0e16766d5800f"
+url = "https://github.com/bitwise-media-group/patchy/releases/download/v0.11.3/patchy-cli_0.11.3_linux_arm64.tar.gz"
+url_api = "https://api.github.com/repos/bitwise-media-group/patchy/releases/assets/625154565"
 provenance = "github-attestations"
 
 [tools."github:bitwise-media-group/patchy"."platforms.linux-x64"]
-checksum = "sha256:d969785c1319cf230c8c261d1d2605d062e2cc4f8cafb901437389baa83f0517"
-url = "https://github.com/bitwise-media-group/patchy/releases/download/v0.11.2/patchy-cli_0.11.2_linux_amd64.tar.gz"
-url_api = "https://api.github.com/repos/bitwise-media-group/patchy/releases/assets/532937688"
+checksum = "sha256:1260ce83cb333bfc1dec49a44353c1bfbcabd41598142282e08bacb62725cfc5"
+url = "https://github.com/bitwise-media-group/patchy/releases/download/v0.11.3/patchy-cli_0.11.3_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/bitwise-media-group/patchy/releases/assets/625154541"
 provenance = "github-attestations"
-provenance_verified = true
 
 [tools."github:bitwise-media-group/patchy"."platforms.linux-x64-musl"]
-checksum = "sha256:d969785c1319cf230c8c261d1d2605d062e2cc4f8cafb901437389baa83f0517"
-url = "https://github.com/bitwise-media-group/patchy/releases/download/v0.11.2/patchy-cli_0.11.2_linux_amd64.tar.gz"
-url_api = "https://api.github.com/repos/bitwise-media-group/patchy/releases/assets/532937688"
+checksum = "sha256:1260ce83cb333bfc1dec49a44353c1bfbcabd41598142282e08bacb62725cfc5"
+url = "https://github.com/bitwise-media-group/patchy/releases/download/v0.11.3/patchy-cli_0.11.3_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/bitwise-media-group/patchy/releases/assets/625154541"
 provenance = "github-attestations"
 
 [tools."github:bitwise-media-group/patchy"."platforms.macos-arm64"]
-checksum = "sha256:70b41f5349a9df74347c5e3f8f4e91390d621564503faf71fcd308a39b7f7043"
-url = "https://github.com/bitwise-media-group/patchy/releases/download/v0.11.2/patchy-cli_0.11.2_darwin_arm64.tar.gz"
-url_api = "https://api.github.com/repos/bitwise-media-group/patchy/releases/assets/532937716"
+checksum = "sha256:18c87493c183be1b8dd1da9ee3d91e0165461929d6b9f3847e9f2f584a3280f2"
+url = "https://github.com/bitwise-media-group/patchy/releases/download/v0.11.3/patchy-cli_0.11.3_darwin_arm64.tar.gz"
+url_api = "https://api.github.com/repos/bitwise-media-group/patchy/releases/assets/625154537"
 provenance = "github-attestations"
 
 [tools."github:bitwise-media-group/patchy"."platforms.macos-x64"]
-checksum = "sha256:1e6331b516c71d21a1c294e43b7f4971f7f5bee2ce81c8985aba0f4b42dfc42d"
-url = "https://github.com/bitwise-media-group/patchy/releases/download/v0.11.2/patchy-cli_0.11.2_darwin_amd64.tar.gz"
-url_api = "https://api.github.com/repos/bitwise-media-group/patchy/releases/assets/532937699"
+checksum = "sha256:9262ccb5f35f307d8db7d438fd7d90185802739d567f82108497e761cd2538a9"
+url = "https://github.com/bitwise-media-group/patchy/releases/download/v0.11.3/patchy-cli_0.11.3_darwin_amd64.tar.gz"
+url_api = "https://api.github.com/repos/bitwise-media-group/patchy/releases/assets/625154609"
 provenance = "github-attestations"
 
 [tools."github:bitwise-media-group/patchy"."platforms.windows-x64"]
-checksum = "sha256:4b5679e618417758406e7dbff26d7673b93c34ae2b4ab3f0a241021d624c9fdb"
-url = "https://github.com/bitwise-media-group/patchy/releases/download/v0.11.2/patchy-cli_0.11.2_windows_amd64.tar.gz"
-url_api = "https://api.github.com/repos/bitwise-media-group/patchy/releases/assets/532937717"
+checksum = "sha256:7334d8277640a64c6f592e409b7efcd1e01895c6b9da15ca99799477b7f0d6a9"
+url = "https://github.com/bitwise-media-group/patchy/releases/download/v0.11.3/patchy-cli_0.11.3_windows_amd64.tar.gz"
+url_api = "https://api.github.com/repos/bitwise-media-group/patchy/releases/assets/625154572"
 provenance = "github-attestations"
