@@ -6,10 +6,10 @@ metadata:
   name: dex
   namespace: dex
   labels:
-    helm.sh/chart: dex-0.25.2
+    helm.sh/chart: dex-0.26.0
     app.kubernetes.io/name: dex
     app.kubernetes.io/instance: dex
-    app.kubernetes.io/version: "2.45.1"
+    app.kubernetes.io/version: "2.46.0"
     app.kubernetes.io/managed-by: Helm
 
 ---
@@ -20,10 +20,10 @@ metadata:
   name: dex
   namespace: dex
   labels:
-    helm.sh/chart: dex-0.25.2
+    helm.sh/chart: dex-0.26.0
     app.kubernetes.io/name: dex
     app.kubernetes.io/instance: dex
-    app.kubernetes.io/version: "2.45.1"
+    app.kubernetes.io/version: "2.46.0"
     app.kubernetes.io/managed-by: Helm
 type: Opaque
 data:
@@ -36,10 +36,10 @@ kind: ClusterRole
 metadata:
   name: dex
   labels:
-    helm.sh/chart: dex-0.25.2
+    helm.sh/chart: dex-0.26.0
     app.kubernetes.io/name: dex
     app.kubernetes.io/instance: dex
-    app.kubernetes.io/version: "2.45.1"
+    app.kubernetes.io/version: "2.46.0"
     app.kubernetes.io/managed-by: Helm
 rules:
   - apiGroups: ["apiextensions.k8s.io"]
@@ -53,10 +53,10 @@ kind: ClusterRoleBinding
 metadata:
   name: dex-cluster
   labels:
-    helm.sh/chart: dex-0.25.2
+    helm.sh/chart: dex-0.26.0
     app.kubernetes.io/name: dex
     app.kubernetes.io/instance: dex
-    app.kubernetes.io/version: "2.45.1"
+    app.kubernetes.io/version: "2.46.0"
     app.kubernetes.io/managed-by: Helm
 roleRef:
   kind: ClusterRole
@@ -75,10 +75,10 @@ metadata:
   name: dex
   namespace: dex
   labels:
-    helm.sh/chart: dex-0.25.2
+    helm.sh/chart: dex-0.26.0
     app.kubernetes.io/name: dex
     app.kubernetes.io/instance: dex
-    app.kubernetes.io/version: "2.45.1"
+    app.kubernetes.io/version: "2.46.0"
     app.kubernetes.io/managed-by: Helm
 rules:
   - apiGroups: ["dex.coreos.com"]
@@ -93,10 +93,10 @@ metadata:
   name: dex
   namespace: dex
   labels:
-    helm.sh/chart: dex-0.25.2
+    helm.sh/chart: dex-0.26.0
     app.kubernetes.io/name: dex
     app.kubernetes.io/instance: dex
-    app.kubernetes.io/version: "2.45.1"
+    app.kubernetes.io/version: "2.46.0"
     app.kubernetes.io/managed-by: Helm
 roleRef:
   kind: Role
@@ -115,10 +115,10 @@ metadata:
   name: dex
   namespace: dex
   labels:
-    helm.sh/chart: dex-0.25.2
+    helm.sh/chart: dex-0.26.0
     app.kubernetes.io/name: dex
     app.kubernetes.io/instance: dex
-    app.kubernetes.io/version: "2.45.1"
+    app.kubernetes.io/version: "2.46.0"
     app.kubernetes.io/managed-by: Helm
 spec:
   type: ClusterIP
@@ -145,10 +145,10 @@ metadata:
   name: dex
   namespace: dex
   labels:
-    helm.sh/chart: dex-0.25.2
+    helm.sh/chart: dex-0.26.0
     app.kubernetes.io/name: dex
     app.kubernetes.io/instance: dex
-    app.kubernetes.io/version: "2.45.1"
+    app.kubernetes.io/version: "2.46.0"
     app.kubernetes.io/managed-by: Helm
     
   
@@ -163,7 +163,7 @@ spec:
     metadata:
       annotations:
       
-        checksum/config: f1d84c808f647dbe523e5e7f5f9cb2f622de04be1a00d3a0f2d6b91a5adbc928
+        checksum/config: baa50e18e24206bc2d44cc52560c79722af4ade0d67a801a51436bde6a4c3b3e
       labels:
         app.kubernetes.io/name: dex
         app.kubernetes.io/instance: dex

@@ -1,7 +1,7 @@
 chart:
   name: dex
-  version: 0.25.2
-  upstreamTgzSha256: 8092493d4fa87096d9ca6062f9b3ae351c728d8366088ec259eb1fba03f61426
+  version: 0.26.0
+  upstreamTgzSha256: 3b22c1447935221a040870508274bff85a68b2b841902097d6fcacb3e9badd03
 images:
   - source: ghcr.io/dexidp/dex:v2.45.1
     digest: sha256:8499afd690c437f52301efd2b05b2455da5bd2dfc20332cd697dc9937f808462
