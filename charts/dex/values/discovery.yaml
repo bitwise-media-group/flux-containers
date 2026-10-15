@@ -7,4 +7,4 @@
 # the chart falls back to its appVersion, which lags dex image releases by
 # months.
 image:
-  tag: v2.45.1
+  tag: v2.46.0
