@@ -105,7 +105,7 @@ scanner change.
 ## CI / publishing
 
 - **ci.yaml** (reusable): repo-wide lint (manifests, allowlists, shellcheck, license headers, prose, actionlint +
-  zizmor).
+  zizmor) and the documentation site build.
 - **pr-validate.yaml**: the deep per-entry gate — `patchy mirror validate` (regeneration byte-identity, provenance,
   scans, lint), sticky PR comment.
 - **publish.yaml** (push to main touching the store): WIF auth as the chart-publisher service account
@@ -115,7 +115,16 @@ scanner change.
   lockstep group with work, refreshed in place — a newer upstream release rewrites the same PR instead of opening a
   sibling.
 - **rescan.yaml** (weekly): fresh-DB rescan of the published sets.
+- **docs.yaml** (push to main touching docs or the store, and daily): builds the documentation site and deploys it to
+  GitHub Pages.
 - Merging is `/merge` fast-forward (see the merge-notice comment on any PR).
+
+## Documentation
+
+The documentation site at <https://oss.bitwisemedia.uk/flux-containers/> covers how the pipeline works and has a page
+per chart: the pin, the digest-locked images, accepted findings, and a reference of every chart value, generated from
+the committed tree at build time (`scripts/chart_docs.py`). Preview it with `make serve`. See
+[Working on the docs](docs/reference/docs.md).
 
 ## Development
 

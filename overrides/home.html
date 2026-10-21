@@ -1,0 +1,408 @@
+<!--
+ Copyright 2026 BitWise Media Group Ltd
+ SPDX-License-Identifier: MIT
+-->
+
+{#- overrides/home.html — custom landing for the flux-containers docs, on the toolchain landing's layout (hero, terminal
+showcase, marquee, connected feature grid, cards, steps) in the parent BitWise Media Group palette via the scheme-scoped
+--bw-* tokens in docs/stylesheets/extra.css. Injected full-bleed between the header and the page body via the `tabs`
+block; the article `content` block is emptied, index.md sets `hide: [navigation, toc]`, and extra.css drops the empty
+.md-content on this page.
+
+The chart marquee, count and cards are read from the "Charts" nav section (every entry but the catalogue), each card's
+blurb from that page's `description` front matter — so adding a chart to zensical.toml is all the landing needs. -#}
+{% extends "main.html" %}
+{% block tabs %}
+{{ super() }}
+{%- set fc_section = nav.items | selectattr("title", "equalto", "Charts") | first -%}
+{%- set fc_charts = fc_section.children | rejectattr("title", "equalto", "Catalogue") | list %}
+<div class="fc">
+    <!-- HERO -->
+    <header class="fc-hero">
+        <div class="fc-hero__grid"></div>
+        <div class="fc-hero__glow"></div>
+        <img class="fc-hero__mark" src="{{ 'assets/logo-mark.svg' | url }}" alt="" aria-hidden="true" />
+        <div class="fc-hero__inner">
+            <div class="fc-kicker"><span class="fc-dot"></span>// Supply-chain mirror for the patchy platform</div>
+            <h1 class="fc-title">Every chart.<br /><em>Pinned, proven, signed.</em></h1>
+            <p class="fc-lede">
+                Every helm chart the flux-manifests stack deploys is vendored verbatim, rendered, digest-pinned,
+                provenance-verified and scanned here, then published to the platform Artifact Registry with keyless
+                cosign signatures. Clusters never pull a chart or an image from a public registry.
+            </p>
+            <div class="fc-term">
+                <div class="fc-term__bar">
+                    <span class="fc-dots"><i></i><i></i><i></i></span><span>zsh — flux-containers</span>
+                </div>
+                <div class="fc-copy">
+                    <span class="fc-p">$</span>
+                    <code>make check-updates</code>
+                    <div class="md-code__nav">
+                        <button class="md-code__button" type="button" data-md-type="copy" title="Copy to clipboard"
+                            aria-label="Copy to clipboard"></button>
+                    </div>
+                </div>
+                <div class="fc-copy">
+                    <span class="fc-p">$</span>
+                    <code>make update CHART=cert-manager</code>
+                    <div class="md-code__nav">
+                        <button class="md-code__button" type="button" data-md-type="copy" title="Copy to clipboard"
+                            aria-label="Copy to clipboard"></button>
+                    </div>
+                </div>
+                <div class="fc-copy">
+                    <span class="fc-p">$</span>
+                    <code>make validate CHART=cert-manager</code>
+                    <div class="md-code__nav">
+                        <button class="md-code__button" type="button" data-md-type="copy" title="Copy to clipboard"
+                            aria-label="Copy to clipboard"></button>
+                    </div>
+                </div>
+            </div>
+            <div class="fc-cta">
+                <a class="fc-btn fc-btn--primary" href="{{ 'getting-started/' | url }}">
+                    Get started
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                        stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M5 12h14" />
+                        <path d="m12 5 7 7-7 7" />
+                    </svg>
+                </a>
+                <a class="fc-btn fc-btn--secondary" href="{{ 'concepts/pipeline/' | url }}">How it works</a>
+                <a class="fc-btn fc-btn--ghost" href="{{ config.repo_url }}">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"
+                        stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path
+                            d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 4 5 4 5 4c-.3 1.15-.3 2.35 0 3.5A5.4 5.4 0 0 0 4 11c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" />
+                        <path d="M9 18c-4.51 2-5-2-7-2" />
+                    </svg>
+                    Browse the code
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- TERMINAL SHOWCASE -->
+    <section class="fc-shot">
+        <div class="fc-shot__frame">
+            <div class="fc-shot__bar">
+                <span class="fc-dots"><i></i><i></i><i></i></span>
+                <span class="fc-title-sm">flux-containers · make validate</span>
+                <span class="fc-live">● pr-validate</span>
+            </div>
+            <div class="fc-panes">
+                <div class="fc-pane">
+                    <div class="fc-pane__head"><b>1</b><span>charts/dex/manifest.yaml</span></div>
+                    <div class="fc-pane__body fc-toml">
+                        <div><span class="s">chart:</span></div>
+                        <div>&nbsp;&nbsp;<span class="k">repo</span>: <span class="v">https://charts.dexidp.io</span></div>
+                        <div>&nbsp;&nbsp;<span class="k">version</span>: <span class="v">"0.24.1"</span></div>
+                        <div>&nbsp;&nbsp;<span class="k">versionConstraint</span>: <span class="v">"&gt;=0.24.0 &lt;1.0.0"</span></div>
+                        <div><span class="s">images:</span></div>
+                        <div>&nbsp;&nbsp;<span class="k">track</span>:</div>
+                        <div>&nbsp;&nbsp;&nbsp;&nbsp;- <span class="k">image</span>: <span class="v">ghcr.io/dexidp/dex</span></div>
+                        <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="k">valuesPath</span>: <span class="v">.image.tag</span></div>
+                        <div>&nbsp;&nbsp;<span class="k">verifyUpstream</span>:</div>
+                        <div>&nbsp;&nbsp;&nbsp;&nbsp;- <span class="k">match</span>: <span class="v">"ghcr.io/dexidp/*"</span></div>
+                        <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="k">provider</span>: <span class="v">cosign-keyless</span></div>
+                        <div class="fc-pane__sep"><span class="c"># the only human-edited file — INTENT</span></div>
+                    </div>
+                </div>
+                <div class="fc-pane">
+                    <div class="fc-pane__head"><b>2</b><span>make validate CHART=dex</span></div>
+                    <div class="fc-pane__body">
+                        <div class="fc-dim">$ make validate CHART=dex <span class="fc-blink"></span></div>
+                        <div class="fc-run"><span class="t">regen</span><span class="d">vendor/ · rendered/ · images.lock.yaml</span><span class="ok">✓</span></div>
+                        <div class="fc-run"><span class="t"></span><span class="d">byte-identical to the committed tree</span><span class="ok">✓</span></div>
+                        <div class="fc-run"><span class="t">verify</span><span class="d">chart + every locked image upstream</span><span class="ok">✓</span></div>
+                        <div class="fc-run"><span class="t">scan</span><span class="d">grype · CRITICAL/HIGH, fixed only</span><span class="ok">✓</span></div>
+                        <div class="fc-run"><span class="t"></span><span class="d">kubescape · rendered config (warn)</span><span class="ok">✓</span></div>
+                        <div class="fc-run"><span class="t">lint</span><span class="d">manifest · allowlist expiry ≤ 90 days</span><span class="ok">✓</span></div>
+                        <div class="fc-pane__sep fc-ok">→ merge, and publish.yaml signs it keylessly</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p class="fc-shot__cap">
+            A reviewer reads the <b>intent</b> in <code>manifest.yaml</code> and the <b>facts</b> it regenerates — and
+            the pipeline proves the two agree before anything ships.
+        </p>
+    </section>
+
+    <!-- MARQUEE -->
+    {#- The mirrored charts. Rendered twice so the translateX(-50%) scroll loops seamlessly; aria-hidden because it is
+    decorative and would otherwise be announced twice. -#}
+    <div class="fc-marquee" aria-hidden="true">
+        <div class="fc-marquee__track">
+            {% for i in [1, 2] %}{% for c in fc_charts %}<span>{{ c.title }}</span>{% endfor %}{% endfor %}
+        </div>
+    </div>
+
+    <!-- STATS -->
+    <section class="fc-stats-wrap">
+        <div class="fc-stats">
+            <div class="fc-stat"><b>{{ fc_charts | length }}</b><small>mirrored charts</small></div>
+            <div class="fc-stat"><b>100%</b><small>digest-pinned images</small></div>
+            <div class="fc-stat"><b class="fc-ink">keyless</b><small>cosign signatures</small></div>
+            <div class="fc-stat"><b class="fc-ink">0</b><small>public pulls at runtime</small></div>
+        </div>
+    </section>
+
+    <!-- WHAT THE MIRROR DOES -->
+    <section class="fc-section">
+        <h2 class="fc-eyebrow">// WHAT EVERY CHART GETS</h2>
+        <p class="fc-lead">One reviewed manifest in, a verified, scanned and signed chart and image set out.</p>
+        <div class="fc-conn fc-grid-3">
+            <div class="fc-feat">
+                <div class="fc-glyph" style="background: var(--bw-orange)">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="m7.5 4.27 9 5.15" />
+                        <path
+                            d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z" />
+                        <path d="m3.3 7 8.7 5 8.7-5" />
+                        <path d="M12 22V12" />
+                    </svg>
+                </div>
+                <h3>Vendored verbatim</h3>
+                <p>
+                    The pinned upstream chart is committed byte-for-byte under <code>vendor/</code>, and its
+                    <code>helm template</code> output under <code>rendered/</code> — so a bump's diff is the change.
+                </p>
+            </div>
+            <div class="fc-feat">
+                <div class="fc-glyph" style="background: var(--bw-orange-2)">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M4 9h16" />
+                        <path d="M4 15h16" />
+                        <path d="M10 3 8 21" />
+                        <path d="m16 3-2 18" />
+                    </svg>
+                </div>
+                <h3>Digest-pinned images</h3>
+                <p>
+                    Every image the rendered chart references — plus the ones helm can't see — is resolved to a digest
+                    in <code>images.lock.yaml</code> and mirrored under the platform registry's <code>images/</code>.
+                </p>
+            </div>
+            <div class="fc-feat">
+                <div class="fc-glyph" style="background: var(--bw-amber)">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <circle cx="12" cy="8" r="6" />
+                        <path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11" />
+                    </svg>
+                </div>
+                <h3>Upstream provenance</h3>
+                <p>
+                    Charts and images are verified against the publisher's cosign identity or key before mirroring.
+                    Unsigned upstreams are declared as <code>provider: none</code> — a documented gap, never a silent one.
+                </p>
+            </div>
+            <div class="fc-feat">
+                <div class="fc-glyph" style="background: var(--bw-green)">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path
+                            d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
+                        <path d="m9 12 2 2 4-4" />
+                    </svg>
+                </div>
+                <h3>Scan gates that expire</h3>
+                <p>
+                    grype blocks CRITICAL and HIGH findings with a fix upstream. Accepted findings need a statement and
+                    an <code>expired_at</code> within 90 days, and a weekly rescan catches CVEs published after merge.
+                </p>
+            </div>
+            <div class="fc-feat">
+                <div class="fc-glyph" style="background: var(--bw-orange)">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <rect width="18" height="11" x="3" y="11" rx="2" ry="2" />
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                    </svg>
+                </div>
+                <h3>Keyless signing</h3>
+                <p>
+                    The publish workflow signs every chart and image with its GitHub OIDC identity. Clusters pin that
+                    one identity — no KMS key, nothing secret on the registry path.
+                </p>
+            </div>
+            <div class="fc-feat">
+                <div class="fc-glyph" style="background: var(--bw-orange-2)">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+                        <path d="M3 3v5h5" />
+                        <path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16" />
+                        <path d="M16 16h5v5" />
+                    </svg>
+                </div>
+                <h3>Lockstep updates</h3>
+                <p>
+                    A daily sweep opens one PR per update group. Charts released as a pair — the Flux operator and
+                    instance, ARC's controller and scale set — always bump together.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CHARTS -->
+    <section class="fc-section">
+        <h2 class="fc-eyebrow">// CHARTS UNDER MANAGEMENT</h2>
+        <p class="fc-lead">Each page carries the pin, the image lock, accepted findings and every chart value.</p>
+        <div class="fc-card-grid">
+            {% for c in fc_charts %}
+            <a class="fc-card" href="{{ c.url | url }}">
+                <span class="fc-card__name">{{ c.title }}</span>
+                <p>{{ c.meta.description if c.meta and c.meta.description else "" }}</p>
+                <code>charts/{{ c.title }}</code>
+            </a>
+            {% endfor %}
+            <a class="fc-card fc-card--common" href="{{ 'charts/' | url }}">
+                <span class="fc-card__name">catalogue</span>
+                <p>Every chart side by side: version, app version, image count, provenance and accepted findings.</p>
+                <code>charts/</code>
+            </a>
+        </div>
+    </section>
+
+    <!-- THE TASKS -->
+    <section class="fc-section">
+        <h2 class="fc-eyebrow">// THIN TASKS OVER PATCHY MIRROR</h2>
+        <p class="fc-lead--sm">Every verb forwards to the pinned <code>patchy mirror</code> CLI — patchy never runs
+            git.</p>
+        <div class="fc-cmdcard">
+            <div class="fc-cmdcard__bar">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" aria-hidden="true">
+                    <polyline points="4 17 10 11 4 5" />
+                    <line x1="12" x2="20" y1="19" y2="19" />
+                </svg>
+                <span>make help</span>
+            </div>
+            <div class="fc-cmdcard__list">
+                <div class="fc-cmdrow">
+                    <code><span class="p">$</span> make check-updates</code><span class="cmt"># the lockstep-aware update plan, read-only</span>
+                </div>
+                <div class="fc-cmdrow">
+                    <code><span class="p">$</span> make update CHART=…</code><span class="cmt"># bump pin + tracked tags, regenerate every fact</span>
+                </div>
+                <div class="fc-cmdrow">
+                    <code><span class="p">$</span> make validate CHART=…</code><span class="cmt"># byte-identity + provenance + scan + lint</span>
+                </div>
+                <div class="fc-cmdrow">
+                    <code><span class="p">$</span> make add URL=oci://…</code><span class="cmt"># scaffold a new entry</span>
+                </div>
+                <div class="fc-cmdrow">
+                    <code><span class="p">$</span> make publish CHART=…</code><span class="cmt"># converge the registry (CI-only in practice)</span>
+                </div>
+                <div class="fc-cmdrow">
+                    <code><span class="p">$</span> make serve</code><span class="cmt"># preview this site on localhost:8003</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- THREE STEPS -->
+    <section class="fc-section fc-section--last">
+        <h2 class="fc-eyebrow">// FROM UPSTREAM RELEASE TO CLUSTER</h2>
+        <div class="fc-conn fc-steps">
+            <div class="fc-step">
+                <div class="fc-step__body">
+                    <div class="fc-step__num">01</div>
+                    <h3>Bump</h3>
+                    <p>The daily update-check opens (or refreshes) one PR per group, or you run <code>make update</code>
+                        yourself.</p>
+                    <a class="fc-step__alt" href="{{ 'concepts/updates/' | url }}">Updates
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M5 12h14" />
+                            <path d="m12 5 7 7-7 7" />
+                        </svg>
+                    </a>
+                </div>
+                <div class="fc-cmd">
+                    <span class="fc-p">$</span>
+                    <code>make update CHART=kyverno</code>
+                    <div class="md-code__nav">
+                        <button class="md-code__button" type="button" data-md-type="copy" title="Copy to clipboard"
+                            aria-label="Copy to clipboard"></button>
+                    </div>
+                </div>
+            </div>
+            <div class="fc-step">
+                <div class="fc-step__body">
+                    <div class="fc-step__num">02</div>
+                    <h3>Review</h3>
+                    <p>pr-validate regenerates out of tree and demands byte-identity, then verifies, scans and lints —
+                        the diff is what ships.</p>
+                    <a class="fc-step__alt" href="{{ 'concepts/pipeline/' | url }}">The pipeline
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M5 12h14" />
+                            <path d="m12 5 7 7-7 7" />
+                        </svg>
+                    </a>
+                </div>
+                <div class="fc-cmd">
+                    <span class="fc-p">$</span>
+                    <code>make validate CHART=kyverno</code>
+                    <div class="md-code__nav">
+                        <button class="md-code__button" type="button" data-md-type="copy" title="Copy to clipboard"
+                            aria-label="Copy to clipboard"></button>
+                    </div>
+                </div>
+            </div>
+            <div class="fc-step">
+                <div class="fc-step__body">
+                    <div class="fc-step__num">03</div>
+                    <h3>Publish</h3>
+                    <p>On merge, the publish workflow mirrors images by digest, pushes the chart and signs everything
+                        keylessly.</p>
+                    <a class="fc-step__alt" href="{{ 'reference/consuming/' | url }}">Consuming the mirror
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M5 12h14" />
+                            <path d="m12 5 7 7-7 7" />
+                        </svg>
+                    </a>
+                </div>
+                <div class="fc-cmd">
+                    <span class="fc-p">$</span>
+                    <code>patchy mirror sync --all</code>
+                    <div class="md-code__nav">
+                        <button class="md-code__button" type="button" data-md-type="copy" title="Copy to clipboard"
+                            aria-label="Copy to clipboard"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<script>
+    // Wire the landing-page copy buttons. Delegated on document so it survives instant navigation; scoped to
+    // .fc-copy / .fc-cmd so it never touches zensical's own code-block copy buttons. Strips the leading "$ " prompt,
+    // then reuses zensical's own snackbar element so the feedback matches the native code-block copy button exactly.
+    document.addEventListener("click", function (e) {
+        var btn = e.target.closest(".fc-copy .md-code__button, .fc-cmd .md-code__button");
+        if (!btn) return;
+        var row = btn.closest(".fc-copy, .fc-cmd");
+        var code = row && row.querySelector("code");
+        if (!code) return;
+        navigator.clipboard.writeText(code.textContent.replace(/^\s*\$\s+/, "")).then(function () {
+            btn.focus();
+            var dialog = document.querySelector("[data-md-component=dialog]");
+            if (!dialog) return;
+            (dialog.querySelector(".md-dialog__inner") || dialog).textContent = "Copied to clipboard";
+            dialog.classList.add("md-dialog--active");
+            window.clearTimeout(dialog.fcResetTimer);
+            dialog.fcResetTimer = window.setTimeout(function () {
+                dialog.classList.remove("md-dialog--active");
+            }, 2000);
+        });
+    });
+</script>
+{% endblock %}
+{% block content %}{% endblock %}

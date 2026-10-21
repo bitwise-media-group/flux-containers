@@ -1,0 +1,22 @@
+# Copyright 2026 BitWise Media Group Ltd
+# SPDX-License-Identifier: MIT
+
+# The flux-containers documentation site (Zensical via uv). Not a Python
+# package: no [build-system], so the python archetype's build runs only
+# `zensical build`. pyyaml and markdown are what scripts/chart_docs.py — the
+# generator behind the per-chart reference fragments — imports; zensical pulls
+# both in already, but the script depends on them directly.
+[project]
+name = "flux-containers-docs"
+version = "0.1.0"
+description = "Documentation site for the BitWise Media Group flux-containers supply-chain mirror, built with Zensical."
+readme = "README.md"
+requires-python = ">=3.13"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "BitWise Media Group Ltd.", email = "oss@bitwisemedia.uk" }]
+dependencies = [
+  "markdown>=3.8",
+  "pyyaml>=6.0",
+  "zensical>=0.0.69",
+]
