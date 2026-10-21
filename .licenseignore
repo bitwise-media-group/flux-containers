@@ -4,3 +4,6 @@ charts/**/images.lock.yaml
 charts/**/images.extra.yaml
 artifacts/**/lock.yaml
 **/allowlist.yaml
+site/**
+.cache/**
+build/**

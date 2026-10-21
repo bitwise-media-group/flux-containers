@@ -12,4 +12,4 @@
 # is only the thin forwarding shim —
 # `make <task> CHART=<name>` == `CHART=<name> mise run <task>`.
 export CHART
-include .mise/common/include.mk
+include .mise/archetypes/python/include.mk

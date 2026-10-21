@@ -16,3 +16,8 @@ node_modules/
 
 # agent cruft
 .claude/
+
+# docs site build output + generated chart reference fragments
+site/
+build/
+.cache/

@@ -1,0 +1,7 @@
+# Docs site (zensical via uv): build output, cache, virtualenv, and the chart
+# reference fragments scripts/chart_docs.py generates at build time.
+/site/
+/.cache/
+/.venv/
+/build/
+/scripts/__pycache__

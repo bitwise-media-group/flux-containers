@@ -6,9 +6,11 @@
 # .mise/config.toml (pinned tools -- grype, kubescape, cosign, shellcheck,
 # actionlint, zizmor, prettier, markdownlint, addlicense, ... -- and the [vars]
 # knob defaults), and this file selects the task files and pins the
-# pipeline-only tools below. The repo has nothing to compile or test, so it
-# includes only common/ -- no archetype -- and the Makefile is a thin forwarder
-# (.mise/common/include.mk). The pipeline task surface lives in tasks.toml.
+# pipeline-only tools below. The repo has nothing to compile or test; the
+# python archetype rides on top of common only because the repo also carries
+# its documentation site (zensical.toml + docs/, built with Zensical via uv),
+# and the Makefile is a thin forwarder (.mise/archetypes/python/include.mk).
+# The pipeline task surface lives in tasks.toml.
 
 [settings]
 lockfile = true
@@ -19,10 +21,11 @@ minimum_release_age = "3d"
 minimum_release_age_excludes = ["github:bitwise-media-group/patchy"]
 
 [task_config]
-# common (prose fmt/lint + license, container, shell and workflow lint) plus
-# the repo-local pipeline tasks; tasks.toml is included AFTER common so its
-# same-named rollups (lint, pr) win.
-includes = [".mise/common/tasks.toml", "tasks.toml"]
+# common (prose fmt/lint + license, container, shell and workflow lint), then
+# the python archetype (docs site: sync, docs-build, serve, build), then the
+# repo-local pipeline tasks; tasks.toml is included LAST so its same-named
+# rollups (fmt, lint, build, ci, pr) win over both.
+includes = [".mise/common/tasks.toml", ".mise/archetypes/python/tasks.toml", "tasks.toml"]
 
 [tools]
 # Pipeline tools the toolchain does not pin (candidates for upstreaming to

@@ -23,10 +23,14 @@ run = [
   "patchy mirror validate --all --only lint",
 ]
 
-# fmt (prose + license headers only) and ci (lint) come from common unchanged:
-# vendored charts, rendered output and image locks must stay byte-identical to
-# what the pipeline generates (see .prettierignore / .licenseignore), so
-# nothing ever rewrites YAML facts.
+# fmt is common's prose + license headers only, restated here because the
+# python archetype (included for the docs site) would otherwise replace it with
+# its ruff-first variant: vendored charts, rendered output and image locks
+# must stay byte-identical to what the pipeline generates (see .prettierignore
+# / .licenseignore), so nothing ever rewrites YAML facts.
+[fmt]
+description = "format prose, inject license headers"
+run = [{ task = "fmt-prose" }, { task = "license" }]
 
 [add]
 description = "scaffold a new entry (URL=<upstream>, optionally CHART=<name>)"
@@ -74,8 +78,43 @@ run = 'patchy mirror sync "${CHART:?usage: make publish CHART=<name>}"'
 description = "publish every entry (the publish workflow's verb)"
 run = "patchy mirror sync --all"
 
+# The documentation site (zensical.toml + docs/, built with Zensical via uv —
+# the python archetype supplies `sync` and the uv pin). The chart reference
+# pages embed fragments that scripts/chart_docs.py derives from the committed
+# tree (manifests, image locks, allowlists, vendored values.yaml) into
+# build/chart-docs/, so every docs entry point regenerates them first; the
+# site can never describe a chart version the tree no longer pins.
+[docs-gen]
+hide = true
+dir = "{{config_root}}"
+depends = ["sync"]
+run = "uv run --no-sync python scripts/chart_docs.py"
+
+[docs-build]
+description = "build the documentation site (chart references + zensical)"
+dir = "{{config_root}}"
+run = [{ task = "docs-gen" }, "uv run --no-sync zensical build"]
+
+[serve]
+description = "serve the docs site locally on :8003 (zensical)"
+dir = "{{config_root}}"
+run = [{ task = "docs-gen" }, "uv run --no-sync zensical serve"]
+
+# The reusable CI workflow runs `mise run build` when the task exists, so a
+# broken docs page (or a chart page whose generated fragment is missing) fails
+# the PR.
+[build]
+description = "build the documentation site"
+run = [{ task = "docs-build" }]
+
+# Replaces the python archetype's lint + test + build: there is no test here.
+[ci]
+description = "the gates the reusable CI workflow runs (the deep per-entry pipeline lives in pr-validate)"
+run = [{ task = "lint" }, { task = "build" }]
+
 # common's pr is fmt + lint; this one runs the full pipeline instead
-# (validate-all includes lint). Like common's, it has no commit step.
+# (validate-all includes lint) plus the docs build. Like common's, it has no
+# commit step.
 [pr]
-description = "full pipeline + lint gates — run before opening a pull request"
-run = [{ task = "fmt" }, { task = "validate-all" }]
+description = "full pipeline + lint gates + docs build — run before opening a pull request"
+run = [{ task = "fmt" }, { task = "validate-all" }, { task = "build" }]
