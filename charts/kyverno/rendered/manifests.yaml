@@ -11,8 +11,8 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: kyverno-admission-controller
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: 3.9.1
-    helm.sh/chart: kyverno-3.9.1
+    app.kubernetes.io/version: 3.9.2
+    helm.sh/chart: kyverno-3.9.2
 automountServiceAccountToken: false
 
 ---
@@ -28,8 +28,8 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: kyverno-background-controller
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: 3.9.1
-    helm.sh/chart: kyverno-3.9.1
+    app.kubernetes.io/version: 3.9.2
+    helm.sh/chart: kyverno-3.9.2
 automountServiceAccountToken: false
 ---
 # Source: kyverno/templates/cleanup-controller/serviceaccount.yaml
@@ -44,8 +44,8 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: kyverno-cleanup-controller
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: 3.9.1
-    helm.sh/chart: kyverno-3.9.1
+    app.kubernetes.io/version: 3.9.2
+    helm.sh/chart: kyverno-3.9.2
 automountServiceAccountToken: false
 ---
 # Source: kyverno/templates/reports-controller/serviceaccount.yaml
@@ -60,8 +60,8 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: kyverno-reports-controller
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: 3.9.1
-    helm.sh/chart: kyverno-3.9.1
+    app.kubernetes.io/version: 3.9.2
+    helm.sh/chart: kyverno-3.9.2
 automountServiceAccountToken: false
 ---
 # Source: kyverno/templates/config/configmap.yaml
@@ -75,8 +75,8 @@ metadata:
     app.kubernetes.io/instance: kyverno
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: 3.9.1
-    helm.sh/chart: kyverno-3.9.1
+    app.kubernetes.io/version: 3.9.2
+    helm.sh/chart: kyverno-3.9.2
   annotations:
     helm.sh/resource-policy: "keep"
 data:
@@ -204,8 +204,8 @@ metadata:
     app.kubernetes.io/instance: kyverno
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: 3.9.1
-    helm.sh/chart: kyverno-3.9.1
+    app.kubernetes.io/version: 3.9.2
+    helm.sh/chart: kyverno-3.9.2
 data:
   namespaces: "{\"exclude\":[],\"include\":[]}"
   metricsExposure: "{\"kyverno_admission_requests_total\":{\"disabledLabelDimensions\":[\"resource_namespace\"]},\"kyverno_admission_review_duration_seconds\":{\"disabledLabelDimensions\":[\"resource_namespace\"]},\"kyverno_cleanup_controller_deletedobjects_total\":{\"disabledLabelDimensions\":[\"resource_namespace\",\"policy_namespace\"]},\"kyverno_generating_policy_execution_duration_seconds\":{\"disabledLabelDimensions\":[\"resource_namespace\",\"resource_request_operation\"]},\"kyverno_generating_policy_results_total\":{\"disabledLabelDimensions\":[\"resource_namespace\",\"policy_namespace\"]},\"kyverno_image_validating_policy_execution_duration_seconds\":{\"disabledLabelDimensions\":[\"resource_namespace\",\"resource_request_operation\"]},\"kyverno_image_validating_policy_results_total\":{\"disabledLabelDimensions\":[\"resource_namespace\",\"policy_namespace\"]},\"kyverno_mutating_policy_execution_duration_seconds\":{\"disabledLabelDimensions\":[\"resource_namespace\",\"resource_request_operation\"]},\"kyverno_mutating_policy_results_total\":{\"disabledLabelDimensions\":[\"resource_namespace\",\"policy_namespace\"]},\"kyverno_policy_execution_duration_seconds\":{\"disabledLabelDimensions\":[\"resource_namespace\",\"resource_request_operation\"]},\"kyverno_policy_results_total\":{\"disabledLabelDimensions\":[\"resource_namespace\",\"policy_namespace\"]},\"kyverno_policy_rule_info_total\":{\"disabledLabelDimensions\":[\"resource_namespace\",\"policy_namespace\"]},\"kyverno_validating_policy_execution_duration_seconds\":{\"disabledLabelDimensions\":[\"resource_namespace\",\"resource_request_operation\"]},\"kyverno_validating_policy_results_total\":{\"disabledLabelDimensions\":[\"resource_namespace\",\"policy_namespace\"]}}"
@@ -220,8 +220,8 @@ metadata:
     app.kubernetes.io/instance: kyverno
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: kyverno-crds
-    app.kubernetes.io/version: 3.9.1
-    helm.sh/chart: crds-3.9.1
+    app.kubernetes.io/version: 3.9.2
+    helm.sh/chart: crds-3.9.2
   annotations:
     controller-gen.kubebuilder.io/version: v0.20.0
   name: cleanuppolicies.kyverno.io
@@ -2843,8 +2843,8 @@ metadata:
     app.kubernetes.io/instance: kyverno
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: kyverno-crds
-    app.kubernetes.io/version: 3.9.1
-    helm.sh/chart: crds-3.9.1
+    app.kubernetes.io/version: 3.9.2
+    helm.sh/chart: crds-3.9.2
   annotations:
     controller-gen.kubebuilder.io/version: v0.20.0
   name: clustercleanuppolicies.kyverno.io
@@ -5466,8 +5466,8 @@ metadata:
     app.kubernetes.io/instance: kyverno
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: kyverno-crds
-    app.kubernetes.io/version: 3.9.1
-    helm.sh/chart: crds-3.9.1
+    app.kubernetes.io/version: 3.9.2
+    helm.sh/chart: crds-3.9.2
   annotations:
     controller-gen.kubebuilder.io/version: v0.20.0
   name: clusterpolicies.kyverno.io
@@ -7074,6 +7074,17 @@ spec:
                       additionalProperties:
                         items:
                           properties:
+                            filter:
+                              description: |-
+                                Filter is an optional value to match against 'key' during wildcard array expansion.
+                                When set, only array elements where the field named by 'key' equals this value
+                                are extracted as image references. Requires 'key' to be set.
+                                This is useful when a wildcard path expands an array containing both image and
+                                non-image elements, and only specific elements should be treated as images.
+                                Filter applies at the terminal wildcard only; intermediate wildcards in nested
+                                paths are expanded without filtering.
+                                Filter only applies to wildcard expansion over arrays, not maps.
+                              type: string
                             jmesPath:
                               description: |-
                                 JMESPath is an optional JMESPath expression to apply to the image value.
@@ -12180,6 +12191,17 @@ spec:
                           additionalProperties:
                             items:
                               properties:
+                                filter:
+                                  description: |-
+                                    Filter is an optional value to match against 'key' during wildcard array expansion.
+                                    When set, only array elements where the field named by 'key' equals this value
+                                    are extracted as image references. Requires 'key' to be set.
+                                    This is useful when a wildcard path expands an array containing both image and
+                                    non-image elements, and only specific elements should be treated as images.
+                                    Filter applies at the terminal wildcard only; intermediate wildcards in nested
+                                    paths are expanded without filtering.
+                                    Filter only applies to wildcard expansion over arrays, not maps.
+                                  type: string
                                 jmesPath:
                                   description: |-
                                     JMESPath is an optional JMESPath expression to apply to the image value.
@@ -17175,6 +17197,17 @@ spec:
                       additionalProperties:
                         items:
                           properties:
+                            filter:
+                              description: |-
+                                Filter is an optional value to match against 'key' during wildcard array expansion.
+                                When set, only array elements where the field named by 'key' equals this value
+                                are extracted as image references. Requires 'key' to be set.
+                                This is useful when a wildcard path expands an array containing both image and
+                                non-image elements, and only specific elements should be treated as images.
+                                Filter applies at the terminal wildcard only; intermediate wildcards in nested
+                                paths are expanded without filtering.
+                                Filter only applies to wildcard expansion over arrays, not maps.
+                              type: string
                             jmesPath:
                               description: |-
                                 JMESPath is an optional JMESPath expression to apply to the image value.
@@ -22215,6 +22248,17 @@ spec:
                           additionalProperties:
                             items:
                               properties:
+                                filter:
+                                  description: |-
+                                    Filter is an optional value to match against 'key' during wildcard array expansion.
+                                    When set, only array elements where the field named by 'key' equals this value
+                                    are extracted as image references. Requires 'key' to be set.
+                                    This is useful when a wildcard path expands an array containing both image and
+                                    non-image elements, and only specific elements should be treated as images.
+                                    Filter applies at the terminal wildcard only; intermediate wildcards in nested
+                                    paths are expanded without filtering.
+                                    Filter only applies to wildcard expansion over arrays, not maps.
+                                  type: string
                                 jmesPath:
                                   description: |-
                                     JMESPath is an optional JMESPath expression to apply to the image value.
@@ -25837,8 +25881,8 @@ metadata:
     app.kubernetes.io/instance: kyverno
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: kyverno-crds
-    app.kubernetes.io/version: 3.9.1
-    helm.sh/chart: crds-3.9.1
+    app.kubernetes.io/version: 3.9.2
+    helm.sh/chart: crds-3.9.2
   annotations:
     controller-gen.kubebuilder.io/version: v0.20.0
   name: globalcontextentries.kyverno.io
@@ -26625,8 +26669,8 @@ metadata:
     app.kubernetes.io/instance: kyverno
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: kyverno-crds
-    app.kubernetes.io/version: 3.9.1
-    helm.sh/chart: crds-3.9.1
+    app.kubernetes.io/version: 3.9.2
+    helm.sh/chart: crds-3.9.2
   annotations:
     controller-gen.kubebuilder.io/version: v0.20.0
   name: policies.kyverno.io
@@ -28234,6 +28278,17 @@ spec:
                       additionalProperties:
                         items:
                           properties:
+                            filter:
+                              description: |-
+                                Filter is an optional value to match against 'key' during wildcard array expansion.
+                                When set, only array elements where the field named by 'key' equals this value
+                                are extracted as image references. Requires 'key' to be set.
+                                This is useful when a wildcard path expands an array containing both image and
+                                non-image elements, and only specific elements should be treated as images.
+                                Filter applies at the terminal wildcard only; intermediate wildcards in nested
+                                paths are expanded without filtering.
+                                Filter only applies to wildcard expansion over arrays, not maps.
+                              type: string
                             jmesPath:
                               description: |-
                                 JMESPath is an optional JMESPath expression to apply to the image value.
@@ -33341,6 +33396,17 @@ spec:
                           additionalProperties:
                             items:
                               properties:
+                                filter:
+                                  description: |-
+                                    Filter is an optional value to match against 'key' during wildcard array expansion.
+                                    When set, only array elements where the field named by 'key' equals this value
+                                    are extracted as image references. Requires 'key' to be set.
+                                    This is useful when a wildcard path expands an array containing both image and
+                                    non-image elements, and only specific elements should be treated as images.
+                                    Filter applies at the terminal wildcard only; intermediate wildcards in nested
+                                    paths are expanded without filtering.
+                                    Filter only applies to wildcard expansion over arrays, not maps.
+                                  type: string
                                 jmesPath:
                                   description: |-
                                     JMESPath is an optional JMESPath expression to apply to the image value.
@@ -38337,6 +38403,17 @@ spec:
                       additionalProperties:
                         items:
                           properties:
+                            filter:
+                              description: |-
+                                Filter is an optional value to match against 'key' during wildcard array expansion.
+                                When set, only array elements where the field named by 'key' equals this value
+                                are extracted as image references. Requires 'key' to be set.
+                                This is useful when a wildcard path expands an array containing both image and
+                                non-image elements, and only specific elements should be treated as images.
+                                Filter applies at the terminal wildcard only; intermediate wildcards in nested
+                                paths are expanded without filtering.
+                                Filter only applies to wildcard expansion over arrays, not maps.
+                              type: string
                             jmesPath:
                               description: |-
                                 JMESPath is an optional JMESPath expression to apply to the image value.
@@ -43377,6 +43454,17 @@ spec:
                           additionalProperties:
                             items:
                               properties:
+                                filter:
+                                  description: |-
+                                    Filter is an optional value to match against 'key' during wildcard array expansion.
+                                    When set, only array elements where the field named by 'key' equals this value
+                                    are extracted as image references. Requires 'key' to be set.
+                                    This is useful when a wildcard path expands an array containing both image and
+                                    non-image elements, and only specific elements should be treated as images.
+                                    Filter applies at the terminal wildcard only; intermediate wildcards in nested
+                                    paths are expanded without filtering.
+                                    Filter only applies to wildcard expansion over arrays, not maps.
+                                  type: string
                                 jmesPath:
                                   description: |-
                                     JMESPath is an optional JMESPath expression to apply to the image value.
@@ -46999,8 +47087,8 @@ metadata:
     app.kubernetes.io/instance: kyverno
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: kyverno-crds
-    app.kubernetes.io/version: 3.9.1
-    helm.sh/chart: crds-3.9.1
+    app.kubernetes.io/version: 3.9.2
+    helm.sh/chart: crds-3.9.2
   annotations:
     controller-gen.kubebuilder.io/version: v0.20.0
   name: policyexceptions.kyverno.io
@@ -48315,8 +48403,8 @@ metadata:
     app.kubernetes.io/instance: kyverno
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: kyverno-crds
-    app.kubernetes.io/version: 3.9.1
-    helm.sh/chart: crds-3.9.1
+    app.kubernetes.io/version: 3.9.2
+    helm.sh/chart: crds-3.9.2
   annotations:
     controller-gen.kubebuilder.io/version: v0.20.0
   name: updaterequests.kyverno.io
@@ -49153,8 +49241,8 @@ metadata:
     app.kubernetes.io/instance: kyverno
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: kyverno-crds
-    app.kubernetes.io/version: 3.9.1
-    helm.sh/chart: crds-3.9.1
+    app.kubernetes.io/version: 3.9.2
+    helm.sh/chart: crds-3.9.2
   annotations:
     controller-gen.kubebuilder.io/version: v0.20.0
   name: clusterephemeralreports.reports.kyverno.io
@@ -49499,8 +49587,8 @@ metadata:
     app.kubernetes.io/instance: kyverno
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: kyverno-crds
-    app.kubernetes.io/version: 3.9.1
-    helm.sh/chart: crds-3.9.1
+    app.kubernetes.io/version: 3.9.2
+    helm.sh/chart: crds-3.9.2
   annotations:
     controller-gen.kubebuilder.io/version: v0.20.0
   name: ephemeralreports.reports.kyverno.io
@@ -49845,8 +49933,8 @@ metadata:
     app.kubernetes.io/instance: kyverno
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: kyverno-crds
-    app.kubernetes.io/version: 3.9.1
-    helm.sh/chart: crds-3.9.1
+    app.kubernetes.io/version: 3.9.2
+    helm.sh/chart: crds-3.9.2
   annotations:
     controller-gen.kubebuilder.io/version: v0.20.0
   name: clusterpolicyreports.wgpolicyk8s.io
@@ -50215,8 +50303,8 @@ metadata:
     app.kubernetes.io/instance: kyverno
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: kyverno-crds
-    app.kubernetes.io/version: 3.9.1
-    helm.sh/chart: crds-3.9.1
+    app.kubernetes.io/version: 3.9.2
+    helm.sh/chart: crds-3.9.2
   annotations:
     controller-gen.kubebuilder.io/version: v0.20.0
   name: policyreports.wgpolicyk8s.io
@@ -89333,8 +89421,8 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: kyverno-admission-controller
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: 3.9.1
-    helm.sh/chart: kyverno-3.9.1
+    app.kubernetes.io/version: 3.9.2
+    helm.sh/chart: kyverno-3.9.2
 aggregationRule:
   clusterRoleSelectors:
     - matchLabels:
@@ -89356,8 +89444,8 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: kyverno-admission-controller
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: 3.9.1
-    helm.sh/chart: kyverno-3.9.1
+    app.kubernetes.io/version: 3.9.2
+    helm.sh/chart: kyverno-3.9.2
 rules:
   - apiGroups:
       - apiextensions.k8s.io
@@ -89544,8 +89632,8 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: kyverno-background-controller
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: 3.9.1
-    helm.sh/chart: kyverno-3.9.1
+    app.kubernetes.io/version: 3.9.2
+    helm.sh/chart: kyverno-3.9.2
 aggregationRule:
   clusterRoleSelectors:
     - matchLabels:
@@ -89567,8 +89655,8 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: kyverno-background-controller
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: 3.9.1
-    helm.sh/chart: kyverno-3.9.1
+    app.kubernetes.io/version: 3.9.2
+    helm.sh/chart: kyverno-3.9.2
 rules:
   - apiGroups:
       - apiextensions.k8s.io
@@ -89716,8 +89804,8 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: kyverno-cleanup-controller
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: 3.9.1
-    helm.sh/chart: kyverno-3.9.1
+    app.kubernetes.io/version: 3.9.2
+    helm.sh/chart: kyverno-3.9.2
 aggregationRule:
   clusterRoleSelectors:
     - matchLabels:
@@ -89739,8 +89827,8 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: kyverno-cleanup-controller
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: 3.9.1
-    helm.sh/chart: kyverno-3.9.1
+    app.kubernetes.io/version: 3.9.2
+    helm.sh/chart: kyverno-3.9.2
 rules:
   - apiGroups:
       - apiextensions.k8s.io
@@ -89857,8 +89945,8 @@ metadata:
     app.kubernetes.io/instance: kyverno
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: 3.9.1
-    helm.sh/chart: kyverno-3.9.1
+    app.kubernetes.io/version: 3.9.2
+    helm.sh/chart: kyverno-3.9.2
     rbac.authorization.k8s.io/aggregate-to-admin: "true"
 rules:
   - apiGroups:
@@ -89910,8 +89998,8 @@ metadata:
     app.kubernetes.io/instance: kyverno
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: 3.9.1
-    helm.sh/chart: kyverno-3.9.1
+    app.kubernetes.io/version: 3.9.2
+    helm.sh/chart: kyverno-3.9.2
     rbac.authorization.k8s.io/aggregate-to-view: "true"
 rules:
   - apiGroups:
@@ -89954,8 +90042,8 @@ metadata:
     app.kubernetes.io/instance: kyverno
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: 3.9.1
-    helm.sh/chart: kyverno-3.9.1
+    app.kubernetes.io/version: 3.9.2
+    helm.sh/chart: kyverno-3.9.2
     rbac.authorization.k8s.io/aggregate-to-admin: "true"
 rules:
   - apiGroups:
@@ -89983,8 +90071,8 @@ metadata:
     app.kubernetes.io/instance: kyverno
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: 3.9.1
-    helm.sh/chart: kyverno-3.9.1
+    app.kubernetes.io/version: 3.9.2
+    helm.sh/chart: kyverno-3.9.2
     rbac.authorization.k8s.io/aggregate-to-view: "true"
 rules:
   - apiGroups:
@@ -90007,8 +90095,8 @@ metadata:
     app.kubernetes.io/instance: kyverno
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: 3.9.1
-    helm.sh/chart: kyverno-3.9.1
+    app.kubernetes.io/version: 3.9.2
+    helm.sh/chart: kyverno-3.9.2
     rbac.authorization.k8s.io/aggregate-to-admin: "true"
 rules:
   - apiGroups:
@@ -90036,8 +90124,8 @@ metadata:
     app.kubernetes.io/instance: kyverno
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: 3.9.1
-    helm.sh/chart: kyverno-3.9.1
+    app.kubernetes.io/version: 3.9.2
+    helm.sh/chart: kyverno-3.9.2
     rbac.authorization.k8s.io/aggregate-to-view: "true"
 rules:
   - apiGroups:
@@ -90060,8 +90148,8 @@ metadata:
     app.kubernetes.io/instance: kyverno
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: 3.9.1
-    helm.sh/chart: kyverno-3.9.1
+    app.kubernetes.io/version: 3.9.2
+    helm.sh/chart: kyverno-3.9.2
     rbac.authorization.k8s.io/aggregate-to-admin: "true"
 rules:
   - apiGroups:
@@ -90088,8 +90176,8 @@ metadata:
     app.kubernetes.io/instance: kyverno
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: 3.9.1
-    helm.sh/chart: kyverno-3.9.1
+    app.kubernetes.io/version: 3.9.2
+    helm.sh/chart: kyverno-3.9.2
     rbac.authorization.k8s.io/aggregate-to-view: "true"
 rules:
   - apiGroups:
@@ -90112,8 +90200,8 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: kyverno-reports-controller
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: 3.9.1
-    helm.sh/chart: kyverno-3.9.1
+    app.kubernetes.io/version: 3.9.2
+    helm.sh/chart: kyverno-3.9.2
 aggregationRule:
   clusterRoleSelectors:
     - matchLabels:
@@ -90135,8 +90223,8 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: kyverno-reports-controller
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: 3.9.1
-    helm.sh/chart: kyverno-3.9.1
+    app.kubernetes.io/version: 3.9.2
+    helm.sh/chart: kyverno-3.9.2
 rules:
   - apiGroups:
       - apiextensions.k8s.io
@@ -90279,8 +90367,8 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: kyverno-admission-controller
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: 3.9.1
-    helm.sh/chart: kyverno-3.9.1
+    app.kubernetes.io/version: 3.9.2
+    helm.sh/chart: kyverno-3.9.2
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
@@ -90302,8 +90390,8 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: kyverno-admission-controller
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: 3.9.1
-    helm.sh/chart: kyverno-3.9.1
+    app.kubernetes.io/version: 3.9.2
+    helm.sh/chart: kyverno-3.9.2
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
@@ -90324,8 +90412,8 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: kyverno-background-controller
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: 3.9.1
-    helm.sh/chart: kyverno-3.9.1
+    app.kubernetes.io/version: 3.9.2
+    helm.sh/chart: kyverno-3.9.2
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
@@ -90347,8 +90435,8 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: kyverno-background-controller
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: 3.9.1
-    helm.sh/chart: kyverno-3.9.1
+    app.kubernetes.io/version: 3.9.2
+    helm.sh/chart: kyverno-3.9.2
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
@@ -90369,8 +90457,8 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: kyverno-cleanup-controller
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: 3.9.1
-    helm.sh/chart: kyverno-3.9.1
+    app.kubernetes.io/version: 3.9.2
+    helm.sh/chart: kyverno-3.9.2
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
@@ -90391,8 +90479,8 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: kyverno-reports-controller
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: 3.9.1
-    helm.sh/chart: kyverno-3.9.1
+    app.kubernetes.io/version: 3.9.2
+    helm.sh/chart: kyverno-3.9.2
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
@@ -90414,8 +90502,8 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: kyverno-reports-controller
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: 3.9.1
-    helm.sh/chart: kyverno-3.9.1
+    app.kubernetes.io/version: 3.9.2
+    helm.sh/chart: kyverno-3.9.2
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
@@ -90437,8 +90525,8 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: kyverno-admission-controller
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: 3.9.1
-    helm.sh/chart: kyverno-3.9.1
+    app.kubernetes.io/version: 3.9.2
+    helm.sh/chart: kyverno-3.9.2
 rules:
   - apiGroups:
       - ''
@@ -90495,8 +90583,8 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: kyverno-background-controller
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: 3.9.1
-    helm.sh/chart: kyverno-3.9.1
+    app.kubernetes.io/version: 3.9.2
+    helm.sh/chart: kyverno-3.9.2
   namespace: kyverno
 rules:
   - apiGroups:
@@ -90547,8 +90635,8 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: kyverno-cleanup-controller
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: 3.9.1
-    helm.sh/chart: kyverno-3.9.1
+    app.kubernetes.io/version: 3.9.2
+    helm.sh/chart: kyverno-3.9.2
   namespace: kyverno
 rules:
   - apiGroups:
@@ -90626,8 +90714,8 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: kyverno-reports-controller
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: 3.9.1
-    helm.sh/chart: kyverno-3.9.1
+    app.kubernetes.io/version: 3.9.2
+    helm.sh/chart: kyverno-3.9.2
   namespace: kyverno
 rules:
   - apiGroups:
@@ -90679,8 +90767,8 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: kyverno-admission-controller
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: 3.9.1
-    helm.sh/chart: kyverno-3.9.1
+    app.kubernetes.io/version: 3.9.2
+    helm.sh/chart: kyverno-3.9.2
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
@@ -90701,8 +90789,8 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: kyverno-background-controller
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: 3.9.1
-    helm.sh/chart: kyverno-3.9.1
+    app.kubernetes.io/version: 3.9.2
+    helm.sh/chart: kyverno-3.9.2
   namespace: kyverno
 roleRef:
   apiGroup: rbac.authorization.k8s.io
@@ -90724,8 +90812,8 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: kyverno-cleanup-controller
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: 3.9.1
-    helm.sh/chart: kyverno-3.9.1
+    app.kubernetes.io/version: 3.9.2
+    helm.sh/chart: kyverno-3.9.2
   namespace: kyverno
 roleRef:
   apiGroup: rbac.authorization.k8s.io
@@ -90747,8 +90835,8 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: kyverno-reports-controller
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: 3.9.1
-    helm.sh/chart: kyverno-3.9.1
+    app.kubernetes.io/version: 3.9.2
+    helm.sh/chart: kyverno-3.9.2
   namespace: kyverno
 roleRef:
   apiGroup: rbac.authorization.k8s.io
@@ -90771,8 +90859,8 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: kyverno-admission-controller
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: 3.9.1
-    helm.sh/chart: kyverno-3.9.1
+    app.kubernetes.io/version: 3.9.2
+    helm.sh/chart: kyverno-3.9.2
 spec:
   ports:
   - port: 443
@@ -90799,8 +90887,8 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: kyverno-admission-controller
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: 3.9.1
-    helm.sh/chart: kyverno-3.9.1
+    app.kubernetes.io/version: 3.9.2
+    helm.sh/chart: kyverno-3.9.2
 spec:
   ports:
   - port: 8000
@@ -90825,8 +90913,8 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: kyverno-background-controller
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: 3.9.1
-    helm.sh/chart: kyverno-3.9.1
+    app.kubernetes.io/version: 3.9.2
+    helm.sh/chart: kyverno-3.9.2
 spec:
   ports:
   - port: 8000
@@ -90851,8 +90939,8 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: kyverno-cleanup-controller
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: 3.9.1
-    helm.sh/chart: kyverno-3.9.1
+    app.kubernetes.io/version: 3.9.2
+    helm.sh/chart: kyverno-3.9.2
 spec:
   ports:
   - port: 443
@@ -90879,8 +90967,8 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: kyverno-cleanup-controller
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: 3.9.1
-    helm.sh/chart: kyverno-3.9.1
+    app.kubernetes.io/version: 3.9.2
+    helm.sh/chart: kyverno-3.9.2
 spec:
   ports:
   - port: 8000
@@ -90905,8 +90993,8 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: kyverno-reports-controller
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: 3.9.1
-    helm.sh/chart: kyverno-3.9.1
+    app.kubernetes.io/version: 3.9.2
+    helm.sh/chart: kyverno-3.9.2
 spec:
   ports:
   - port: 8000
@@ -90931,8 +91019,8 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: kyverno-admission-controller
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: 3.9.1
-    helm.sh/chart: kyverno-3.9.1
+    app.kubernetes.io/version: 3.9.2
+    helm.sh/chart: kyverno-3.9.2
 spec:
   replicas: 
   revisionHistoryLimit: 10
@@ -90954,8 +91042,8 @@ spec:
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: kyverno-admission-controller
         app.kubernetes.io/part-of: kyverno
-        app.kubernetes.io/version: 3.9.1
-        helm.sh/chart: kyverno-3.9.1
+        app.kubernetes.io/version: 3.9.2
+        helm.sh/chart: kyverno-3.9.2
     spec:
       nodeSelector:
         kubernetes.io/os: linux
@@ -90976,7 +91064,7 @@ spec:
       automountServiceAccountToken: true
       initContainers:
         - name: kyverno-pre
-          image: "reg.kyverno.io/kyverno/kyvernopre:v1.19.1"
+          image: "reg.kyverno.io/kyverno/kyvernopre:v1.19.2"
           imagePullPolicy: IfNotPresent
           args:
             - --loggingFormat=text
@@ -91024,7 +91112,7 @@ spec:
             value: kyverno-svc
       containers:
         - name: kyverno
-          image: "reg.kyverno.io/kyverno/kyverno:v1.19.1"
+          image: "reg.kyverno.io/kyverno/kyverno:v1.19.2"
           imagePullPolicy: IfNotPresent
           args:
             - --caSecretName=kyverno-svc.kyverno.svc.kyverno-tls-ca
@@ -91170,8 +91258,8 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: kyverno-background-controller
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: 3.9.1
-    helm.sh/chart: kyverno-3.9.1
+    app.kubernetes.io/version: 3.9.2
+    helm.sh/chart: kyverno-3.9.2
 spec:
   replicas: 
   revisionHistoryLimit: 10
@@ -91193,8 +91281,8 @@ spec:
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: kyverno-background-controller
         app.kubernetes.io/part-of: kyverno
-        app.kubernetes.io/version: 3.9.1
-        helm.sh/chart: kyverno-3.9.1
+        app.kubernetes.io/version: 3.9.2
+        helm.sh/chart: kyverno-3.9.2
     spec:
       nodeSelector:
         kubernetes.io/os: linux
@@ -91215,7 +91303,7 @@ spec:
       automountServiceAccountToken: true
       containers:
         - name: controller
-          image: "reg.kyverno.io/kyverno/background-controller:v1.19.1"
+          image: "reg.kyverno.io/kyverno/background-controller:v1.19.2"
           imagePullPolicy: IfNotPresent
           ports:
           - containerPort: 9443
@@ -91303,8 +91391,8 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: kyverno-cleanup-controller
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: 3.9.1
-    helm.sh/chart: kyverno-3.9.1
+    app.kubernetes.io/version: 3.9.2
+    helm.sh/chart: kyverno-3.9.2
 spec:
   replicas: 
   revisionHistoryLimit: 10
@@ -91326,8 +91414,8 @@ spec:
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: kyverno-cleanup-controller
         app.kubernetes.io/part-of: kyverno
-        app.kubernetes.io/version: 3.9.1
-        helm.sh/chart: kyverno-3.9.1
+        app.kubernetes.io/version: 3.9.2
+        helm.sh/chart: kyverno-3.9.2
     spec:
       nodeSelector:
         kubernetes.io/os: linux
@@ -91348,7 +91436,7 @@ spec:
       automountServiceAccountToken: true
       containers:
         - name: controller
-          image: "reg.kyverno.io/kyverno/cleanup-controller:v1.19.1"
+          image: "reg.kyverno.io/kyverno/cleanup-controller:v1.19.2"
           imagePullPolicy: IfNotPresent
           ports:
           - containerPort: 9443
@@ -91471,8 +91559,8 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: kyverno-reports-controller
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: 3.9.1
-    helm.sh/chart: kyverno-3.9.1
+    app.kubernetes.io/version: 3.9.2
+    helm.sh/chart: kyverno-3.9.2
 spec:
   replicas: 
   revisionHistoryLimit: 10
@@ -91494,8 +91582,8 @@ spec:
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: kyverno-reports-controller
         app.kubernetes.io/part-of: kyverno
-        app.kubernetes.io/version: 3.9.1
-        helm.sh/chart: kyverno-3.9.1
+        app.kubernetes.io/version: 3.9.2
+        helm.sh/chart: kyverno-3.9.2
     spec:
       nodeSelector:
         kubernetes.io/os: linux
@@ -91516,7 +91604,7 @@ spec:
       automountServiceAccountToken: true
       containers:
         - name: controller
-          image: "reg.kyverno.io/kyverno/reports-controller:v1.19.1"
+          image: "reg.kyverno.io/kyverno/reports-controller:v1.19.2"
           imagePullPolicy: IfNotPresent
           ports:
           - containerPort: 9443
@@ -91620,8 +91708,8 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: kyverno-hooks
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: 3.9.1
-    helm.sh/chart: kyverno-3.9.1
+    app.kubernetes.io/version: 3.9.2
+    helm.sh/chart: kyverno-3.9.2
   annotations:
     helm.sh/hook: post-upgrade
     helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded
@@ -91640,8 +91728,8 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: kyverno-hooks
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: 3.9.1
-    helm.sh/chart: kyverno-3.9.1
+    app.kubernetes.io/version: 3.9.2
+    helm.sh/chart: kyverno-3.9.2
   annotations:
     helm.sh/hook: post-upgrade
     helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded,hook-failed
@@ -91688,8 +91776,8 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: kyverno-hooks
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: 3.9.1
-    helm.sh/chart: kyverno-3.9.1
+    app.kubernetes.io/version: 3.9.2
+    helm.sh/chart: kyverno-3.9.2
   annotations:
     helm.sh/hook: post-upgrade
     helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded,hook-failed
@@ -91715,8 +91803,8 @@ metadata:
     app.kubernetes.io/instance: kyverno
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: 3.9.1
-    helm.sh/chart: kyverno-3.9.1
+    app.kubernetes.io/version: 3.9.2
+    helm.sh/chart: kyverno-3.9.2
   annotations:
     helm.sh/hook: test
 spec:
@@ -91765,8 +91853,8 @@ metadata:
     app.kubernetes.io/instance: kyverno
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: 3.9.1
-    helm.sh/chart: kyverno-3.9.1
+    app.kubernetes.io/version: 3.9.2
+    helm.sh/chart: kyverno-3.9.2
   annotations:
     helm.sh/hook: test
 spec:
@@ -91816,8 +91904,8 @@ metadata:
     app.kubernetes.io/instance: kyverno
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: 3.9.1
-    helm.sh/chart: kyverno-3.9.1
+    app.kubernetes.io/version: 3.9.2
+    helm.sh/chart: kyverno-3.9.2
   annotations:
     helm.sh/hook: test
 spec:
@@ -91866,8 +91954,8 @@ metadata:
     app.kubernetes.io/instance: kyverno
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: 3.9.1
-    helm.sh/chart: kyverno-3.9.1
+    app.kubernetes.io/version: 3.9.2
+    helm.sh/chart: kyverno-3.9.2
   annotations:
     helm.sh/hook: test
 spec:
@@ -91917,8 +92005,8 @@ metadata:
     app.kubernetes.io/instance: kyverno
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: 3.9.1
-    helm.sh/chart: kyverno-3.9.1
+    app.kubernetes.io/version: 3.9.2
+    helm.sh/chart: kyverno-3.9.2
   annotations:
     helm.sh/hook: test
 spec:
@@ -91968,8 +92056,8 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: kyverno-hooks
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: 3.9.1
-    helm.sh/chart: kyverno-3.9.1
+    app.kubernetes.io/version: 3.9.2
+    helm.sh/chart: kyverno-3.9.2
   annotations:
     helm.sh/hook: post-upgrade
     # helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded,hook-failed
@@ -91983,7 +92071,7 @@ spec:
       restartPolicy: Never
       containers:
         - name: kyverno-cli
-          image: "reg.kyverno.io/kyverno/kyverno-cli:v1.19.1"
+          image: "reg.kyverno.io/kyverno/kyverno-cli:v1.19.2"
           imagePullPolicy: IfNotPresent
           args:
             - migrate
