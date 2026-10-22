@@ -9,7 +9,7 @@ chart:
   # documented gap. Image provenance below is keyless-verified.
   repo: https://charts.dexidp.io
   name: dex
-  version: "0.25.2"
+  version: "0.26.0"
   versionConstraint: ">=0.24.0 <1.0.0"
   verifyUpstream:
     provider: none
