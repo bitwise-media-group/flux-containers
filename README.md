@@ -104,10 +104,11 @@ scanner change.
 
 ## CI / publishing
 
-- **ci.yaml** (reusable): repo-wide lint (manifests, allowlists, shellcheck, license headers, prose, actionlint +
-  zizmor) and the documentation site build.
+- **ci.yaml** (reusable): repo-wide lint (shellcheck, license headers, prose, actionlint + zizmor) and the documentation
+  site build.
 - **pr-validate.yaml**: the deep per-entry gate — `patchy mirror validate` (regeneration byte-identity, provenance,
-  scans, lint), sticky PR comment.
+  scans, manifest + allowlist lint) on only the entries the PR changes (all of them when `mirror.yaml` changes), sticky
+  PR comment.
 - **publish.yaml** (push to main touching the store): WIF auth as the chart-publisher service account
   (`GCP_WIF_PROVIDER` / `GCP_CHART_PUBLISHER_SA` repository variables, from the terraform artifact-store outputs) →
   `patchy mirror sync --all`.

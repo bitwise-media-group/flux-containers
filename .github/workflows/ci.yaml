@@ -3,13 +3,15 @@
 
 # Continuous integration — thin caller for the org's reusable ci workflow (v7:
 # installs the mise pins). It discovers the canonical tasks this repo defines
-# and runs `mise run <target>` for each: `lint` — the repo-wide gates: chart
-# manifest/allowlist lint, shellcheck, addlicense, actionlint + zizmor and
-# prose — and `build`, which renders the documentation site (chart references
-# + zensical), so a broken page fails the PR. `test` comes from the python
-# archetype and skips (pytest is not a project dependency). The deep per-chart
-# pipeline (regeneration gate, provenance verification, scans) is
-# pr-validate.yaml, which only runs when chart-affecting paths change.
+# and runs `mise run <target>` for each: `lint` — the repo-wide gates:
+# shellcheck, addlicense, actionlint + zizmor and prose — and `build`, which
+# renders the documentation site (chart references + zensical), so a broken
+# page fails the PR. `test` comes from the python archetype and skips (pytest
+# is not a project dependency). The deep per-chart pipeline (regeneration gate,
+# provenance verification, scans, manifest/allowlist lint) is pr-validate.yaml,
+# which only runs when chart-affecting paths change and only on the entries
+# the PR touches; rescan.yaml lints every entry weekly. Entry lint stays out of
+# here because allowlist expiry would fail PRs that never touched the entry.
 #
 # The reusable workflow is pinned to a full commit SHA (tag in the comment) so a
 # moved tag can never change what runs; Renovate keeps the pin fresh.

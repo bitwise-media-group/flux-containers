@@ -11,17 +11,26 @@
 
 # Included after common, so this lint replaces common's whole-task: it repeats
 # common's rollup (license, container, shell, workflow and prose checks) and
-# appends the patchy lint pass over the entry manifests and CVE allowlists.
+# nothing more. Entry lint is deliberately absent: it checks allowlist expiry
+# against the wall clock, so an entry expiring anywhere in the store would fail
+# every PR. pr-validate gates it per changed entry instead (see lint-entries).
 [lint]
-description = "prose lint + license, container, shell and workflow checks, plus entry manifests and CVE allowlists"
+description = "prose lint + license, container, shell and workflow checks"
 run = [
   { task = "license-check" },
   { task = "lint-containers" },
   { task = "lint-shell" },
   { task = "lint-workflows" },
   { task = "lint-prose" },
-  "patchy mirror validate --all --only lint",
 ]
+
+# Lint every entry's manifest and CVE allowlist. Kept out of lint (and so out
+# of the reusable CI) because allowlist expiry makes it time-dependent:
+# pr-validate lints the entries a PR changes, the weekly rescan lints them all,
+# and validate-all covers it locally via the full `patchy mirror validate`.
+[lint-entries]
+description = "lint every entry's manifest and CVE allowlist"
+run = "patchy mirror validate --all --only lint"
 
 # fmt is common's prose + license headers only, restated here because the
 # python archetype (included for the docs site) would otherwise replace it with

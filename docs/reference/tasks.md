@@ -19,12 +19,13 @@ every entry and print a summary. patchy writes data to stdout and logs to stderr
 
 ## Gates and rollups
 
-| Task   | Runs                                                                                                                             |
-| ------ | -------------------------------------------------------------------------------------------------------------------------------- |
-| `lint` | license headers, container + shell + workflow (actionlint, zizmor) checks, prose, and `patchy mirror validate --all --only lint` |
-| `fmt`  | prose format + license headers. Never rewrites YAML facts (see `.prettierignore`/`.licenseignore`)                               |
-| `ci`   | `lint` + `build`: what the reusable CI workflow covers                                                                           |
-| `pr`   | `fmt`, `validate-all`, `build`. No commit step, like common's                                                                    |
+| Task           | Runs                                                                                                                                                                                        |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `lint`         | license headers, container + shell + workflow (actionlint, zizmor) checks, and prose                                                                                                        |
+| `lint-entries` | `patchy mirror validate --all --only lint`: every entry's manifest and CVE allowlist. Not part of `lint`, because allowlist expiry is time-dependent; pr-validate lints the changed entries |
+| `fmt`          | prose format + license headers. Never rewrites YAML facts (see `.prettierignore`/`.licenseignore`)                                                                                          |
+| `ci`           | `lint` + `build`: what the reusable CI workflow covers                                                                                                                                      |
+| `pr`           | `fmt`, `validate-all`, `build`. No commit step, like common's                                                                                                                               |
 
 ## Documentation
 
