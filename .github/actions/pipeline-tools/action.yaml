@@ -19,7 +19,7 @@ runs:
   using: composite
   steps:
     - name: Set up mise
-      uses: jdx/mise-action@2d8d4cafcbd33be2ea37d2b6f5ad595363d1f1ca # v5.1.1
+      uses: jdx/mise-action@fc42bcc7ddbf51124c30f95a877a0c5168a3bfde # v5.2.1
       with:
         # v-prefixed to match the release tag exactly -- Renovate resolves this
         # value against jdx/mise's release tags, and a bare 2026.7.3 404s (the tag
