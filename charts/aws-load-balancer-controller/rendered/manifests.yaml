@@ -4006,10 +4006,10 @@ metadata:
   namespace: aws-load-balancer-controller
   labels:
     app.kubernetes.io/managed-by: Helm
-    helm.sh/chart: aws-load-balancer-controller-3.6.0
+    helm.sh/chart: aws-load-balancer-controller-3.6.1
     app.kubernetes.io/name: aws-load-balancer-controller
     app.kubernetes.io/instance: aws-load-balancer-controller
-    app.kubernetes.io/version: "v3.6.0"
+    app.kubernetes.io/version: "v3.6.1"
 automountServiceAccountToken: true
 ---
 # Source: aws-load-balancer-controller/templates/rbac.yaml
@@ -4019,10 +4019,10 @@ metadata:
   name: aws-load-balancer-controller-role
   labels:
     app.kubernetes.io/managed-by: Helm
-    helm.sh/chart: aws-load-balancer-controller-3.6.0
+    helm.sh/chart: aws-load-balancer-controller-3.6.1
     app.kubernetes.io/name: aws-load-balancer-controller
     app.kubernetes.io/instance: aws-load-balancer-controller
-    app.kubernetes.io/version: "v3.6.0"
+    app.kubernetes.io/version: "v3.6.1"
 rules:
 # AUTO-GENERATED from config/rbac/role.yaml by hack/sync-rbac-to-helm.sh
 # Do not edit these rules manually. Run 'make manifests' to update.
@@ -4104,10 +4104,10 @@ metadata:
   name: aws-load-balancer-controller-rolebinding
   labels:
     app.kubernetes.io/managed-by: Helm
-    helm.sh/chart: aws-load-balancer-controller-3.6.0
+    helm.sh/chart: aws-load-balancer-controller-3.6.1
     app.kubernetes.io/name: aws-load-balancer-controller
     app.kubernetes.io/instance: aws-load-balancer-controller
-    app.kubernetes.io/version: "v3.6.0"
+    app.kubernetes.io/version: "v3.6.1"
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
@@ -4126,10 +4126,10 @@ metadata:
   namespace: aws-load-balancer-controller
   labels:
     app.kubernetes.io/managed-by: Helm
-    helm.sh/chart: aws-load-balancer-controller-3.6.0
+    helm.sh/chart: aws-load-balancer-controller-3.6.1
     app.kubernetes.io/name: aws-load-balancer-controller
     app.kubernetes.io/instance: aws-load-balancer-controller
-    app.kubernetes.io/version: "v3.6.0"
+    app.kubernetes.io/version: "v3.6.1"
 rules:
 - apiGroups: [""]
   resources: [configmaps]
@@ -4164,10 +4164,10 @@ metadata:
   namespace: aws-load-balancer-controller
   labels:
     app.kubernetes.io/managed-by: Helm
-    helm.sh/chart: aws-load-balancer-controller-3.6.0
+    helm.sh/chart: aws-load-balancer-controller-3.6.1
     app.kubernetes.io/name: aws-load-balancer-controller
     app.kubernetes.io/instance: aws-load-balancer-controller
-    app.kubernetes.io/version: "v3.6.0"
+    app.kubernetes.io/version: "v3.6.1"
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
@@ -4186,10 +4186,10 @@ metadata:
   namespace: aws-load-balancer-controller
   labels:
     app.kubernetes.io/managed-by: Helm
-    helm.sh/chart: aws-load-balancer-controller-3.6.0
+    helm.sh/chart: aws-load-balancer-controller-3.6.1
     app.kubernetes.io/name: aws-load-balancer-controller
     app.kubernetes.io/instance: aws-load-balancer-controller
-    app.kubernetes.io/version: "v3.6.0"
+    app.kubernetes.io/version: "v3.6.1"
     app.kubernetes.io/component: webhook
     prometheus.io/service-monitor: "false"
 spec:
@@ -4210,10 +4210,10 @@ metadata:
   namespace: aws-load-balancer-controller
   labels:
     app.kubernetes.io/managed-by: Helm
-    helm.sh/chart: aws-load-balancer-controller-3.6.0
+    helm.sh/chart: aws-load-balancer-controller-3.6.1
     app.kubernetes.io/name: aws-load-balancer-controller
     app.kubernetes.io/instance: aws-load-balancer-controller
-    app.kubernetes.io/version: "v3.6.0"
+    app.kubernetes.io/version: "v3.6.1"
 spec:
   
   replicas: 2
@@ -4251,7 +4251,7 @@ spec:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: true
           runAsNonRoot: true
-        image: "public.ecr.aws/eks/aws-load-balancer-controller:v3.6.0"
+        image: "public.ecr.aws/eks/aws-load-balancer-controller:v3.6.1"
         imagePullPolicy: IfNotPresent
         volumeMounts:
         - mountPath: /tmp/k8s-webhook-server/serving-certs
@@ -4310,10 +4310,10 @@ metadata:
   name: aws-load-balancer-webhook
   labels:
     app.kubernetes.io/managed-by: Helm
-    helm.sh/chart: aws-load-balancer-controller-3.6.0
+    helm.sh/chart: aws-load-balancer-controller-3.6.1
     app.kubernetes.io/name: aws-load-balancer-controller
     app.kubernetes.io/instance: aws-load-balancer-controller
-    app.kubernetes.io/version: "v3.6.0"
+    app.kubernetes.io/version: "v3.6.1"
 webhooks:
 - clientConfig:
     service:
@@ -4482,10 +4482,10 @@ metadata:
   name: aws-load-balancer-webhook
   labels:
     app.kubernetes.io/managed-by: Helm
-    helm.sh/chart: aws-load-balancer-controller-3.6.0
+    helm.sh/chart: aws-load-balancer-controller-3.6.1
     app.kubernetes.io/name: aws-load-balancer-controller
     app.kubernetes.io/instance: aws-load-balancer-controller
-    app.kubernetes.io/version: "v3.6.0"
+    app.kubernetes.io/version: "v3.6.1"
 webhooks:
 - clientConfig:
     service:
@@ -4565,10 +4565,10 @@ metadata:
   namespace: aws-load-balancer-controller
   labels:
     app.kubernetes.io/managed-by: Helm
-    helm.sh/chart: aws-load-balancer-controller-3.6.0
+    helm.sh/chart: aws-load-balancer-controller-3.6.1
     app.kubernetes.io/name: aws-load-balancer-controller
     app.kubernetes.io/instance: aws-load-balancer-controller
-    app.kubernetes.io/version: "v3.6.0"
+    app.kubernetes.io/version: "v3.6.1"
 spec:
   secretName: aws-load-balancer-root-cert
   duration: "43800h0m0s"
@@ -4589,10 +4589,10 @@ metadata:
   namespace: aws-load-balancer-controller
   labels:
     app.kubernetes.io/managed-by: Helm
-    helm.sh/chart: aws-load-balancer-controller-3.6.0
+    helm.sh/chart: aws-load-balancer-controller-3.6.1
     app.kubernetes.io/name: aws-load-balancer-controller
     app.kubernetes.io/instance: aws-load-balancer-controller
-    app.kubernetes.io/version: "v3.6.0"
+    app.kubernetes.io/version: "v3.6.1"
 spec:
   dnsNames:
   - aws-load-balancer-webhook-service.aws-load-balancer-controller.svc
@@ -4615,10 +4615,10 @@ metadata:
   namespace: aws-load-balancer-controller
   labels:
     app.kubernetes.io/managed-by: Helm
-    helm.sh/chart: aws-load-balancer-controller-3.6.0
+    helm.sh/chart: aws-load-balancer-controller-3.6.1
     app.kubernetes.io/name: aws-load-balancer-controller
     app.kubernetes.io/instance: aws-load-balancer-controller
-    app.kubernetes.io/version: "v3.6.0"
+    app.kubernetes.io/version: "v3.6.1"
 spec:
   selfSigned: {}
 
@@ -4632,10 +4632,10 @@ metadata:
   namespace: aws-load-balancer-controller
   labels:
     app.kubernetes.io/managed-by: Helm
-    helm.sh/chart: aws-load-balancer-controller-3.6.0
+    helm.sh/chart: aws-load-balancer-controller-3.6.1
     app.kubernetes.io/name: aws-load-balancer-controller
     app.kubernetes.io/instance: aws-load-balancer-controller
-    app.kubernetes.io/version: "v3.6.0"
+    app.kubernetes.io/version: "v3.6.1"
 spec:
   ca:
     secretName: aws-load-balancer-root-cert
