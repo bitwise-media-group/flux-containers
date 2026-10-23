@@ -37,4 +37,4 @@ includes = [".mise/common/tasks.toml", ".mise/archetypes/python/tasks.toml", "ta
 # GitHub runner and dev machine ships one.
 "aqua:google/go-containerregistry" = "0.22.1"  # crane
 "aqua:mikefarah/yq" = "4.54.1"
-"github:bitwise-media-group/patchy" = { version = "v0.11.3", matching = "patchy-cli" }
+"github:bitwise-media-group/patchy" = { version = "v0.11.4", matching = "patchy-cli" }
