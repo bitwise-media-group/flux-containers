@@ -20,10 +20,24 @@ images:
       valuesPath: .template.spec.containers[0].image
 ```
 
-`make update` picks a tag and writes it to `valuesPath` in the discovery values. The value there is either a full image
-reference (the pick replaces `image:tag`) or a bare tag, for charts that split `image.repository` from `image.tag`. The
-path must already exist: a pick replaces a value but never creates one. That line is a **fact**. Don't edit it by hand,
-because the next `update` overwrites it. Change the rule instead.
+The pin lives at `valuesPath` in the discovery values. The value there is either a full image reference (`image:tag`)
+or a bare tag, for charts that split `image.repository` from `image.tag`. The path must already exist: a pick replaces a
+value but never creates one. That line is a **fact**. Don't edit it by hand. Change the rule instead.
+
+Two things move it:
+
+- **Renovate** reads the line through a `# renovate:` annotation directly above it, and opens a PR when a newer tag
+  inside the major appears. Every tracked pin needs one, or Renovate never sees it:
+
+  ```yaml
+  image:
+    # renovate: datasource=docker depName=ghcr.io/dexidp/dex
+    tag: v2.46.0
+  ```
+
+  patchy's edits splice only the value token, so the annotation survives `make update`.
+
+- **`make update`** picks a tag past the cooldown (below) and writes it in place.
 
 | Chart                                                           | Tracked image                                                                             | Written to                           |
 | --------------------------------------------------------------- | ----------------------------------------------------------------------------------------- | ------------------------------------ |
@@ -33,6 +47,9 @@ because the next `update` overwrites it. Change the rule instead.
 | [opentelemetry-collector](../charts/opentelemetry-collector.md) | `ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-contrib` | `.image.tag`                         |
 
 ## The cooldown
+
+The cooldown applies to `make update`'s own pick. Renovate can't see when an OCI image was published, so its tracked-tag
+PRs open as soon as the tag appears; the human review is the gate there.
 
 `update` walks the candidate tags from newest to oldest and takes the first one published at least `update.cooldownDays`
 ago. That's 3 days by default, set in `mirror.yaml`. An image can override it with `cooldownDays`, and `0` tracks the
@@ -48,5 +65,6 @@ The pick depends on wall-clock time, so it runs only in `update` and never in `v
 byte-identically. If it re-picked, a tag ageing past the cooldown during review would fail pr-validate on a tree nobody
 had touched. See [Determinism](intent-and-facts.md#determinism).
 
-The daily update-check re-picks tracked images even when no chart version has moved. Those PRs are titled
-`feat(<chart>): update tracked images`.
+Renovate's post-upgrade step (`patchy mirror upgrade --pinned`) doesn't pick either: it keeps the tag Renovate wrote,
+checks it against `versionConstraint`, and regenerates the lock, rendered manifests and allowlist around it. A tracked
+image moves in its own PR, separately from its chart.
