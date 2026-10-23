@@ -26,11 +26,11 @@ Some charts are released together upstream and are only correct as a pair:
 | `arc`  | [gha-runner-scale-set-controller](../charts/gha-runner-scale-set-controller.md), [gha-runner-scale-set](../charts/gha-runner-scale-set.md) | ARC doesn't support a scale set running against a controller of a different version          |
 
 Members share a `chart.lockstep` value. For `make update`, the group's target is the **lowest** of the members' newest
-satisfying versions: if upstream has published `flux-operator 0.59.0` but not yet `flux-instance 0.59.0`, the group stays
-where it is until both exist. Renovate bumps each group in one PR (`renovate/flux`, `renovate/arc`). If it catches only
-one member's release, `patchy mirror upgrade --pinned` refuses the diverged pins and the PR stays red until the partner
-release lands. Either way, a half-mirrored release, where the operator references images the mirror doesn't carry yet,
-can't be produced.
+satisfying versions: if upstream has published `flux-operator 0.59.0` but not yet `flux-instance 0.59.0`, the group
+stays where it is until both exist. Renovate bumps each group in one PR (`renovate/flux`, `renovate/arc`). If it catches
+only one member's release, `patchy mirror upgrade --pinned` refuses the diverged pins and the PR stays red until the
+partner release lands. Either way, a half-mirrored release, where the operator references images the mirror doesn't
+carry yet, can't be produced.
 
 The Renovate groups are declared in `.github/renovate.json5` and duplicate `chart.lockstep`. Keep the two in step when
 adding a group.
