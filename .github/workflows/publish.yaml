@@ -65,11 +65,15 @@ jobs:
           ACCESS_TOKEN: ${{ steps.auth.outputs.access_token }}
         run: |
           # One docker-keychain login covers everything patchy does: image
-          # copies, chart pushes and cosign signing all read it.
-          host="$(yq '.registry.url' mirror.yaml | cut -d/ -f1)"
+          # copies, chart pushes and cosign signing all read it. -e fails the
+          # step if the registry entry moves, rather than logging in to "null"
+          # and leaving every registry call anonymous.
+          host="$(yq -e '.registries[] | select(.name == "google") | .url | split("/") | .[0]' mirror.yaml)"
           crane auth login "$host" --username oauth2accesstoken --password-stdin <<<"$ACCESS_TOKEN"
 
       - name: re-verify and publish
+        # explicit bash adds pipefail, so a failed sync isn't masked by tee
+        shell: bash
         run: |
           # Defense in depth: provenance is re-verified on main before
           # anything is pushed, so nothing merged around the PR gate gets
