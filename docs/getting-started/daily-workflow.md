@@ -35,8 +35,8 @@ make update CHART=kyverno
 manifests, the image lock, `images.extra.yaml` and generated allowlists. If everything is already current, it does
 nothing. `make update-all` does the same for every entry.
 
-For a lockstep pair, run `update` on either member, or let Renovate open the group PR. Both members move to the
-group's target together.
+For a lockstep pair, run `update` on either member, or let Renovate open the group PR. Both members move to the group's
+target together.
 
 ## Validate before you push
 

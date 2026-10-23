@@ -20,8 +20,8 @@ images:
       valuesPath: .template.spec.containers[0].image
 ```
 
-The pin lives at `valuesPath` in the discovery values. The value there is either a full image reference (`image:tag`)
-or a bare tag, for charts that split `image.repository` from `image.tag`. The path must already exist: a pick replaces a
+The pin lives at `valuesPath` in the discovery values. The value there is either a full image reference (`image:tag`) or
+a bare tag, for charts that split `image.repository` from `image.tag`. The path must already exist: a pick replaces a
 value but never creates one. That line is a **fact**. Don't edit it by hand. Change the rule instead.
 
 Two things move it:
