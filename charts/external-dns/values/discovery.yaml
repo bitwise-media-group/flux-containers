@@ -2,10 +2,11 @@
 # SPDX-License-Identifier: MIT
 #
 # Discovery-only values: the google provider configuration the runtime uses
-# (flux-manifests) changes no images. The tag below is FACT, not intent: it
-# is written by the .images.track rule in manifest.yaml (newest soaked
-# external-dns v0.x tag) and re-picked by `patchy mirror upgrade` — never
-# hand-edit it.
+# (flux-manifests) changes no images. The tag below is FACT, not intent:
+# Renovate bumps it through the `# renovate:` annotation (newest external-dns
+# v0.x tag, the .images.track rule in manifest.yaml) and `patchy mirror
+# upgrade` re-picks it locally — never hand-edit it.
 image:
+  # renovate: datasource=docker depName=registry.k8s.io/external-dns/external-dns
   tag: v0.23.0
 policy: sync

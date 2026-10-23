@@ -20,14 +20,16 @@ controllerServiceAccount:
 # runner explicitly is what puts an immutable tag in images.lock.yaml, and the
 # runtime values must reference this same mirrored tag.
 #
-# The image line below is FACT, not intent: it is written by
-# `patchy mirror upgrade` from the .images.track rule in manifest.yaml (newest
-# actions/runner tag past the cooldown) and re-picked by `make update`.
-# Never hand-edit it — change the rule in manifest.yaml instead.
+# The image line below is FACT, not intent: Renovate bumps it through the
+# `# renovate:` annotation (newest actions/runner tag inside the .images.track
+# rule's constraint in manifest.yaml) and `make update` re-picks it locally.
+# Never hand-edit it — change the rule in manifest.yaml instead, and keep the
+# annotation directly above the image line.
 template:
   spec:
     containers:
       - name: runner
+        # renovate: datasource=docker depName=ghcr.io/actions/actions-runner
         image: ghcr.io/actions/actions-runner:2.338.0
         command: ["/home/runner/run.sh"]
 # containerMode is deliberately left unset, so discovery mirrors only actions'
