@@ -21,8 +21,8 @@ make check-updates
 ```
 
 This prints the update plan and changes nothing. It shows each entry's newest upstream version within its
-`versionConstraint`, plus the target for each lockstep group. Most days you won't need it, because the daily
-[update-check workflow](../concepts/automation.md) opens the PRs for you.
+`versionConstraint`, plus the target for each lockstep group. Most days you won't need it, because
+[Renovate](../concepts/updates.md#the-renovate-flow) opens the PRs for you.
 
 ## Bump a chart
 
@@ -35,8 +35,8 @@ make update CHART=kyverno
 manifests, the image lock, `images.extra.yaml` and generated allowlists. If everything is already current, it does
 nothing. `make update-all` does the same for every entry.
 
-For a lockstep pair, run `update` on either member, or let update-check open the group PR. Both members move to the
-group's target together.
+For a lockstep pair, run `update` on either member, or let Renovate open the group PR. Both members move to the group's
+target together.
 
 ## Validate before you push
 
@@ -60,8 +60,10 @@ The diff is exactly what ships, so read it in this order:
 4. **`rendered/manifests.yaml`**: what the chart now does to a cluster (RBAC, webhooks, CRDs).
 5. **`vendor/`**: the raw upstream change, if you need it.
 
-The pr-validate sticky comment summarises the provenance and scan results. Merging is a `/merge` fast-forward (see the
-merge-notice comment on the PR). The publish workflow then pushes and signs whatever is new.
+The pr-validate sticky comment summarises the provenance and scan results. Renovate's update PRs carry the `auto-merge`
+label, so approving one is enough: the merge workflow lands it once every check is green. Anything else merges with a
+`/merge` fast-forward (see the merge-notice comment on the PR). The publish workflow then pushes and signs whatever is
+new.
 
 ## Editing intent
 
