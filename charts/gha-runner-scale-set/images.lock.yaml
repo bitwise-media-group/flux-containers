@@ -1,7 +1,7 @@
 chart:
   name: gha-runner-scale-set
-  version: 0.15.0
-  upstreamTgzSha256: bab4a9ca41730b52cc4aec46dd5623b3d148ca24b4766b9bc25bf5a91f7bfdfe
+  version: 0.15.1
+  upstreamTgzSha256: 233b3c53a7c5ebe91f24ca87736f4b76caf1ae2079482a1d036da828cbe247b1
 images:
   - source: ghcr.io/actions/actions-runner:2.338.0
     digest: sha256:4ffadc0002b2581327e06101fc8c06cd189232baf79fe561fac9caeb76f5e807

@@ -6,10 +6,10 @@ metadata:
   name: gha-runner-scale-set-gha-rs-no-permission
   namespace: arc-runners
   labels:
-    helm.sh/chart: gha-rs-0.15.0
+    helm.sh/chart: gha-rs-0.15.1
     app.kubernetes.io/name: gha-runner-scale-set
     app.kubernetes.io/instance: gha-runner-scale-set
-    app.kubernetes.io/version: "0.15.0"
+    app.kubernetes.io/version: "0.15.1"
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: gha-rs
     actions.github.com/scale-set-name: gha-runner-scale-set
@@ -26,10 +26,10 @@ metadata:
   name: gha-runner-scale-set-gha-rs-manager
   namespace: arc-runners
   labels:
-    helm.sh/chart: gha-rs-0.15.0
+    helm.sh/chart: gha-rs-0.15.1
     app.kubernetes.io/name: gha-runner-scale-set
     app.kubernetes.io/instance: gha-runner-scale-set
-    app.kubernetes.io/version: "0.15.0"
+    app.kubernetes.io/version: "0.15.1"
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: gha-rs
     actions.github.com/scale-set-name: gha-runner-scale-set
@@ -104,10 +104,10 @@ metadata:
   name: gha-runner-scale-set-gha-rs-manager
   namespace: arc-runners
   labels:
-    helm.sh/chart: gha-rs-0.15.0
+    helm.sh/chart: gha-rs-0.15.1
     app.kubernetes.io/name: gha-runner-scale-set
     app.kubernetes.io/instance: gha-runner-scale-set
-    app.kubernetes.io/version: "0.15.0"
+    app.kubernetes.io/version: "0.15.1"
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: gha-rs
     actions.github.com/scale-set-name: gha-runner-scale-set
@@ -136,10 +136,10 @@ metadata:
   namespace: arc-runners
   labels:
     app.kubernetes.io/component: "autoscaling-runner-set"
-    helm.sh/chart: gha-rs-0.15.0
+    helm.sh/chart: gha-rs-0.15.1
     app.kubernetes.io/name: gha-runner-scale-set
     app.kubernetes.io/instance: gha-runner-scale-set
-    app.kubernetes.io/version: "0.15.0"
+    app.kubernetes.io/version: "0.15.1"
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: gha-rs
     actions.github.com/scale-set-name: gha-runner-scale-set
