@@ -112,9 +112,11 @@ scanner change.
 - **publish.yaml** (push to main touching the store): WIF auth as the chart-publisher service account
   (`GCP_WIF_PROVIDER` / `GCP_CHART_PUBLISHER_SA` repository variables, from the terraform artifact-store outputs) →
   `patchy mirror sync --all`.
-- **update-check.yaml** (daily): `patchy mirror upgrade --check`, then one stable `update/<group>` branch and one PR per
-  lockstep group with work, refreshed in place — a newer upstream release rewrites the same PR instead of opening a
-  sibling.
+- **renovate.yaml** (hourly): the org's self-hosted Renovate. Besides tools and actions, it bumps every `chart.version`
+  and tracked image tag, then runs `patchy mirror upgrade --pinned <entry>` to regenerate the derived state in the same
+  PR (`.github/renovate.json5`; lockstep pairs share one PR). PRs carry `auto-merge` and land after human approval.
+- **update-check.yaml** (manual only, retiring): the pre-Renovate sweep — `patchy mirror upgrade --check`, then one
+  `update/<group>` branch and PR per lockstep group with work.
 - **rescan.yaml** (weekly): fresh-DB rescan of the published sets.
 - **docs.yaml** (push to main touching docs or the store, and daily): builds the documentation site and deploys it to
   GitHub Pages.

@@ -13,7 +13,8 @@ chart:
   name: gha-runner-scale-set-controller
   # Released together with gha-runner-scale-set on one version stream, and ARC
   # does not support running a scale set against a different controller
-  # version — the lockstep group makes update-check bump both in one PR.
+  # version — the lockstep group (and Renovate's matching "arc" group) bumps
+  # both in one PR.
   lockstep: arc
   version: "0.15.0"
   versionConstraint: ">=0.14.0 <1.0.0"

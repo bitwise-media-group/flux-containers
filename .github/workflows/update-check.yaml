@@ -11,11 +11,15 @@
 # every release opened a net-new PR and stale siblings piled up conflicting
 # with each other. Now a newer release simply rewrites the same PR to the
 # newer target.
+#
+# RETIRING: Renovate now owns chart and tracked-image updates
+# (.github/renovate.json5, with `patchy mirror upgrade --pinned` regenerating
+# each PR). The schedule is gone so the two never open duplicate PRs; the
+# manual trigger stays as a fallback until Renovate's PRs have merged cleanly,
+# then this workflow and any leftover update/* branches are deleted.
 name: Update Charts
 
 on:
-  schedule:
-    - cron: "0 6 * * *"
   workflow_dispatch:
     inputs:
       entry:

@@ -7,8 +7,9 @@ chart:
   repo: oci://ghcr.io/controlplaneio-fluxcd/charts
   name: flux-operator
   # Released together with flux-instance on one version stream; the lockstep
-  # group makes update-check bump both in one PR (a half-merged pair ships
-  # an operator whose embedded flux release the mirror can't serve yet).
+  # group (and Renovate's matching "flux" group) bumps both in one PR (a
+  # half-merged pair ships an operator whose embedded flux release the mirror
+  # can't serve yet).
   lockstep: flux
   version: "0.61.0"
   versionConstraint: ">=0.20.0 <1.0.0"
