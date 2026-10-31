@@ -22,6 +22,15 @@
 # Ubuntu base package findings, when they appear, belong to neither group and
 # deserve a closer look than the two above.
 vulnerabilities:
+  - id: CVE-2026-105482
+    statement: Fixed in node 22.23.4; the locked image ships 20.20.2. Derived from the image scan at bump time; accepted in PR review.
+    expired_at: "2027-01-29"
+  - id: CVE-2026-106069
+    statement: Fixed in node 22.23.4; the locked image ships 20.20.2. Derived from the image scan at bump time; accepted in PR review.
+    expired_at: "2027-01-29"
+  - id: CVE-2026-111497
+    statement: Fixed in libbrotli1/node 22.23.4; the locked image ships 1.1.0-2build2/20.20.2. Derived from the image scan at bump time; accepted in PR review.
+    expired_at: "2027-01-29"
   - id: CVE-2026-48617
     statement: Fixed in node 22.23.0; the locked image ships 20.20.2. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2026-11-19"
@@ -43,9 +52,9 @@ vulnerabilities:
   - id: GHSA-23hp-3jrh-7fpw
     statement: Fixed in tar 7.5.19; the locked image ships 6.2.1. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2027-01-20"
-  - id: GHSA-2v4p-qf9q-27wj
-    statement: Fixed in google.golang.org/grpc 1.82.2; the locked image ships v1.80.0. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2027-01-05"
+  - id: GHSA-2m5v-pch6-74hx
+    statement: Fixed in undici 6.29.1; the locked image ships 6.28.0. Derived from the image scan at bump time; accepted in PR review.
+    expired_at: "2027-01-29"
   - id: GHSA-34x7-hfp2-rc4v
     statement: Fixed in tar 7.5.7; the locked image ships 6.2.1. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2027-01-20"
@@ -65,16 +74,13 @@ vulnerabilities:
     statement: Fixed in glob 10.5.0; the locked image ships 10.4.2. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2027-01-20"
   - id: GHSA-6j4f-fj2g-mc7p
-    statement: Fixed in brace-expansion 5.0.10; the locked image ships 2.0.1/5.0.7. Derived from the image scan at bump time; accepted in PR review.
+    statement: Fixed in brace-expansion 5.0.10; the locked image ships 2.0.1/5.0.9. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2027-01-05"
   - id: GHSA-7r86-cg39-jmmj
     statement: Fixed in minimatch 9.0.7; the locked image ships 9.0.5. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2027-01-20"
   - id: GHSA-83g3-92jg-28cx
     statement: Fixed in tar 7.5.8; the locked image ships 6.2.1. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2027-01-20"
-  - id: GHSA-846f-f764-76mx
-    statement: Fixed in System.Security.Cryptography.Pkcs 10.0.13; the locked image ships 10.0.12. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2027-01-20"
   - id: GHSA-8qq5-rm4j-mr97
     statement: Fixed in tar 7.5.3; the locked image ships 6.2.1. Derived from the image scan at bump time; accepted in PR review.
@@ -88,72 +94,54 @@ vulnerabilities:
   - id: GHSA-hfg8-hc9c-6c3h
     statement: Fixed in github.com/moby/go-archive 0.3.0; the locked image ships v0.2.0. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2026-11-19"
-  - id: GHSA-hrxh-6v49-42gf
-    statement: Fixed in google.golang.org/grpc 1.82.1; the locked image ships v1.80.0. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2027-01-20"
+  - id: GHSA-mgcc-cww5-fp2q
+    statement: Fixed in github.com/go-jose/go-jose/v4 4.1.6; the locked image ships v4.1.5. Derived from the image scan at bump time; accepted in PR review.
+    expired_at: "2027-01-29"
   - id: GHSA-mh99-v99m-4gvg
-    statement: Fixed in brace-expansion 5.0.8; the locked image ships 2.0.1/5.0.7. Derived from the image scan at bump time; accepted in PR review.
+    statement: Fixed in brace-expansion 2.1.3; the locked image ships 2.0.1. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2026-11-09"
   - id: GHSA-mwp4-54f8-5fhr
-    statement: Fixed in ip-address 10.3.1; the locked image ships 9.0.5/10.2.0. Derived from the image scan at bump time; accepted in PR review.
+    statement: Fixed in ip-address 10.3.1; the locked image ships 9.0.5. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2026-11-09"
   - id: GHSA-qffp-2rhf-9h96
     statement: Fixed in tar 7.5.10; the locked image ships 6.2.1. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2027-01-20"
   - id: GHSA-qhr7-859c-m2p7
-    statement: Fixed in brace-expansion 5.0.11; the locked image ships 2.0.1/5.0.7. Derived from the image scan at bump time; accepted in PR review.
+    statement: Fixed in brace-expansion 5.0.11; the locked image ships 2.0.1/5.0.9. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2027-01-05"
+  - id: GHSA-qrxm-fqhp-jwvm
+    statement: Fixed in undici 6.29.1; the locked image ships 6.28.0. Derived from the image scan at bump time; accepted in PR review.
+    expired_at: "2027-01-29"
   - id: GHSA-r292-9mhp-454m
-    statement: Fixed in tar 7.5.21; the locked image ships 6.2.1/7.5.19. Derived from the image scan at bump time; accepted in PR review.
+    statement: Fixed in tar 7.5.21; the locked image ships 6.2.1. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2026-11-24"
   - id: GHSA-r6q2-hw4h-h46w
     statement: Fixed in tar 7.5.4; the locked image ships 6.2.1. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2027-01-20"
   - id: GHSA-rfgv-xxqx-mfg5
-    statement: Fixed in undici 6.28.1; the locked image ships 6.27.0. Derived from the image scan at bump time; accepted in PR review.
+    statement: Fixed in undici 6.28.1; the locked image ships 6.28.0. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2027-01-05"
   - id: GHSA-rgw5-rvv9-x895
-    statement: Fixed in brace-expansion 5.0.9; the locked image ships 2.0.1/5.0.7. Derived from the image scan at bump time; accepted in PR review.
+    statement: Fixed in brace-expansion 2.1.4; the locked image ships 2.0.1. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2026-11-09"
-  - id: GHSA-vp52-pcj8-j9qc
-    statement: Fixed in google.golang.org/grpc 1.83.1; the locked image ships v1.80.0. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2027-01-05"
   - id: GHSA-w4pp-8pjf-rmxw
     statement: Fixed in pacote 21.5.1; the locked image ships 18.0.6. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2027-01-05"
-  - id: GO-2026-5970
-    statement: Fixed in golang.org/x/text 0.39.0; the locked image ships v0.38.0. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2027-01-20"
+  - id: GHSA-xjj6-f33q-929c
+    statement: Fixed in undici 6.29.1; the locked image ships 6.28.0. Derived from the image scan at bump time; accepted in PR review.
+    expired_at: "2027-01-29"
   - id: GO-2026-6603
-    statement: Fixed in golang.org/x/net/stdlib 1.26.9; the locked image ships go1.26.8/v0.55.0/v0.58.0/v0.59.0. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2027-01-20"
-  - id: GO-2026-6604
-    statement: Fixed in stdlib 1.26.9; the locked image ships go1.26.8. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2027-01-20"
-  - id: GO-2026-6605
-    statement: Fixed in stdlib 1.26.9; the locked image ships go1.26.8. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2027-01-20"
-  - id: GO-2026-6607
-    statement: Fixed in stdlib 1.26.9; the locked image ships go1.26.8. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2027-01-20"
-  - id: GO-2026-6608
-    statement: Fixed in stdlib 1.26.9; the locked image ships go1.26.8. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2027-01-20"
-  - id: GO-2026-6609
-    statement: Fixed in stdlib 1.26.9; the locked image ships go1.26.8. Derived from the image scan at bump time; accepted in PR review.
+    statement: Fixed in golang.org/x/net 0.60.0; the locked image ships v0.58.0/v0.59.0. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2027-01-20"
   - id: GO-2026-6610
-    statement: Fixed in golang.org/x/net/stdlib 1.26.9; the locked image ships go1.26.8/v0.58.0/v0.59.0. Derived from the image scan at bump time; accepted in PR review.
+    statement: Fixed in golang.org/x/net 0.60.0; the locked image ships v0.59.0. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2027-01-20"
   - id: GO-2026-6611
-    statement: Fixed in golang.org/x/net/stdlib 1.26.9; the locked image ships go1.26.8/v0.55.0/v0.58.0/v0.59.0. Derived from the image scan at bump time; accepted in PR review.
+    statement: Fixed in golang.org/x/net 0.60.0; the locked image ships v0.58.0/v0.59.0. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2027-01-20"
   - id: GO-2026-6612
-    statement: Fixed in golang.org/x/net/stdlib 1.26.9; the locked image ships go1.26.8/v0.55.0/v0.58.0/v0.59.0. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2027-01-20"
-  - id: GO-2026-6613
-    statement: Fixed in stdlib 1.26.9; the locked image ships go1.26.8. Derived from the image scan at bump time; accepted in PR review.
+    statement: Fixed in golang.org/x/net 0.60.0; the locked image ships v0.58.0/v0.59.0. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2027-01-20"
   - id: GO-2026-6617
-    statement: Fixed in golang.org/x/net/stdlib 1.26.9; the locked image ships go1.26.8/v0.55.0/v0.58.0/v0.59.0. Derived from the image scan at bump time; accepted in PR review.
+    statement: Fixed in golang.org/x/net 0.60.0; the locked image ships v0.58.0/v0.59.0. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2027-01-20"
