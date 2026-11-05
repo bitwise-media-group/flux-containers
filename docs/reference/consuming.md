@@ -13,6 +13,14 @@ For a registry `<url>` in `mirror.yaml`, which for this store is
 Images keep their **original registry path** under `images/`, so a chart value can be rewritten mechanically: prefix the
 upstream repository with `<url>/images/`. Each chart page lists the exact mirror targets for its locked images.
 
+!!! warning "Only a Google target today"
+
+    `mirror.yaml` lists a single registry, `google`, so every lock's `targets` names only the Artifact Registry path. EKS
+    clusters pull from the ECR registry terraform-aws-eks-flux publishes as `CONTAINER_REGISTRY`, and this store has no
+    ECR target that writes there. Until one exists (another `registries[]` entry, or a replication path into ECR), the
+    images mirrored here, the AWS-only karpenter and aws-load-balancer-controller charts' included, don't reach AWS
+    clusters from this pipeline.
+
 ## Verifying a signature
 
 Everything is signed keylessly by the publish workflow:

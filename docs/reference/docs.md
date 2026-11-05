@@ -32,9 +32,9 @@ a fragment that doesn't exist fails the build loudly.
 
 `values.yaml` files follow two comment conventions, and the generator handles both:
 
-- **helm-docs** (`# -- description`, used by cilium, kyverno, dex, external-dns, flux and renovate). Only keys with a
-  `# --` comment get a description. `# @default -- …` replaces the displayed default, `# @ignored` hides a key, a
-  leading `(type)` sets the type, and cilium's `# @schema` blocks are skipped.
+- **helm-docs** (`# -- description`, used by cilium, kyverno, dex, external-dns, flux, karpenter and renovate). Only
+  keys with a `# --` comment get a description. `# @default -- …` replaces the displayed default, `# @ignored` hides a
+  key, a leading `(type)` sets the type, and cilium's `# @schema` blocks are skipped.
 - **Plain comments** (cert-manager, ARC, the OpenTelemetry collector, the AWS Load Balancer Controller,
   secrets-store-sync-controller). The comment block directly above a key describes it, and a blank line breaks the link.
   Commented-out YAML inside a block is shown as an example, and a block that is only commented-out YAML is dropped.

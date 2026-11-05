@@ -48,7 +48,8 @@ bumps both in one PR; flux-instance also carries the fluxcd distribution control
 `images.extra.yaml`, derived from the operator's embedded manifests), `kyverno`, `cert-manager`, `external-dns`,
 `opentelemetry-collector`, `dex`, `gha-runner-scale-set` + `gha-runner-scale-set-controller` (Actions Runner Controller
 — also a lockstep pair, since ARC does not support a scale set running against a mismatched controller; the scale set's
-runner image rides its own release train and is tracked separately, see below).
+runner image rides its own release train and is tracked separately, see below), `karpenter` (AWS node auto-provisioning;
+chart and controller both keyless-verified).
 
 ### Tracked images
 

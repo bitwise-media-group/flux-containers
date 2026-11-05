@@ -36,8 +36,8 @@ store deliberately uses neither.
 Each manifest says how its upstream signs, and the verify stage checks it:
 
 - **cosign keyless**: flux-operator / fluxcd, kyverno (signatures in `ghcr.io/kyverno/signatures`), cilium, dex, the
-  OpenTelemetry collector, the actions runner, renovate, and the `registry.k8s.io` images signed by the Kubernetes
-  release promoter (external-dns, secrets-store-sync-controller).
+  OpenTelemetry collector, the actions runner, karpenter (chart and controller), renovate, and the `registry.k8s.io`
+  images signed by the Kubernetes release promoter (external-dns, secrets-store-sync-controller).
 - **cosign key**: cert-manager's published project key, with sha512 payload digests.
 - **none**: a documented gap. Several upstreams publish unsigned charts (helm `https://` repositories behind
   chart-releaser, and some OCI charts), and a few publish unsigned images (the ARC controller, the AWS Load Balancer

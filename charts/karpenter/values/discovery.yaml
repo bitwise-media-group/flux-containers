@@ -1,0 +1,18 @@
+# Copyright 2026 BitWise Media Group Ltd
+# SPDX-License-Identifier: MIT
+#
+# Values used to render the chart for review and image discovery — the
+# closest thing to how flux-manifests' karpenter component deploys it. The
+# real cluster name and queue arrive there from terraform's cluster vars
+# (CLUSTER_NAME, KARPENTER_INTERRUPTION_QUEUE); placeholders suffice here.
+settings:
+  clusterName: test
+  interruptionQueue: test-karpenter-interruption
+# The terraform Pod Identity association binds kube-system/karpenter
+# (KARPENTER_SERVICE_ACCOUNT); the chart's own default is the release name.
+serviceAccount:
+  name: karpenter
+# The controller runs on the terraform-managed system node group, never on
+# capacity it provisions itself.
+nodeSelector:
+  role: system
