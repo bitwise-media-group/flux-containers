@@ -53,6 +53,14 @@ images:
       provider: cosign-keyless
       certificateIdentityRegexp: "^https://github.com/actions/runner/"
       certificateOidcIssuer: "https://token.actions.githubusercontent.com"
+    # containerMode dind's sidecar. The chart hardcodes `docker:dind` (no value
+    # overrides it), so the lock pins whatever digest the moving `dind` tag
+    # resolved to at update time, and the mirror serves it under that same tag.
+    # Docker Official Images carry no cosign signature (no .sig tag, no
+    # sigstore bundle among the referrers) — documented gap; the mirror's
+    # signature is the first provenance this image gets.
+    - match: "docker.io/library/docker:*"
+      provider: none
 scan:
   failOn: [CRITICAL, HIGH]
   ignoreUnfixed: true
@@ -65,21 +73,38 @@ scan:
     # Whole-file context for reviewers. Per-finding analysis goes in a `notes`
     # field on the entry itself, which regeneration preserves verbatim.
     preamble: |
-      Every entry here is a *bundled* dependency of something the runner image
-      ships, not of the runner binary itself, in one of two groups:
+      Re-reviewed for containerMode dind (values/discovery.yaml): the scale set
+      now runs a privileged docker:dind sidecar beside the runner, so the DinD
+      toolchain is no longer latent. Every entry is a *bundled* dependency of
+      something the two images ship, not of the runner binary itself, in one of
+      three groups:
 
-        1. The Docker-in-Docker toolchain — /usr/bin/containerd, /usr/bin/dockerd,
-           /usr/bin/ctr, /usr/local/lib/docker/cli-plugins/docker-buildx. Only
-           exercised when a scale set runs with containerMode dind, which
-           values/discovery.yaml deliberately leaves unset. If the runtime enables
-           dind, this group stops being latent and the whole file needs re-review
-           on that basis.
-        2. The npm CLI's own vendored node_modules inside the runner's bundled Node
-           distributions (/home/runner/externals/node20|node24). Reachable only when
-           a workflow invokes npm, and always as workflow-controlled code inside the
-           ephemeral runner pod.
-
-      Ubuntu base package findings, when they appear, belong to neither group and
-      deserve a closer look than the two above.
+        1. The Docker-in-Docker toolchain — REACHABLE. In the docker:dind
+           sidecar, dockerd and containerd run (privileged) and ctr and
+           docker-buildx are present; in the runner image, the docker CLI and
+           /usr/local/lib/docker/cli-plugins/docker-buildx now drive that daemon
+           (the runner's own /usr/bin/dockerd, containerd and ctr stay unused —
+           the daemon is the sidecar's, so the grpc-go, go-jose and x/text
+           findings, which only those runner binaries carry, stay latent). The
+           Go stdlib and golang.org/x/net findings are mostly HTTP/2 and HTTP/1
+           server-side denial-of-service bugs: dockerd listens only on a unix
+           socket in a pod-local emptyDir shared with the runner container, so
+           the only peer is the job's own workflow code, which already runs
+           arbitrary code in the same ephemeral pod and can at worst stall its
+           own daemon. The
+           moby/go-archive path escape (buildx) is reached through
+           workflow-supplied build contexts and images, and writes inside the
+           same ephemeral pod. None of these widens what a dind job can already
+           do: a workflow with the docker socket is root on its node through
+           the privileged sidecar regardless, which is why dind scale sets run
+           on isolated, scale-to-zero capacity of their own. Accepting these is
+           accepting that isolation, not the absence of reachability.
+        2. The npm CLI's own vendored node_modules and the bundled Node
+           runtimes themselves (/home/runner/externals/node20|node24). Reachable
+           only when a workflow invokes node or npm, and always as
+           workflow-controlled code inside the ephemeral runner pod.
+        3. Ubuntu base packages in the runner image (libbrotli1, also bundled
+           by node). These deserve a closer look than the two groups above;
+           each one carries a per-entry note.
 publish:
   chartRepo: charts/gha-runner-scale-set

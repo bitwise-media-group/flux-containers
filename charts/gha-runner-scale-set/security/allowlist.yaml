@@ -5,23 +5,53 @@
 # preserved. Whole-file context lives in scan.allowlist.preamble in
 # manifest.yaml; per-finding analysis goes in a "notes" field on the entry.
 #
-# Every entry here is a *bundled* dependency of something the runner image
-# ships, not of the runner binary itself, in one of two groups:
+# Re-reviewed for containerMode dind (values/discovery.yaml): the scale set
+# now runs a privileged docker:dind sidecar beside the runner, so the DinD
+# toolchain is no longer latent. Every entry is a *bundled* dependency of
+# something the two images ship, not of the runner binary itself, in one of
+# three groups:
 #
-#   1. The Docker-in-Docker toolchain — /usr/bin/containerd, /usr/bin/dockerd,
-#      /usr/bin/ctr, /usr/local/lib/docker/cli-plugins/docker-buildx. Only
-#      exercised when a scale set runs with containerMode dind, which
-#      values/discovery.yaml deliberately leaves unset. If the runtime enables
-#      dind, this group stops being latent and the whole file needs re-review
-#      on that basis.
-#   2. The npm CLI's own vendored node_modules inside the runner's bundled Node
-#      distributions (/home/runner/externals/node20|node24). Reachable only when
-#      a workflow invokes npm, and always as workflow-controlled code inside the
-#      ephemeral runner pod.
-#
-# Ubuntu base package findings, when they appear, belong to neither group and
-# deserve a closer look than the two above.
+#   1. The Docker-in-Docker toolchain — REACHABLE. In the docker:dind
+#      sidecar, dockerd and containerd run (privileged) and ctr and
+#      docker-buildx are present; in the runner image, the docker CLI and
+#      /usr/local/lib/docker/cli-plugins/docker-buildx now drive that daemon
+#      (the runner's own /usr/bin/dockerd, containerd and ctr stay unused —
+#      the daemon is the sidecar's, so the grpc-go, go-jose and x/text
+#      findings, which only those runner binaries carry, stay latent). The
+#      Go stdlib and golang.org/x/net findings are mostly HTTP/2 and HTTP/1
+#      server-side denial-of-service bugs: dockerd listens only on a unix
+#      socket in a pod-local emptyDir shared with the runner container, so
+#      the only peer is the job's own workflow code, which already runs
+#      arbitrary code in the same ephemeral pod and can at worst stall its
+#      own daemon. The
+#      moby/go-archive path escape (buildx) is reached through
+#      workflow-supplied build contexts and images, and writes inside the
+#      same ephemeral pod. None of these widens what a dind job can already
+#      do: a workflow with the docker socket is root on its node through
+#      the privileged sidecar regardless, which is why dind scale sets run
+#      on isolated, scale-to-zero capacity of their own. Accepting these is
+#      accepting that isolation, not the absence of reachability.
+#   2. The npm CLI's own vendored node_modules and the bundled Node
+#      runtimes themselves (/home/runner/externals/node20|node24). Reachable
+#      only when a workflow invokes node or npm, and always as
+#      workflow-controlled code inside the ephemeral runner pod.
+#   3. Ubuntu base packages in the runner image (libbrotli1, also bundled
+#      by node). These deserve a closer look than the two groups above;
+#      each one carries a per-entry note.
 vulnerabilities:
+  - id: CVE-2026-105482
+    statement: Fixed in node 24.22.1; the locked image ships 20.20.2/24.21.0. Derived from the image scan at bump time; accepted in PR review.
+    expired_at: "2027-02-03"
+  - id: CVE-2026-105483
+    statement: Fixed in node 24.22.1; the locked image ships 24.21.0. Derived from the image scan at bump time; accepted in PR review.
+    expired_at: "2027-02-03"
+  - id: CVE-2026-106069
+    statement: Fixed in node 24.22.1; the locked image ships 20.20.2/24.21.0. Derived from the image scan at bump time; accepted in PR review.
+    expired_at: "2027-02-03"
+  - id: CVE-2026-111497
+    statement: Fixed in libbrotli1/node 24.22.1; the locked image ships 1.1.0-2build2/20.20.2/24.21.0. Derived from the image scan at bump time; accepted in PR review.
+    expired_at: "2027-02-03"
+    notes: Ubuntu base package (libbrotli1) plus node's bundled brotli. The runner's own .NET code and Node actions can decode attacker-influenced brotli streams (HTTP responses a workflow fetches), so this is reachable as workflow-driven code inside the ephemeral pod; the fix lands with the next runner image rebuild on the tracked train.
   - id: CVE-2026-48617
     statement: Fixed in node 22.23.0; the locked image ships 20.20.2. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2026-11-19"
@@ -43,6 +73,9 @@ vulnerabilities:
   - id: GHSA-23hp-3jrh-7fpw
     statement: Fixed in tar 7.5.19; the locked image ships 6.2.1. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2027-01-20"
+  - id: GHSA-2m5v-pch6-74hx
+    statement: Fixed in undici 6.29.1; the locked image ships 6.27.0. Derived from the image scan at bump time; accepted in PR review.
+    expired_at: "2027-02-03"
   - id: GHSA-2v4p-qf9q-27wj
     statement: Fixed in google.golang.org/grpc 1.82.2; the locked image ships v1.80.0. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2027-01-05"
@@ -88,9 +121,13 @@ vulnerabilities:
   - id: GHSA-hfg8-hc9c-6c3h
     statement: Fixed in github.com/moby/go-archive 0.3.0; the locked image ships v0.2.0. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2026-11-19"
+    notes: 'DinD toolchain, reachable: docker-buildx in both the runner and the docker:dind sidecar. A crafted archive from a workflow-supplied build context or image can write outside the extraction directory, but only inside the same ephemeral job pod whose workflow already controls it; the privileged sidecar is the larger exposure and is contained by isolated capacity (see preamble).'
   - id: GHSA-hrxh-6v49-42gf
     statement: Fixed in google.golang.org/grpc 1.82.1; the locked image ships v1.80.0. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2027-01-20"
+  - id: GHSA-mgcc-cww5-fp2q
+    statement: Fixed in github.com/go-jose/go-jose/v4 4.1.6; the locked image ships v4.1.4. Derived from the image scan at bump time; accepted in PR review.
+    expired_at: "2027-02-03"
   - id: GHSA-mh99-v99m-4gvg
     statement: Fixed in brace-expansion 5.0.8; the locked image ships 2.0.1/5.0.7. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2026-11-09"
@@ -103,6 +140,9 @@ vulnerabilities:
   - id: GHSA-qhr7-859c-m2p7
     statement: Fixed in brace-expansion 5.0.11; the locked image ships 2.0.1/5.0.7. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2027-01-05"
+  - id: GHSA-qrxm-fqhp-jwvm
+    statement: Fixed in undici 6.29.1; the locked image ships 6.27.0. Derived from the image scan at bump time; accepted in PR review.
+    expired_at: "2027-02-03"
   - id: GHSA-r292-9mhp-454m
     statement: Fixed in tar 7.5.21; the locked image ships 6.2.1/7.5.19. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2026-11-24"
@@ -121,12 +161,16 @@ vulnerabilities:
   - id: GHSA-w4pp-8pjf-rmxw
     statement: Fixed in pacote 21.5.1; the locked image ships 18.0.6. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2027-01-05"
+  - id: GHSA-xjj6-f33q-929c
+    statement: Fixed in undici 6.29.1; the locked image ships 6.27.0. Derived from the image scan at bump time; accepted in PR review.
+    expired_at: "2027-02-03"
   - id: GO-2026-5970
     statement: Fixed in golang.org/x/text 0.39.0; the locked image ships v0.38.0. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2027-01-20"
   - id: GO-2026-6603
     statement: Fixed in golang.org/x/net/stdlib 1.26.9; the locked image ships go1.26.8/v0.55.0/v0.58.0/v0.59.0. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2027-01-20"
+    notes: 'DinD toolchain, reachable: also in the docker:dind sidecar''s Go binaries (ctr and/or docker-buildx), and the runner''s buildx now runs against the sidecar daemon. HTTP/2 DoS against a daemon that listens only on the pod-local unix socket, whose only peer is the job''s own workflow code; isolation, not reachability, is what is accepted (see preamble).'
   - id: GO-2026-6604
     statement: Fixed in stdlib 1.26.9; the locked image ships go1.26.8. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2027-01-20"
@@ -145,15 +189,19 @@ vulnerabilities:
   - id: GO-2026-6610
     statement: Fixed in golang.org/x/net/stdlib 1.26.9; the locked image ships go1.26.8/v0.58.0/v0.59.0. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2027-01-20"
+    notes: 'DinD toolchain, reachable: also in the docker:dind sidecar''s Go binaries (ctr and/or docker-buildx), and the runner''s buildx now runs against the sidecar daemon. HTTP/2 DoS against a daemon that listens only on the pod-local unix socket, whose only peer is the job''s own workflow code; isolation, not reachability, is what is accepted (see preamble).'
   - id: GO-2026-6611
     statement: Fixed in golang.org/x/net/stdlib 1.26.9; the locked image ships go1.26.8/v0.55.0/v0.58.0/v0.59.0. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2027-01-20"
+    notes: 'DinD toolchain, reachable: also in the docker:dind sidecar''s Go binaries (ctr and/or docker-buildx), and the runner''s buildx now runs against the sidecar daemon. HTTP/2 DoS against a daemon that listens only on the pod-local unix socket, whose only peer is the job''s own workflow code; isolation, not reachability, is what is accepted (see preamble).'
   - id: GO-2026-6612
     statement: Fixed in golang.org/x/net/stdlib 1.26.9; the locked image ships go1.26.8/v0.55.0/v0.58.0/v0.59.0. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2027-01-20"
+    notes: 'DinD toolchain, reachable: also in the docker:dind sidecar''s Go binaries (ctr and/or docker-buildx), and the runner''s buildx now runs against the sidecar daemon. HTTP/2 DoS against a daemon that listens only on the pod-local unix socket, whose only peer is the job''s own workflow code; isolation, not reachability, is what is accepted (see preamble).'
   - id: GO-2026-6613
     statement: Fixed in stdlib 1.26.9; the locked image ships go1.26.8. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2027-01-20"
   - id: GO-2026-6617
     statement: Fixed in golang.org/x/net/stdlib 1.26.9; the locked image ships go1.26.8/v0.55.0/v0.58.0/v0.59.0. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2027-01-20"
+    notes: 'DinD toolchain, reachable: also in the docker:dind sidecar''s Go binaries (ctr and/or docker-buildx), and the runner''s buildx now runs against the sidecar daemon. HTTP/2 DoS against a daemon that listens only on the pod-local unix socket, whose only peer is the job''s own workflow code; isolation, not reachability, is what is accepted (see preamble).'

@@ -30,8 +30,14 @@ template:
       - name: runner
         image: ghcr.io/actions/actions-runner:2.338.0
         command: ["/home/runner/run.sh"]
-# containerMode is deliberately left unset, so discovery mirrors only actions'
-# own registry. Setting it to `dind` would pull third-party docker.io/docker:dind
-# into the mirror; `kubernetes` adds no images but needs a work-volume
-# StorageClass. Whichever the runtime picks has to be set here too, so the
-# images it implies are mirrored and scanned.
+# containerMode dind: the runtime runs Docker-in-Docker scale sets
+# (github-arc-app-manifests), so discovery renders the same pod the runtime
+# does and mirrors and scans the chart's dind sidecar image (docker:dind,
+# hardcoded by the chart — no value overrides it) beside the runner. The
+# sidecar runs privileged; isolating it (dedicated capacity, admission) is
+# the runtime's concern, not anything set here. `kubernetes` mode would add
+# no images but needs a work-volume StorageClass. Whichever mode the runtime
+# picks has to be set here too, so the images it implies are mirrored and
+# scanned.
+containerMode:
+  type: dind

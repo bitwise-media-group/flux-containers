@@ -41,8 +41,9 @@ Each manifest says how its upstream signs, and the verify stage checks it:
 - **cosign key**: cert-manager's published project key, with sha512 payload digests.
 - **none**: a documented gap. Several upstreams publish unsigned charts (helm `https://` repositories behind
   chart-releaser, and some OCI charts), and a few publish unsigned images (the ARC controller, the AWS Load Balancer
-  Controller). These are declared as `provider: none` with a comment, and listed in every verify run, so the gap stays
-  visible. For those artifacts, the mirror's signature is the first provenance anything on the path gets.
+  Controller, the `docker:dind` Docker Official Image). These are declared as `provider: none` with a comment, and
+  listed in every verify run, so the gap stays visible. For those artifacts, the mirror's signature is the first
+  provenance anything on the path gets.
 
 The [catalogue](../charts/index.md) shows each chart's archive provenance, and each chart page shows the rule every
 image matched.
