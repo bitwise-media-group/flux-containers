@@ -13,8 +13,8 @@ chart:
   name: gha-runner-scale-set
   # Released together with gha-runner-scale-set-controller on one version
   # stream, and ARC does not support running a scale set against a different
-  # controller version — the lockstep group makes update-check bump both in
-  # one PR.
+  # controller version — the lockstep group (and Renovate's matching "arc"
+  # group) bumps both in one PR.
   lockstep: arc
   version: "0.15.0"
   versionConstraint: ">=0.14.0 <1.0.0"
@@ -30,11 +30,10 @@ discovery:
 images:
   # The runner image rides its own release train (actions/runner 2.x), which
   # says nothing about this chart's version — so `chart.version` can't imply
-  # it and the chart's own default is the mutable `:latest`. `patchy mirror
-  # upgrade` picks the newest tag that has cleared the cooldown and writes it
-  # into valuesPath below; `make update` and the daily update-check workflow
-  # re-pick it. The pinned line in values/discovery.yaml is FACT — never
-  # hand-edit it.
+  # it and the chart's own default is the mutable `:latest`. Renovate bumps
+  # the pin at valuesPath below through its `# renovate:` annotation, and
+  # `make update` re-picks the newest tag that has cleared the cooldown. The
+  # pinned line in values/discovery.yaml is FACT — never hand-edit it.
   track:
     - image: ghcr.io/actions/actions-runner
       versionConstraint: ">=2.320.0 <3.0.0"

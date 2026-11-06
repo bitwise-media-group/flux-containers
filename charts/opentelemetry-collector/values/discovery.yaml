@@ -6,11 +6,13 @@
 # (the googlecloud / googlemanagedprometheus exporters only exist there), so
 # discovery must mirror that exact image.
 #
-# The tag below is FACT, not intent: it is written by the .images.track rule
-# in manifest.yaml (newest soaked contrib 0.x tag) and re-picked by
-# `patchy mirror upgrade` — never hand-edit it. Without the pin the chart
-# falls back to its appVersion, which lags contrib image releases.
+# The tag below is FACT, not intent: Renovate bumps it through the
+# `# renovate:` annotation (newest contrib 0.x tag, the .images.track rule in
+# manifest.yaml) and `patchy mirror upgrade` re-picks it locally — never
+# hand-edit it. Without the pin the chart falls back to its appVersion, which
+# lags contrib image releases.
 mode: deployment
 image:
   repository: ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-contrib
+  # renovate: datasource=docker depName=ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-contrib
   tag: 0.163.1
