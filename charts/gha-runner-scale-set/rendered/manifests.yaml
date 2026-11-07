@@ -6,10 +6,10 @@ metadata:
   name: gha-runner-scale-set-gha-rs-no-permission
   namespace: arc-runners
   labels:
-    helm.sh/chart: gha-rs-0.15.0
+    helm.sh/chart: gha-rs-0.15.1
     app.kubernetes.io/name: gha-runner-scale-set
     app.kubernetes.io/instance: gha-runner-scale-set
-    app.kubernetes.io/version: "0.15.0"
+    app.kubernetes.io/version: "0.15.1"
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: gha-rs
     actions.github.com/scale-set-name: gha-runner-scale-set
@@ -26,10 +26,10 @@ metadata:
   name: gha-runner-scale-set-gha-rs-manager
   namespace: arc-runners
   labels:
-    helm.sh/chart: gha-rs-0.15.0
+    helm.sh/chart: gha-rs-0.15.1
     app.kubernetes.io/name: gha-runner-scale-set
     app.kubernetes.io/instance: gha-runner-scale-set
-    app.kubernetes.io/version: "0.15.0"
+    app.kubernetes.io/version: "0.15.1"
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: gha-rs
     actions.github.com/scale-set-name: gha-runner-scale-set
@@ -104,10 +104,10 @@ metadata:
   name: gha-runner-scale-set-gha-rs-manager
   namespace: arc-runners
   labels:
-    helm.sh/chart: gha-rs-0.15.0
+    helm.sh/chart: gha-rs-0.15.1
     app.kubernetes.io/name: gha-runner-scale-set
     app.kubernetes.io/instance: gha-runner-scale-set
-    app.kubernetes.io/version: "0.15.0"
+    app.kubernetes.io/version: "0.15.1"
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: gha-rs
     actions.github.com/scale-set-name: gha-runner-scale-set
@@ -136,16 +136,16 @@ metadata:
   namespace: arc-runners
   labels:
     app.kubernetes.io/component: "autoscaling-runner-set"
-    helm.sh/chart: gha-rs-0.15.0
+    helm.sh/chart: gha-rs-0.15.1
     app.kubernetes.io/name: gha-runner-scale-set
     app.kubernetes.io/instance: gha-runner-scale-set
-    app.kubernetes.io/version: "0.15.0"
+    app.kubernetes.io/version: "0.15.1"
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: gha-rs
     actions.github.com/scale-set-name: gha-runner-scale-set
     actions.github.com/scale-set-namespace: arc-runners
   annotations:
-    actions.github.com/values-hash: 98be7d4836a4bc8eddb877c2bbe1f545e48ae5668df888a0ed18f858d41c4f7
+    actions.github.com/values-hash: 846e8bcc593a0bcb3d680e89923dd4bf6d477db76269599e32d5adee1727341
     actions.github.com/cleanup-manager-role-binding: gha-runner-scale-set-gha-rs-manager
     actions.github.com/cleanup-manager-role-name: gha-runner-scale-set-gha-rs-manager
     actions.github.com/cleanup-no-permission-service-account-name: gha-runner-scale-set-gha-rs-no-permission
@@ -165,7 +165,7 @@ spec:
       initContainers:
       - name: init-dind-externals
         
-        image: ghcr.io/actions/actions-runner:2.338.0
+        image: ghcr.io/actions/actions-runner:2.338.2
         command: ["cp"]
         args: ["-r", "/home/runner/externals/.", "/home/runner/tmpDir/"]
         volumeMounts:
@@ -204,7 +204,7 @@ spec:
         command: 
           - /home/runner/run.sh
         image: 
-          ghcr.io/actions/actions-runner:2.338.0
+          ghcr.io/actions/actions-runner:2.338.2
         env:
           - name: DOCKER_HOST
             value: unix:///var/run/docker.sock
