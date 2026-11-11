@@ -9,7 +9,7 @@ signatures**. Clusters never pull charts or images from a public registry.
 ## Layout
 
 ```text
-mirror.yaml               pipeline-wide config: registry, signing identity, scan gates
+patchy.yaml               pipeline-wide config: registry, signing identity, scan gates
 charts/<name>/
   manifest.yaml           INTENT — the only human-edited file (pin, constraint, verify rules)
   values/discovery.yaml   INTENT — render values so image discovery is complete
@@ -23,25 +23,27 @@ artifacts/<name>/         same shape for non-chart OCI artifacts (manifest.yaml 
 
 The tree is the registry of entries — `patchy mirror` discovers `charts/*/manifest.yaml` and
 `artifacts/*/manifest.yaml`; nothing lists them centrally. The intent/fact split is the core invariant:
-`make update CHART=<name>` regenerates all facts, and pr-validate fails unless the committed tree regenerates
+`make mirror-upgrade ENTRY=<name>` regenerates all facts, and pr-validate fails unless the committed tree regenerates
 **byte-identically** — so what reviewers see is exactly what ships.
 
 ## Pipeline
 
-The engine is the patchy CLI's `mirror` command group (pinned in `mise.toml`); the mise tasks are thin forwarders:
+The engine is the patchy CLI's `mirror` command group; the toolchain's
+[containers archetype](https://oss.bitwisemedia.uk/toolchain/archetypes/containers/) pins it and supplies the mise
+tasks, which are thin forwarders. `ENTRY` names one or more entries; unset, a task covers every entry:
 
 ```sh
-make check-updates                # the lockstep-aware update plan, read-only
-make update CHART=<name>          # bump pin + tracked tags, regenerate all facts
-make update-all
-make validate CHART=<name>        # regen byte-identity + provenance + scan + lint
-make validate-all
-make add URL=oci://…              # scaffold a new entry (review, then update)
-make publish CHART=<name>         # converge the registry (CI-only in practice)
+make mirror-check                    # the lockstep-aware update plan, read-only
+make mirror-upgrade ENTRY=<name>     # bump pin + tracked tags, regenerate all facts
+make mirror-upgrade                  # ... for every entry
+make mirror-validate ENTRY=<name>    # regen byte-identity + provenance + scan + lint
+make mirror-validate                 # ... for every entry
+make mirror-add URL=oci://…          # scaffold a new entry (review, then upgrade)
+make mirror-publish ENTRY=<name>     # converge the registry (CI-only in practice)
 ```
 
-patchy never runs git: `update` mutates files, `publish` writes only to the registry, and branches, commits and PRs
-belong to the workflows.
+patchy never runs git: `mirror-upgrade` mutates files, `mirror-publish` writes only to the registry, and branches,
+commits and PRs belong to the workflows.
 
 Charts under management: `flux-operator`, `flux-instance` (the pair is released together upstream — the `lockstep` group
 bumps both in one PR; flux-instance also carries the fluxcd distribution controller images in its generated
@@ -59,7 +61,7 @@ chart under `.images.track` in `manifest.yaml`, and `patchy mirror upgrade` writ
 chart's discovery values — that line is FACT, not intent, so change the rule rather than the pin.
 
 Selection walks candidate tags newest-first and takes the first published at least `update.cooldownDays` ago
-(`mirror.yaml`, 3 by default; override per image with `cooldownDays`, or 0 to track head). A release yanked or hot-fixed
+(`patchy.yaml`, 3 by default; override per image with `cooldownDays`, or 0 to track head). A release yanked or hot-fixed
 inside its soak window is therefore never the one the platform adopts — at the cost of deliberately running a release
 behind, so a freshly-published _fix_ waits out the same cooldown. Keep the window short for that reason.
 
@@ -74,7 +76,7 @@ fresh scan of the locked images. Three rules keep the result honest:
 
 - Findings that no longer appear are **dropped** — a stale accept is indistinguishable from a live one.
 - Surviving entries **keep their original `expired_at`**. Regeneration never rolls the clock forward, so expiry stays
-  the forcing function it was designed to be; new entries get `scan.allowlistNewDays` from today.
+  the forcing function it was designed to be; new entries get `scan.allowlist.newDays` from today.
 - Per-entry `notes` are **preserved verbatim**. Statements are machine facts (package, installed, fixed-in); anything a
   human concluded belongs in `notes`, or in `.scan.allowlist.preamble` for whole-file context.
 
@@ -96,7 +98,7 @@ scanner change.
   key-based (cert-manager's project key, sha512 digests). Unsigned upstreams (`provider: none`) are documented gaps,
   listed in every verify run.
 - **Scan gates**: grype fails the pipeline on CRITICAL/HIGH (fixed-upstream only); kubescape runs in warn mode.
-  (`mirror.yaml` can also enable patchy's built-in osv scanner; this store keeps grype, whose finding set the committed
+  (`patchy.yaml` can also enable patchy's built-in osv scanner; this store keeps grype, whose finding set the committed
   allowlists were derived from.) Accepted findings need a statement and an `expired_at` within 90 days — expiry forces
   re-review; the weekly rescan catches CVEs published after merge and files security-labelled issues.
 - **Publish idempotency**: an existing chart tag is never replaced, current-and-signed images are skipped, and the
@@ -108,11 +110,11 @@ scanner change.
 - **ci.yaml** (reusable): repo-wide lint (shellcheck, license headers, prose, actionlint + zizmor) and the documentation
   site build.
 - **pr-validate.yaml**: the deep per-entry gate — `patchy mirror validate` (regeneration byte-identity, provenance,
-  scans, manifest + allowlist lint) on only the entries the PR changes (all of them when `mirror.yaml` changes), sticky
+  scans, manifest + allowlist lint) on only the entries the PR changes (all of them when `patchy.yaml` changes), sticky
   PR comment.
 - **publish.yaml** (push to main touching the store): WIF auth as the chart-publisher service account
-  (`GCP_WIF_PROVIDER` / `GCP_CHART_PUBLISHER_SA` repository variables, from the terraform artifact-store outputs) →
-  `patchy mirror sync --all`.
+  (`GOOGLE_WORKLOAD_IDENTITY_PROVIDER` / `GOOGLE_CHART_PUBLISHER_SA` repository variables, from the terraform
+  artifact-store outputs) → `patchy mirror sync --all`.
 - **update-check.yaml** (daily): `patchy mirror upgrade --check`, then one stable `update/<group>` branch and one PR per
   lockstep group with work, refreshed in place — a newer upstream release rewrites the same PR instead of opening a
   sibling.

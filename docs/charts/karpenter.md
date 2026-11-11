@@ -32,7 +32,7 @@ clusters only.
 
 !!! warning "No AWS mirror target yet"
 
-    `mirror.yaml` publishes to the Google Artifact Registry only. EKS clusters pull from the ECR registry terraform
+    `patchy.yaml` publishes to the Google Artifact Registry only. EKS clusters pull from the ECR registry terraform
     names as `CONTAINER_REGISTRY`, and nothing in this store writes there yet, so this chart's mirrored image only
     reaches AWS clusters once an ECR registry target (or a replication path into ECR) exists. See
     [Consuming the mirror](../reference/consuming.md#where-things-land).

@@ -1,103 +1,22 @@
 # Copyright 2026 BitWise Media Group Ltd
 # SPDX-License-Identifier: MIT
 #
-# The pipeline surface — thin forwarding to `patchy mirror`, which carries
-# the whole engine (vendor, render, discovery, provenance verification,
-# scanning, allowlist derivation, publish). Most tasks operate on a single
-# entry selected by the CHART environment variable (`make update
-# CHART=flux-operator` — the Makefile exports CHART into the task env);
-# the *-all variants attempt every entry and summarize. patchy follows the
-# stdout-for-data, stderr-for-logging convention throughout.
+# Repo-local tasks, included after common and the containers archetype. The
+# pipeline surface is the archetype's: mirror-add, mirror-check,
+# mirror-upgrade, mirror-validate, mirror-lint and mirror-publish forward to
+# `patchy mirror` over the entries ENTRY names (every entry when unset; `make
+# mirror-upgrade ENTRY=dex`). Only the docs site and the local gate live here.
 
-# Included after common, so this lint replaces common's whole-task: it repeats
-# common's rollup (license, container, shell, workflow and prose checks) and
-# nothing more. Entry lint is deliberately absent: it checks allowlist expiry
-# against the wall clock, so an entry expiring anywhere in the store would fail
-# every PR. pr-validate gates it per changed entry instead (see lint-entries).
-[lint]
-description = "prose lint + license, container, shell and workflow checks"
-run = [
-  { task = "license-check" },
-  { task = "lint-containers" },
-  { task = "lint-shell" },
-  { task = "lint-workflows" },
-  { task = "lint-prose" },
-]
-
-# Lint every entry's manifest and CVE allowlist. Kept out of lint (and so out
-# of the reusable CI) because allowlist expiry makes it time-dependent:
-# pr-validate lints the entries a PR changes, the weekly rescan lints them all,
-# and validate-all covers it locally via the full `patchy mirror validate`.
-[lint-entries]
-description = "lint every entry's manifest and CVE allowlist"
-run = "patchy mirror validate --all --only lint"
-
-# fmt is common's prose + license headers only, restated here because the
-# python archetype (included for the docs site) would otherwise replace it with
-# its ruff-first variant: vendored charts, rendered output and image locks
-# must stay byte-identical to what the pipeline generates (see .prettierignore
-# / .licenseignore), so nothing ever rewrites YAML facts.
-[fmt]
-description = "format prose, inject license headers"
-run = [{ task = "fmt-prose" }, { task = "license" }]
-
-[add]
-description = "scaffold a new entry (URL=<upstream>, optionally CHART=<name>)"
-run = 'patchy mirror add ${CHART:-} --url "${URL:?usage: make add URL=<upstream url> [CHART=<name>]}"'
-
-[check-updates]
-description = "print the lockstep-aware update plan without touching the tree"
-run = "patchy mirror upgrade --check --all"
-
-# Bump one entry to the newest upstream version satisfying its constraint
-# AND re-pick any images it tracks on their own release train, then
-# regenerate all derived state (vendor, rendered manifests, image locks,
-# generated allowlists). No-op when everything is already current. The only
-# verb allowed to consult the wall clock: tracked-tag cooldown picks and
-# allowlist expiry stamps happen here, never in validate.
-[update]
-description = "bump entry version + tracked image tags + derived state (CHART=<name>)"
-run = 'patchy mirror upgrade "${CHART:?usage: make update CHART=<name>}"'
-
-[update-all]
-description = "update every entry to its latest available version"
-run = "patchy mirror upgrade --all"
-
-# Full local pipeline for one entry (everything pr-validate runs, minus
-# publish): regenerate out-of-tree and demand byte-identity, verify upstream
-# provenance, scan images + configuration, lint manifests + allowlists.
-[validate]
-description = "full validation for one entry (CHART=<name>)"
-run = 'patchy mirror validate "${CHART:?usage: make validate CHART=<name>}"'
-
-[validate-all]
-description = "full validation for every entry plus the repo-wide lint gates"
-run = [{ task = "lint" }, "patchy mirror validate --all"]
-
-# Converge the registry onto the committed tree: mirror locked images by
-# digest, push charts (never replacing an existing tag), sign everything
-# published. Idempotent — skips are successes. Needs a registry login
-# (`crane auth login …`) with push rights; normally the publish workflow's
-# job, not a workstation's.
-[publish]
-description = "publish one entry's mirrored images and chart (CHART=<name>)"
-run = 'patchy mirror sync "${CHART:?usage: make publish CHART=<name>}"'
-
-[publish-all]
-description = "publish every entry (the publish workflow's verb)"
-run = "patchy mirror sync --all"
-
-# The documentation site (zensical.toml + docs/, built with Zensical via uv —
-# the python archetype supplies `sync` and the uv pin). The chart reference
-# pages embed fragments that scripts/chart_docs.py derives from the committed
-# tree (manifests, image locks, allowlists, vendored values.yaml) into
-# build/chart-docs/, so every docs entry point regenerates them first; the
-# site can never describe a chart version the tree no longer pins.
+# The documentation site (zensical.toml + docs/, built with Zensical via uv).
+# The chart reference pages embed fragments that scripts/chart_docs.py derives
+# from the committed tree (manifests, image locks, allowlists, vendored
+# values.yaml) into build/chart-docs/, so every docs entry point regenerates
+# them first; the site can never describe a chart version the tree no longer
+# pins. ci, pr and the docs workflow all build through docs-build.
 [docs-gen]
 hide = true
 dir = "{{config_root}}"
-depends = ["sync"]
-run = "uv run --no-sync python scripts/chart_docs.py"
+run = ["uv sync", "uv run --no-sync python scripts/chart_docs.py"]
 
 [docs-build]
 description = "build the documentation site (chart references + zensical)"
@@ -109,21 +28,19 @@ description = "serve the docs site locally on :8003 (zensical)"
 dir = "{{config_root}}"
 run = [{ task = "docs-gen" }, "uv run --no-sync zensical serve"]
 
-# The reusable CI workflow runs `mise run build` when the task exists, so a
-# broken docs page (or a chart page whose generated fragment is missing) fails
-# the PR.
-[build]
-description = "build the documentation site"
-run = [{ task = "docs-build" }]
-
-# Replaces the python archetype's lint + test + build: there is no test here.
-[ci]
-description = "the gates the reusable CI workflow runs (the deep per-entry pipeline lives in pr-validate)"
-run = [{ task = "lint" }, { task = "build" }]
-
-# common's pr is fmt + lint; this one runs the full pipeline instead
-# (validate-all includes lint) plus the docs build. Like common's, it has no
-# commit step.
+# The archetype's pr leaves the mirror out, because mirror-validate pulls every
+# upstream chart and its lint is time-dependent (allowlist expiry). Locally,
+# before a pull request, the whole store is exactly what should be proved:
+# regenerate out-of-tree and demand byte-identity, verify upstream provenance,
+# scan, lint. The reusable CI keeps to `ci` (lint, build, docs-build), and
+# pr-validate runs the same validation on the entries a pull request changes.
 [pr]
-description = "full pipeline + lint gates + docs build — run before opening a pull request"
-run = [{ task = "fmt" }, { task = "validate-all" }, { task = "build" }]
+description = "full local gate before a pull request (the whole mirror pipeline + the docs site)"
+run = [
+  { task = "fmt" },
+  { task = "lint" },
+  { task = "mirror-validate" },
+  { task = "build" },
+  { task = "docs-build" },
+  { task = "commit" },
+]

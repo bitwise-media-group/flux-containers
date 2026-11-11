@@ -4,13 +4,13 @@
 
 `patchy mirror upgrade` takes the newest upstream release that satisfies the entry's `chart.versionConstraint`. The
 constraint is usually "stay in the current major" (`>=1.18.0 <2.0.0`). Moving to a new major is a deliberate manifest
-edit, never something the daily sweep does on its own. `make update` makes no change when the pin is already the newest
-satisfying release.
+edit, never something the daily sweep does on its own. `make mirror-upgrade` makes no change when the pin is already the
+newest satisfying release.
 
 ```sh
-make check-updates                  # the plan, as a table; nothing is written
-make update CHART=external-dns      # one entry
-make update-all                     # every entry
+make mirror-check                  # the plan, as a table; nothing is written
+make mirror-upgrade ENTRY=external-dns      # one entry
+make mirror-upgrade                     # every entry
 ```
 
 ## Lockstep groups

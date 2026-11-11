@@ -32,13 +32,13 @@ images:
   # says nothing about this chart's version — so `chart.version` can't imply
   # it and the chart's own default is the mutable `:latest`. `patchy mirror
   # upgrade` picks the newest tag that has cleared the cooldown and writes it
-  # into valuesPath below; `make update` and the daily update-check workflow
+  # into valuesPath below; `make mirror-upgrade` and the daily update-check workflow
   # re-pick it. The pinned line in values/discovery.yaml is FACT — never
   # hand-edit it.
   track:
     - image: ghcr.io/actions/actions-runner
       versionConstraint: ">=2.320.0 <3.0.0"
-      # cooldownDays inherits mirror.yaml .update.cooldownDays (3).
+      # cooldownDays inherits patchy.yaml mirror.update.cooldownDays (3).
       valuesFile: values/discovery.yaml
       valuesPath: .template.spec.containers[0].image
   extra: []

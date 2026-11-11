@@ -2,7 +2,7 @@
 
 ## The gates
 
-`mirror.yaml` sets the policy for the whole store, and each chart's manifest can override `failOn` and `ignoreUnfixed`
+`patchy.yaml` sets the policy for the whole store, and each chart's manifest can override `failOn` and `ignoreUnfixed`
 in its own `scan` block:
 
 - **grype** scans every locked image. It **fails** the pipeline on `CRITICAL` and `HIGH` findings that have an upstream
@@ -24,24 +24,24 @@ vulnerabilities:
     notes: Not reachable — the connector that links this is not configured on the platform.
 ```
 
-Every entry needs a **statement** and an **`expired_at`** no more than `allowlistMaxDays` (90) days out. Expiry is what
-makes acceptance temporary: when the date passes, the finding blocks again until someone either fixes it (usually with a
-chart or image bump) or re-accepts it with a fresh review. Entries match by finding ID **and its aliases**, since CVE
-and GHSA identifiers reference each other, so an entry still applies if the scanner reports the finding under another
-ID.
+Every entry needs a **statement** and an **`expired_at`** no more than `scan.allowlist.maxDays` (90) days out. Expiry is
+what makes acceptance temporary: when the date passes, the finding blocks again until someone either fixes it (usually
+with a chart or image bump) or re-accepts it with a fresh review. Entries match by finding ID **and its aliases**, since
+CVE and GHSA identifiers reference each other, so an entry still applies if the scanner reports the finding under
+another ID.
 
 Each chart page lists its current entries, ordered by expiry, under **Accepted findings**.
 
 ## Generated allowlists
 
 Once images bump on their own schedule, copying a list of CVEs into the allowlist by hand on every bump isn't really
-review. A chart can opt in with `scan.allowlist.generate: true`, and then `make update` rebuilds the file from a fresh
-scan of the locked images. Every chart in this store has opted in. Three rules keep the result honest:
+review. A chart can opt in with `scan.allowlist.generate: true`, and then `make mirror-upgrade` rebuilds the file from a
+fresh scan of the locked images. Every chart in this store has opted in. Three rules keep the result honest:
 
 - **Findings that no longer appear are dropped.** A stale acceptance can't be told apart from a live one, so it doesn't
   stay.
 - **Surviving entries keep their original `expired_at`.** Regeneration never moves the date later, so expiry still
-  forces a review. New entries get `allowlistNewDays` (90) from today.
+  forces a review. New entries get `scan.allowlist.newDays` (90) from today.
 - **Per-entry `notes` are kept verbatim.** Statements are machine facts (package, installed version, fixed-in version).
   Anything a human concluded goes in `notes`, or in `scan.allowlist.preamble` for context about the whole file. The
   preamble is rendered as comments at the top of the generated file.

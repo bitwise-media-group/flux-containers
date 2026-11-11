@@ -11,13 +11,14 @@ mise trust --all
 make help
 ```
 
-`make <task>` and `mise run <task>` are interchangeable. The Makefile only forwards, and exports `CHART` so
-`make update CHART=dex` is the same as `CHART=dex mise run update`. The full list is in [Tasks](../reference/tasks.md).
+`make <task>` and `mise run <task>` are interchangeable. The Makefile only forwards, and make passes `ENTRY` through, so
+`make mirror-upgrade ENTRY=dex` is the same as `ENTRY=dex mise run mirror-upgrade`. The full list is in
+[Tasks](../reference/tasks.md).
 
 ## See what's out of date
 
 ```sh
-make check-updates
+make mirror-check
 ```
 
 This prints the update plan and changes nothing. It shows each entry's newest upstream version within its
@@ -27,13 +28,13 @@ This prints the update plan and changes nothing. It shows each entry's newest up
 ## Bump a chart
 
 ```sh
-make update CHART=kyverno
+make mirror-upgrade ENTRY=kyverno
 ```
 
 `update` (`patchy mirror upgrade`) moves the pin to the newest version that satisfies the constraint. It re-picks any
 [tracked images](../concepts/tracked-images.md), then regenerates every fact: the vendored chart, the rendered
 manifests, the image lock, `images.extra.yaml` and generated allowlists. If everything is already current, it does
-nothing. `make update-all` does the same for every entry.
+nothing. `make mirror-upgrade` does the same for every entry.
 
 For a lockstep pair, run `update` on either member, or let update-check open the group PR. Both members move to the
 group's target together.
@@ -41,11 +42,11 @@ group's target together.
 ## Validate before you push
 
 ```sh
-make validate CHART=kyverno
+make mirror-validate ENTRY=kyverno
 ```
 
 `validate` runs everything pr-validate runs for one entry: it regenerates out of tree and requires the result to be
-byte-identical to the commit, then verifies provenance, scans, and lints. `make validate-all` covers every entry and
+byte-identical to the commit, then verifies provenance, scans, and lints. `make mirror-validate` covers every entry and
 adds the repo-wide lint gates. `make pr` formats, validates everything and builds this site.
 
 ## Reviewing an update PR
@@ -65,5 +66,6 @@ merge-notice comment on the PR). The publish workflow then pushes and signs what
 
 ## Editing intent
 
-When you change a manifest rule, discovery values or a hand-written allowlist entry, run `make update CHART=<name>`
-afterwards. That regenerates the facts the change affects, and pr-validate fails if they're stale.
+When you change a manifest rule, discovery values or a hand-written allowlist entry, run
+`make mirror-upgrade ENTRY=<name>` afterwards. That regenerates the facts the change affects, and pr-validate fails if
+they're stale.

@@ -7,9 +7,8 @@
 # platform Artifact Registry with keyless cosign signatures.
 #
 # Everything lives in mise tasks: the shared toolchain submodule at .mise/
-# provides the pinned tools + the common-only lint contract (selected in the
-# root mise.toml), and tasks.toml carries the pipeline surface. This Makefile
-# is only the thin forwarding shim —
-# `make <task> CHART=<name>` == `CHART=<name> mise run <task>`.
-export CHART
-include .mise/archetypes/python/include.mk
+# provides the pinned tools, the common lint contract and the containers
+# archetype's mirror-* tasks (selected in the root mise.toml), and tasks.toml
+# adds the docs site. This Makefile is only the thin forwarding shim —
+# `make mirror-upgrade ENTRY=<name>` == `ENTRY=<name> mise run mirror-upgrade`.
+include .mise/archetypes/containers/include.mk

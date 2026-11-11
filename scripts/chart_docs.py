@@ -152,7 +152,7 @@ def chart_ref(chart: Chart, registry: dict[str, Any]) -> str:
     return f"oci://{registry['url']}/{repo}"
 
 
-def render_facts(chart: Chart, mirror: dict[str, Any]) -> str:
+def render_facts(chart: Chart, config: dict[str, Any]) -> str:
     c = chart.manifest["chart"]
     d = chart.manifest.get("discovery", {})
     rows = [
@@ -173,7 +173,7 @@ def render_facts(chart: Chart, mirror: dict[str, Any]) -> str:
         ("Discovery namespace", code(d.get("namespace", "default"))),
         ("Discovery kubeVersion", code(d.get("kubeVersion", "—"))),
     ]
-    for registry in mirror.get("registries", []):
+    for registry in config.get("registries", []):
         ref = chart_ref(chart, registry)
         rows.append((f"Published chart ({registry['name']})", f"{code(ref)} (tag {code(chart.version)})"))
 
@@ -271,7 +271,7 @@ def render_allowlist(chart: Chart, today: date) -> str:
     if expired:
         out.append(
             f'!!! warning "{expired} acceptance{"s have" if expired != 1 else " has"} expired"\n\n'
-            f"    As of {today.isoformat()}, when this site was built. Expired entries block `make validate` "
+            f"    As of {today.isoformat()}, when this site was built. Expired entries block `make mirror-validate` "
             "until the finding is fixed (usually by an update) or re-accepted in review.\n"
         )
     out += ["| Finding | Expires | Statement |", "| --- | --- | --- |"]
@@ -616,7 +616,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--out", type=Path, default=Path("build/chart-docs"), help="output directory")
     args = parser.parse_args(argv)
 
-    mirror = load_yaml(args.root / "mirror.yaml")
+    config = load_yaml(args.root / "patchy.yaml")
     charts = [load_chart(p.parent) for p in sorted((args.root / "charts").glob("*/manifest.yaml"))]
     today = date.today()
 
@@ -627,7 +627,7 @@ def main(argv: list[str] | None = None) -> int:
     for c in charts:
         d = args.out / c.name
         d.mkdir()
-        (d / "facts.md").write_text(render_facts(c, mirror), encoding="utf-8")
+        (d / "facts.md").write_text(render_facts(c, config), encoding="utf-8")
         (d / "images.md").write_text(render_images(c), encoding="utf-8")
         (d / "allowlist.md").write_text(render_allowlist(c, today), encoding="utf-8")
         (d / "values.md").write_text(render_values(c), encoding="utf-8")

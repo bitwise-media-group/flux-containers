@@ -61,7 +61,7 @@ nav = [
   { "Reference" = [
     { "Tasks" = "reference/tasks.md" },
     { "Chart manifest" = "reference/manifest.md" },
-    { "mirror.yaml" = "reference/mirror-config.md" },
+    { "patchy.yaml" = "reference/mirror-config.md" },
     { "Consuming the mirror" = "reference/consuming.md" },
     { "Working on the docs" = "reference/docs.md" },
   ] },
@@ -170,7 +170,7 @@ github = "GitHub"
 # defaults wholesale, so the block below mirrors them verbatim and adds
 # pymdownx.snippets, which lets pages include other files with the
 # `--8<-- "path"` marker (paths resolve against the build directory).
-# base_path also lists the repo root, so pages embed the live mirror.yaml,
+# base_path also lists the repo root, so pages embed the live patchy.yaml,
 # tasks.toml and chart manifests — and the build/chart-docs/ fragments
 # generated from them — instead of copies that drift with every chart bump.
 # https://zensical.org/docs/setup/extensions/

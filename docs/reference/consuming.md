@@ -2,7 +2,7 @@
 
 ## Where things land
 
-For a registry `<url>` in `mirror.yaml`, which for this store is
+For a registry `<url>` in `patchy.yaml`, which for this store is
 `us-central1-docker.pkg.dev/o-foundation-7e43/platform`:
 
 | What  | Reference                                            | Example                                                              |
@@ -15,7 +15,7 @@ upstream repository with `<url>/images/`. Each chart page lists the exact mirror
 
 !!! warning "Only a Google target today"
 
-    `mirror.yaml` lists a single registry, `google`, so every lock's `targets` names only the Artifact Registry path. EKS
+    `patchy.yaml` lists a single registry, `google`, so every lock's `targets` names only the Artifact Registry path. EKS
     clusters pull from the ECR registry terraform-aws-eks-flux publishes as `CONTAINER_REGISTRY`, and this store has no
     ECR target that writes there. Until one exists (another `registries[]` entry, or a replication path into ECR), the
     images mirrored here, the AWS-only karpenter and aws-load-balancer-controller charts' included, don't reach AWS

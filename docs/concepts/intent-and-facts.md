@@ -3,27 +3,27 @@
 Every file in a chart directory is one of two kinds. **Intent** is what a human decided. **Facts** are what a machine
 derived from that intent and from upstream. Reviewers approve intent. The pipeline proves the facts follow from it.
 
-| File                      | Kind      | Written by                               | Says                                                         |
-| ------------------------- | --------- | ---------------------------------------- | ------------------------------------------------------------ |
-| `manifest.yaml`           | intent    | you (version bumps: `make update`)       | which chart, which versions, how upstream signs, what to add |
-| `values/discovery.yaml`   | intent    | you (tracked-image lines: `make update`) | the values to render with so discovery sees every image      |
-| `security/allowlist.yaml` | intent    | you, or `make update` when generated     | which scan findings are accepted, why, and until when        |
-| `images.extra.yaml`       | generated | `make update`                            | extra images derived from distribution manifests             |
-| `vendor/<chart>/`         | fact      | `make update`                            | the upstream chart, byte for byte                            |
-| `rendered/manifests.yaml` | fact      | `make update`                            | the `helm template` output for the discovery values          |
-| `images.lock.yaml`        | fact      | `make update`                            | every image, resolved to a digest, with its mirror targets   |
+| File                      | Kind      | Written by                                       | Says                                                         |
+| ------------------------- | --------- | ------------------------------------------------ | ------------------------------------------------------------ |
+| `manifest.yaml`           | intent    | you (version bumps: `make mirror-upgrade`)       | which chart, which versions, how upstream signs, what to add |
+| `values/discovery.yaml`   | intent    | you (tracked-image lines: `make mirror-upgrade`) | the values to render with so discovery sees every image      |
+| `security/allowlist.yaml` | intent    | you, or `make mirror-upgrade` when generated     | which scan findings are accepted, why, and until when        |
+| `images.extra.yaml`       | generated | `make mirror-upgrade`                            | extra images derived from distribution manifests             |
+| `vendor/<chart>/`         | fact      | `make mirror-upgrade`                            | the upstream chart, byte for byte                            |
+| `rendered/manifests.yaml` | fact      | `make mirror-upgrade`                            | the `helm template` output for the discovery values          |
+| `images.lock.yaml`        | fact      | `make mirror-upgrade`                            | every image, resolved to a digest, with its mirror targets   |
 
 Some intent files contain machine-written lines. The version in `manifest.yaml`, the tracked image tag in
-`values/discovery.yaml`, and a generated allowlist are all written by `make update`. To change one of those, change the
-rule that produces it: the constraint, the track rule, or the scan. Don't edit the value.
+`values/discovery.yaml`, and a generated allowlist are all written by `make mirror-upgrade`. To change one of those,
+change the rule that produces it: the constraint, the track rule, or the scan. Don't edit the value.
 
 ## The byte-identity gate
 
-`make update` (`patchy mirror upgrade`) is the only command that writes facts. `make validate` and pr-validate run the
-same regeneration out of tree and **byte-compare** the result with the commit. A mismatch fails the PR, and it means one
-of three things:
+`make mirror-upgrade` (`patchy mirror upgrade`) is the only command that writes facts. `make mirror-validate` and
+pr-validate run the same regeneration out of tree and **byte-compare** the result with the commit. A mismatch fails the
+PR, and it means one of three things:
 
-- someone edited intent without running `make update`;
+- someone edited intent without running `make mirror-upgrade`;
 - someone edited a fact by hand;
 - upstream changed something it had already released, such as a re-pushed chart version or a mutated tag.
 

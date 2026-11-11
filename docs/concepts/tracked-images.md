@@ -15,15 +15,15 @@ images:
   track:
     - image: ghcr.io/actions/actions-runner
       versionConstraint: ">=2.320.0 <3.0.0" # optional; default: the pinned tag's own major
-      cooldownDays: 3 # optional; default: mirror.yaml update.cooldownDays
+      cooldownDays: 3 # optional; default: patchy.yaml mirror.update.cooldownDays
       valuesFile: values/discovery.yaml # optional; default: the first discovery values file
       valuesPath: .template.spec.containers[0].image
 ```
 
-`make update` picks a tag and writes it to `valuesPath` in the discovery values. The value there is either a full image
-reference (the pick replaces `image:tag`) or a bare tag, for charts that split `image.repository` from `image.tag`. The
-path must already exist: a pick replaces a value but never creates one. That line is a **fact**. Don't edit it by hand,
-because the next `update` overwrites it. Change the rule instead.
+`make mirror-upgrade` picks a tag and writes it to `valuesPath` in the discovery values. The value there is either a
+full image reference (the pick replaces `image:tag`) or a bare tag, for charts that split `image.repository` from
+`image.tag`. The path must already exist: a pick replaces a value but never creates one. That line is a **fact**. Don't
+edit it by hand, because the next `update` overwrites it. Change the rule instead.
 
 | Chart                                                           | Tracked image                                                                             | Written to                           |
 | --------------------------------------------------------------- | ----------------------------------------------------------------------------------------- | ------------------------------------ |
@@ -35,7 +35,7 @@ because the next `update` overwrites it. Change the rule instead.
 ## The cooldown
 
 `update` walks the candidate tags from newest to oldest and takes the first one published at least `update.cooldownDays`
-ago. That's 3 days by default, set in `mirror.yaml`. An image can override it with `cooldownDays`, and `0` tracks the
+ago. That's 3 days by default, set in `patchy.yaml`. An image can override it with `cooldownDays`, and `0` tracks the
 newest tag immediately.
 
 So a release that upstream yanks or hot-fixes within its first few days is never the one the platform adopts. The cost

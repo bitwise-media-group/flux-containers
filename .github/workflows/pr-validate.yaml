@@ -18,10 +18,9 @@ on:
     paths:
       - "charts/**"
       - "artifacts/**"
-      - "mirror.yaml"
+      - "patchy.yaml"
       - "Makefile"
       - "mise.toml"
-      - "mise.lock"
       - "tasks.toml"
       - ".mise"
 
@@ -51,8 +50,8 @@ jobs:
           BASE_REF: ${{ github.base_ref }}
         run: |
           changed="$(git diff --name-only "origin/$BASE_REF"...HEAD -- charts/ artifacts/ | cut -d/ -f2 | sort -u | xargs)"
-          # A mirror.yaml change affects every entry.
-          if ! git diff --quiet "origin/$BASE_REF"...HEAD -- mirror.yaml; then
+          # A patchy.yaml change affects every entry.
+          if ! git diff --quiet "origin/$BASE_REF"...HEAD -- patchy.yaml; then
             changed="--all"
           fi
           echo "changed=$changed" >> "$GITHUB_OUTPUT"

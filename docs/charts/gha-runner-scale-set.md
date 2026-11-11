@@ -24,9 +24,9 @@ component.
   scanned and mirrored beside the runner, at `images/docker.io/library/docker:dind`. The chart hardcodes that image and
   no value overrides it, so a deployment that must pull from the mirror rewrites the sidecar's image after rendering
   (for example with a Flux `postRenderers` patch) or spells the dind template out by hand with `containerMode` unset.
-- **`dind` is a moving tag.** The lock records the digest the tag resolved to at the last `make update`, and the mirror
-  publishes that digest under the same tag. Docker rebuilds `dind` often, so expect the digest to move whenever this
-  chart is updated.
+- **`dind` is a moving tag.** The lock records the digest the tag resolved to at the last `make mirror-upgrade`, and the
+  mirror publishes that digest under the same tag. Docker rebuilds `dind` often, so expect the digest to move whenever
+  this chart is updated.
 - **Signed runner, unsigned chart and dind.** The runner image is keyless-signed by the `actions/runner` release
   workflow, as a sigstore bundle attached via OCI referrers. The chart and the `docker:dind` Docker Official Image carry
   no cosign signature upstream (documented gaps).

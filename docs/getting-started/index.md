@@ -15,8 +15,8 @@ For each chart, the mirror:
 6. **Publishes** the chart and images to the platform registry after merge, signed keylessly by the publish workflow.
 
 The engine is the [`patchy mirror`](https://oss.bitwisemedia.uk/patchy/cli/patchy_mirror/) command group of the patchy
-CLI, pinned in `mise.toml`. This repository holds the data it operates on and the workflows that drive it. The mise
-tasks are thin forwarders.
+CLI, pinned by the toolchain's containers archetype. This repository holds the data it operates on and the workflows
+that drive it. The mise tasks are thin forwarders.
 
 ## Where it sits
 
@@ -27,14 +27,14 @@ flowchart LR
   ar[("Platform Artifact Registry<br/>charts/ · images/")]
   fm["flux-manifests<br/>OCIRepository + HelmRelease"]
   k8s["Clusters"]
-  up -- "make update / pr-validate" --> fc
+  up -- "make mirror-upgrade / pr-validate" --> fc
   fc -- "publish.yaml<br/>keyless cosign" --> ar
   fm -. "chart + image refs<br/>pinned signer identity" .-> ar
   ar --> k8s
 ```
 
-- **Upstream** is only contacted by this repository's tooling: on `make update`, in pr-validate, and by the publish
-  workflow as it copies images.
+- **Upstream** is only contacted by this repository's tooling: on `make mirror-upgrade`, in pr-validate, and by the
+  publish workflow as it copies images.
 - **The platform registry** is a single Artifact Registry repository created by the terraform artifact-store module.
   Charts live under `charts/` and images under `images/<original registry path>`.
 - **flux-manifests** points its `OCIRepository` sources and image values at the registry, and requires the publish
@@ -43,7 +43,7 @@ flowchart LR
 ## Repository layout
 
 ```text
-mirror.yaml                 pipeline-wide config: registry, signing identity, cooldown, scan gates
+patchy.yaml                 pipeline-wide config: registry, signing identity, cooldown, scan gates
 charts/<name>/
   manifest.yaml             INTENT — the only hand-edited file (pin, constraint, verify rules)
   values/discovery.yaml     INTENT — render values so image discovery is complete

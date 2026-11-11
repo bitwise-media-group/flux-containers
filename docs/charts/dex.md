@@ -14,8 +14,8 @@ Google, LDAP and others) through pluggable connectors. It's deployed by the flux
 
 - **The image is tracked, not taken from the chart.** Dex images release faster than the chart, and the chart's
   `appVersion` can lag new `v2.x` images for months. Pinning the chart alone would strand the platform on a vulnerable
-  image. A track rule re-picks the newest `v2.x` tag that has cleared the cooldown on every `make update` and writes it
-  to `.image.tag` in the discovery values. That line is a fact; don't edit it by hand. See
+  image. A track rule re-picks the newest `v2.x` tag that has cleared the cooldown on every `make mirror-upgrade` and
+  writes it to `.image.tag` in the discovery values. That line is a fact; don't edit it by hand. See
   [Tracked images](../concepts/tracked-images.md).
 - **Unsigned chart, signed image.** The chart is a GitHub release asset behind a `gh-pages` index (chart-releaser, no
   signing), which is a documented gap. The image is keyless-signed by the `dexidp/dex` release workflow.

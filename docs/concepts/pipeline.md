@@ -3,11 +3,11 @@
 The pipeline is the [`patchy mirror`](https://oss.bitwisemedia.uk/patchy/cli/patchy_mirror/) command group. Three verbs
 do all the work, and each touches exactly one place:
 
-| Verb       | Task                     | Writes to        | Purpose                                         |
-| ---------- | ------------------------ | ---------------- | ----------------------------------------------- |
-| `upgrade`  | `make update`            | the working tree | move pins forward and regenerate every fact     |
-| `validate` | `make validate`          | nothing          | prove the commit is current, verified and clean |
-| `sync`     | `make publish` (CI only) | the registry     | converge the registry onto the commit, signed   |
+| Verb       | Task                            | Writes to        | Purpose                                         |
+| ---------- | ------------------------------- | ---------------- | ----------------------------------------------- |
+| `upgrade`  | `make mirror-upgrade`           | the working tree | move pins forward and regenerate every fact     |
+| `validate` | `make mirror-validate`          | nothing          | prove the commit is current, verified and clean |
+| `sync`     | `make mirror-publish` (CI only) | the registry     | converge the registry onto the commit, signed   |
 
 patchy never runs git. Branches, commits and PRs belong to the [workflows](automation.md).
 
@@ -55,14 +55,14 @@ Each chart's page shows the rule every image matched.
 
 ## Scan
 
-grype scans each locked image and kubescape scans the rendered configuration. The gates come from `mirror.yaml`, and a
+grype scans each locked image and kubescape scans the rendered configuration. The gates come from `patchy.yaml`, and a
 chart can override them in its own `scan` block. See [Scanning & allowlists](scanning.md).
 
 ## Lint
 
 The lint stage checks the manifest and each allowlist. Every allowlist entry needs a statement and an `expired_at`
-within `allowlistMaxDays`. It also checks that the rendered output pulls only from the mirror: any `oci://` reference
-outside it must be listed in `ociRefs.allow` with a reason.
+within `scan.allowlist.maxDays`. It also checks that the rendered output pulls only from the mirror: any `oci://`
+reference outside it must be listed in `ociRefs.allow` with a reason.
 
 ## Publish
 

@@ -1,15 +1,16 @@
 # Working on the docs
 
-This site is [Zensical](https://zensical.org), built with uv through the toolchain's python archetype. Its look comes
-from the [toolchain site](https://oss.bitwisemedia.uk/toolchain/): the same `docs/stylesheets/extra.css` tokens and
-header partials, with a landing page in `overrides/home.html`.
+This site is [Zensical](https://zensical.org), built with uv, which the toolchain pins. Its look comes from the
+[toolchain site](https://oss.bitwisemedia.uk/toolchain/): the same `docs/stylesheets/extra.css` tokens and header
+partials, with a landing page in `overrides/home.html`.
 
 ```sh
 make serve        # http://localhost:8003, live reload for docs/ edits
 make docs-build   # render into site/
 ```
 
-Both commands regenerate the chart references first. Re-run `make serve` after a `make update` to pick up the new facts.
+Both commands regenerate the chart references first. Re-run `make serve` after a `make mirror-upgrade` to pick up the
+new facts.
 
 ## Generated chart references
 
@@ -19,14 +20,14 @@ Chart pages are hand-written prose plus `--8<--` includes of fragments that `scr
 | Fragment                                | Source                                                                 |
 | --------------------------------------- | ---------------------------------------------------------------------- |
 | `build/chart-docs/index.md`             | every chart's manifest, lock, vendored `Chart.yaml` and allowlist      |
-| `build/chart-docs/<chart>/facts.md`     | `manifest.yaml`, `images.lock.yaml`, `Chart.yaml`, `mirror.yaml`       |
+| `build/chart-docs/<chart>/facts.md`     | `manifest.yaml`, `images.lock.yaml`, `Chart.yaml`, `patchy.yaml`       |
 | `build/chart-docs/<chart>/images.md`    | `images.lock.yaml`, `images.extra.yaml` and the manifest's image rules |
 | `build/chart-docs/<chart>/allowlist.md` | `security/allowlist.yaml`                                              |
 | `build/chart-docs/<chart>/values.md`    | `vendor/<chart>/values.yaml`                                           |
 
-Nothing generated is committed. The fragments come from facts that `make update` rewrites, so building them every time
-is what stops the site falling behind a chart bump. `pymdownx.snippets` runs with `check_paths`, so a page that includes
-a fragment that doesn't exist fails the build loudly.
+Nothing generated is committed. The fragments come from facts that `make mirror-upgrade` rewrites, so building them
+every time is what stops the site falling behind a chart bump. `pymdownx.snippets` runs with `check_paths`, so a page
+that includes a fragment that doesn't exist fails the build loudly.
 
 ### How the values reference is read
 
@@ -44,7 +45,7 @@ row's anchor is `#v-<dotted.path>`, so you can link to a single value.
 
 ## Pages that embed live files
 
-Reference pages include repository files directly, such as `tasks.toml`, `mirror.yaml` and the chart manifests, with
+Reference pages include repository files directly, such as `tasks.toml`, `patchy.yaml` and the chart manifests, with
 `--8<-- "<path>"`. Snippet paths resolve against `docs/` and the repository root (`base_path` in `zensical.toml`).
 
 ## Linting

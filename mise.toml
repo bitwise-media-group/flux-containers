@@ -3,38 +3,22 @@
 #
 # flux-containers consumes the shared toolchain (bitwise-media-group/toolchain)
 # as the .mise/ submodule: mise loads its config.toml natively as
-# .mise/config.toml (pinned tools -- grype, kubescape, cosign, shellcheck,
-# actionlint, zizmor, prettier, markdownlint, addlicense, ... -- and the [vars]
-# knob defaults), and this file selects the task files and pins the
-# pipeline-only tools below. The repo has nothing to compile or test; the
-# python archetype rides on top of common only because the repo also carries
-# its documentation site (zensical.toml + docs/, built with Zensical via uv),
-# and the Makefile is a thin forwarder (.mise/archetypes/python/include.mk).
-# The pipeline task surface lives in tasks.toml.
+# .mise/config.toml (the pinned tools and the [vars] knob defaults), and this
+# file selects the task files. The containers archetype carries the pipeline
+# surface (`patchy mirror` behind the mirror-* tasks) and every tool it needs —
+# patchy, crane, yq, cosign, grype, kubescape — as shared pins, so this repo
+# pins nothing of its own. tasks.toml adds the docs site's chart reference
+# pages; the Makefile is a thin forwarder
+# (.mise/archetypes/containers/include.mk).
 
 [settings]
 lockfile = true
 locked = false
 minimum_release_age = "3d"
-# our own releases ship straight through — no cooldown wait (mirrors the
-# "no cooldown on bitwise-media-group/**" policy in the org's Renovate preset)
-minimum_release_age_excludes = ["github:bitwise-media-group/patchy"]
 
 [task_config]
 # common (prose fmt/lint + license, container, shell and workflow lint), then
-# the python archetype (docs site: sync, docs-build, serve, build), then the
-# repo-local pipeline tasks; tasks.toml is included LAST so its same-named
-# rollups (fmt, lint, build, ci, pr) win over both.
-includes = [".mise/common/tasks.toml", ".mise/archetypes/python/tasks.toml", "tasks.toml"]
-
-[tools]
-# Pipeline tools the toolchain does not pin (candidates for upstreaming to
-# toolchain config.toml; locked in this repo's own mise.lock meanwhile —
-# never run a repo-wide `mise upgrade`, it would write into the submodule).
-# cosign is NOT pinned here: the toolchain pins it, and a root pin would
-# shadow the shared one.
-# jq is deliberately unpinned: the update-check workflow uses it, and every
-# GitHub runner and dev machine ships one.
-"aqua:google/go-containerregistry" = "0.22.1"  # crane
-"aqua:mikefarah/yq" = "4.54.2"
-"github:bitwise-media-group/patchy" = { version = "v0.12.1", matching = "patchy-cli" }
+# the containers archetype (the mirror-* pipeline tasks and the fmt, lint,
+# build, ci and pr rollups), then the repo-local docs site tasks; tasks.toml is
+# included LAST so its same-named tasks (pr) win over both.
+includes = [".mise/common/tasks.toml", ".mise/archetypes/containers/tasks.toml", "tasks.toml"]

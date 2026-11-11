@@ -24,7 +24,7 @@ on:
       - "scripts/chart_docs.py"
       - "charts/**"
       - "artifacts/**"
-      - "mirror.yaml"
+      - "patchy.yaml"
       - "tasks.toml"
   # daily rebuild, so the "expired" flags on accepted findings (computed at
   # build time) stay current even when nothing merges

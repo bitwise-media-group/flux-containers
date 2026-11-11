@@ -6,7 +6,7 @@ Every workflow lives in `.github/workflows/`. The pipeline ones install the same
 | Workflow                   | Trigger                                          | What it does                                                                                                                                            |
 | -------------------------- | ------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `ci.yaml`                  | push to `main`, every PR                         | the org reusable CI: `mise run lint` (repo-wide gates) and `mise run build` (this site)                                                                 |
-| `pr-validate.yaml`         | PRs touching charts, artifacts or tooling        | `patchy mirror validate` on the changed entries (`--all` when `mirror.yaml` changes): regen byte-identity, provenance, scans, lint; uploads the summary |
+| `pr-validate.yaml`         | PRs touching charts, artifacts or tooling        | `patchy mirror validate` on the changed entries (`--all` when `patchy.yaml` changes): regen byte-identity, provenance, scans, lint; uploads the summary |
 | `pr-validate-comment.yaml` | `workflow_run` of PR Validate                    | posts the summary as a sticky PR comment, from the default branch                                                                                       |
 | `publish.yaml`             | push to `main` touching the store                | re-verifies on `main`, then `patchy mirror sync --all`: mirror, push and sign                                                                           |
 | `update-check.yaml`        | daily 06:00 UTC, manual                          | `patchy mirror upgrade --check`, then one `update/<group>` branch and PR per group with work                                                            |
@@ -22,18 +22,18 @@ lint (actionlint and zizmor), prose, and the docs build. A broken page, or a cha
 missing, fails here.
 
 `pr-validate.yaml` is the deep, per-entry gate. It only runs when something that affects the pipeline changes:
-`charts/`, `artifacts/`, `mirror.yaml`, the Makefile, mise configuration, `tasks.toml` or the toolchain submodule. It
+`charts/`, `artifacts/`, `patchy.yaml`, the Makefile, mise configuration, `tasks.toml` or the toolchain submodule. It
 contacts every upstream registry, so it's deliberately not part of `ci.yaml`. It validates, and lints the manifest and
-allowlist of, only the entries the PR changes, or every entry when `mirror.yaml` changes. Allowlist entries expire, so
+allowlist of, only the entries the PR changes, or every entry when `patchy.yaml` changes. Allowlist entries expire, so
 an expiry elsewhere in the store doesn't block an unrelated PR; the weekly rescan surfaces those expiries instead.
 
 ## Publishing
 
 `publish.yaml` authenticates to Google Cloud with **Workload Identity Federation**, as the chart-publisher service
-account the terraform artifact-store module created. The `GCP_WIF_PROVIDER` and `GCP_CHART_PUBLISHER_SA` repository
-variables hold those values. The job's OIDC token gets both the GCP access token and the Fulcio signing certificate. One
-docker-keychain login covers image copies, chart pushes and signing. The `-o markdown` output of `sync` becomes the job
-summary.
+account the terraform artifact-store module created. The `GOOGLE_WORKLOAD_IDENTITY_PROVIDER` and
+`GOOGLE_CHART_PUBLISHER_SA` repository variables hold those values. The job's OIDC token gets both the GCP access token
+and the Fulcio signing certificate. One docker-keychain login covers image copies, chart pushes and signing. The
+`-o markdown` output of `sync` becomes the job summary.
 
 ## Documentation
 

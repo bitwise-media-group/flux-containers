@@ -16,9 +16,9 @@ notification) from it. It's deployed by the flux-manifests
 - **The controller images are derived, not discovered.** The chart renders only the `FluxInstance` resource, so
   `helm template` never sees a controller image, yet clusters pull them from the mirror's `images/ghcr.io/fluxcd` path.
   The manifest's `images.distributionManifests` rule points at the operator's distribution-manifests artifact and names
-  the four components. `make update` reads that artifact at the tag matching the vendored `appVersion` and writes the
-  generated `images.extra.yaml` sidecar. The sidecar always holds exactly the controller set the pinned operator
-  deploys, and the manifest stays pure intent.
+  the four components. `make mirror-upgrade` reads that artifact at the tag matching the vendored `appVersion` and
+  writes the generated `images.extra.yaml` sidecar. The sidecar always holds exactly the controller set the pinned
+  operator deploys, and the manifest stays pure intent.
 - **Lockstep with flux-operator.** Both charts are in the `flux` group and bump together.
 - **One reasoned OCI reference.** The chart's default `distribution.artifact` points outside the mirror and survives in
   the rendered output. `ociRefs.allow` permits it with a reason: consumers neutralise it (terraform pins the bootstrap

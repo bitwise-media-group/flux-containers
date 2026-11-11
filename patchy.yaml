@@ -1,18 +1,16 @@
 # Copyright 2026 BitWise Media Group Ltd
 # SPDX-License-Identifier: MIT
 
-# Pipeline-wide configuration for `patchy mirror`. Chart-specific intent
-# lives in each chart's manifest.yaml; everything here applies to the whole
-# store. The tree is the registry of entries: patchy discovers
+# patchy's configuration for this repo: the registries, signing identity and
+# scan gates every `patchy mirror` command shares, plus the mirror's own
+# settings under `mirror:`. Chart-specific intent lives in each chart's
+# manifest.yaml; everything here applies to the whole store. The tree is the registry of entries: patchy discovers
 # charts/*/manifest.yaml and artifacts/*/manifest.yaml — nothing lists them.
 #
 # The registry value comes from the terraform-google-gke-flux artifact-store
 # module output (platform_registry). The WIF wiring the publish workflow
-# authenticates with stays in the GCP_WIF_PROVIDER / GCP_CHART_PUBLISHER_SA
+# authenticates with stays in the GOOGLE_WORKLOAD_IDENTITY_PROVIDER / GOOGLE_CHART_PUBLISHER_SA
 # repository variables — it is workflow configuration, not mirror policy.
-apiVersion: mirror.patchy.bitwisemedia.uk/v1alpha1
-kind: MirrorConfig
-
 registries:
   - name: google
     # artifact-store `platform_registry` output:
@@ -37,18 +35,6 @@ signing:
     certificateOidcIssuer: https://token.actions.githubusercontent.com
     tlogUpload: true
 
-update:
-  # Soak period for images tracked by .images.track (and artifact version
-  # picks): a tag published this recently can still be yanked or hot-fixed,
-  # and the platform should not be what discovers that. patchy mirror upgrade
-  # walks candidate tags newest-first and takes the first published at least
-  # this long ago. Per-image override: .images.track[].cooldownDays in a
-  # chart manifest; 0 disables the soak for an image that should track head.
-  #
-  # Kept short on purpose: the soak also delays *fixes*, so every day here is
-  # a day the platform knowingly runs a release behind on security patches.
-  cooldownDays: 3
-
 scan:
   scanners:
     grype:
@@ -61,15 +47,29 @@ scan:
       mode: warn
   failOn: [CRITICAL, HIGH]
   ignoreUnfixed: true
-  # allowlist entries must carry expired_at within this horizon — expiry
-  # forces re-review instead of silently accepted-forever CVEs
-  allowlistMaxDays: 90
-  # expiry given to *new* entries by allowlist derivation. Surviving entries
-  # keep the date they were first accepted with, so regeneration can never
-  # roll the clock forward — must stay <= allowlistMaxDays.
-  allowlistNewDays: 90
+  allowlist:
+    # allowlist entries must carry expired_at within this horizon — expiry
+    # forces re-review instead of silently accepted-forever CVEs
+    maxDays: 90
+    # expiry given to *new* entries by allowlist derivation. Surviving entries
+    # keep the date they were first accepted with, so regeneration can never
+    # roll the clock forward — must stay <= maxDays.
+    newDays: 90
 
-# Rewrites applied when PULLING from an upstream registry (e.g. a mirror in
-# front of docker.io); target paths in images.lock.yaml keep the canonical
-# source path regardless.
-sourceRegistryRewrites: {}
+mirror:
+  update:
+    # Soak period for images tracked by .images.track (and artifact version
+    # picks): a tag published this recently can still be yanked or hot-fixed,
+    # and the platform should not be what discovers that. patchy mirror upgrade
+    # walks candidate tags newest-first and takes the first published at least
+    # this long ago. Per-image override: .images.track[].cooldownDays in a
+    # chart manifest; 0 disables the soak for an image that should track head.
+    #
+    # Kept short on purpose: the soak also delays *fixes*, so every day here is
+    # a day the platform knowingly runs a release behind on security patches.
+    cooldownDays: 3
+
+  # Rewrites applied when PULLING from an upstream registry (e.g. a mirror in
+  # front of docker.io); target paths in images.lock.yaml keep the canonical
+  # source path regardless.
+  sourceRegistryRewrites: {}

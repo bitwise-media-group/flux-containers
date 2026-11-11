@@ -4,10 +4,10 @@
 # Continuous integration — thin caller for the org's reusable ci workflow (v7:
 # installs the mise pins). It discovers the canonical tasks this repo defines
 # and runs `mise run <target>` for each: `lint` — the repo-wide gates:
-# shellcheck, addlicense, actionlint + zizmor and prose — and `build`, which
-# renders the documentation site (chart references + zensical), so a broken
-# page fails the PR. `test` comes from the python archetype and skips (pytest
-# is not a project dependency). The deep per-chart pipeline (regeneration gate,
+# shellcheck, addlicense, actionlint + zizmor and prose — and `build`, the
+# containers archetype's `patchy build --all --dry-run`, which succeeds with
+# nothing to build here (the store has no build: entries). There is no `test`.
+# The site is built by docs.yaml. The deep per-chart pipeline (regeneration gate,
 # provenance verification, scans, manifest/allowlist lint) is pr-validate.yaml,
 # which only runs when chart-affecting paths change and only on the entries
 # the PR touches; rescan.yaml lints every entry weekly. Entry lint stays out of
@@ -28,8 +28,8 @@ permissions:
 
 jobs:
     ci:
-        uses: bitwise-media-group/github-workflows/.github/workflows/ci.yaml@35d8e9a1ce772f67f97e73484dc5b7a50c29e0f3 # v8.1.1
+        uses: bitwise-media-group/github-workflows/.github/workflows/ci.yaml@e4f48161b429020844ca246bb598b34ac2d330fd # v8.2.0
         with:
-            # no unit tests here (the test task skips: pytest is not a
-            # dependency), so skip the Codecov upload
+            # no unit tests here (there is no test task), so skip the
+            # Codecov upload
             coverage: false

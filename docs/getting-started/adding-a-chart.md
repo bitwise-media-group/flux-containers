@@ -3,8 +3,8 @@
 ## 1. Scaffold the entry
 
 ```sh
-make add URL=oci://ghcr.io/example/charts/widget        # entry named after the last path segment
-make add URL=https://charts.example.com CHART=widget    # an https repo doesn't name the chart, so you do
+make mirror-add URL=oci://ghcr.io/example/charts/widget        # entry named after the last path segment
+make mirror-add URL=https://charts.example.com ENTRY=widget    # an https repo doesn't name the chart, so you do
 ```
 
 `patchy mirror add` detects what the URL points at and creates `charts/<name>/`. That holds a `manifest.yaml` pinned to
@@ -37,8 +37,8 @@ Otherwise the byte-identity gate fails.
 ## 3. Generate and validate
 
 ```sh
-make update CHART=widget
-make validate CHART=widget
+make mirror-upgrade ENTRY=widget
+make mirror-validate ENTRY=widget
 ```
 
 The first `update` vendors the chart and writes every fact. `validate` then has to pass: regeneration must be

@@ -13,7 +13,7 @@ and logs. The platform runs the `-contrib` distribution in `deployment` mode.
 
 - **The contrib image is tracked.** Collector images release weekly and the chart's `appVersion` lags them. The
   discovery values select the `-contrib` repository, and a track rule re-picks the newest soaked `0.x` tag into
-  `.image.tag` on every `make update`. See [Tracked images](../concepts/tracked-images.md).
+  `.image.tag` on every `make mirror-upgrade`. See [Tracked images](../concepts/tracked-images.md).
 - **Unsigned chart, signed image.** The OCI charts are published unsigned, which is a documented gap. The collector
   images are keyless-signed by the `opentelemetry-collector-releases` workflows.
 

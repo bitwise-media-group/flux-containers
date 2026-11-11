@@ -22,7 +22,7 @@ controllerServiceAccount:
 #
 # The image line below is FACT, not intent: it is written by
 # `patchy mirror upgrade` from the .images.track rule in manifest.yaml (newest
-# actions/runner tag past the cooldown) and re-picked by `make update`.
+# actions/runner tag past the cooldown) and re-picked by `make mirror-upgrade`.
 # Never hand-edit it — change the rule in manifest.yaml instead.
 template:
   spec:

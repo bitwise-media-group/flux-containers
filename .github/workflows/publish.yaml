@@ -24,7 +24,7 @@ on:
     paths:
       - "charts/**"
       - "artifacts/**"
-      - "mirror.yaml"
+      - "patchy.yaml"
   workflow_dispatch: {}
 
 permissions: {}
@@ -56,8 +56,8 @@ jobs:
         uses: google-github-actions/auth@7c6bc770dae815cd3e89ee6cdf493a5fab2cc093 # v3
         with:
           # artifact-store module outputs, mirrored as org-level Actions variables
-          workload_identity_provider: ${{ vars.GCP_WIF_PROVIDER }}
-          service_account: ${{ vars.GCP_CHART_PUBLISHER_SA }}
+          workload_identity_provider: ${{ vars.GOOGLE_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ vars.GOOGLE_CHART_PUBLISHER_SA }}
           token_format: access_token
 
       - name: login to Artifact Registry
@@ -68,7 +68,7 @@ jobs:
           # copies, chart pushes and cosign signing all read it. -e fails the
           # step if the registry entry moves, rather than logging in to "null"
           # and leaving every registry call anonymous.
-          host="$(yq -e '.registries[] | select(.name == "google") | .url | split("/") | .[0]' mirror.yaml)"
+          host="$(yq -e '.registries[] | select(.name == "google") | .url | split("/") | .[0]' patchy.yaml)"
           crane auth login "$host" --username oauth2accesstoken --password-stdin <<<"$ACCESS_TOKEN"
 
       - name: re-verify and publish

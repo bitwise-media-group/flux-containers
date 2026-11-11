@@ -14,8 +14,8 @@ with AWS (Route53) and Google (Cloud DNS) variants.
 ## How it's mirrored
 
 - **The image is tracked.** external-dns images release on their own train and the chart's `appVersion` can lag them. A
-  track rule re-picks the newest soaked `v0.x` tag on every `make update` and writes it to `.image.tag` in the discovery
-  values.
+  track rule re-picks the newest soaked `v0.x` tag on every `make mirror-upgrade` and writes it to `.image.tag` in the
+  discovery values.
 - **Unsigned chart, signed image.** kubernetes-sigs publishes no OCI chart yet, and the archives behind the `gh-pages`
   index are unsigned, which is a documented gap. The `registry.k8s.io` image is keyless-signed by the Kubernetes release
   promoter (`krel-trust@k8s-releng-prod.iam.gserviceaccount.com`, Google-issued).
