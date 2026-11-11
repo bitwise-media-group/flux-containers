@@ -1,6 +1,6 @@
 chart:
   name: cert-manager
-  version: 1.21.3
+  version: v1.21.3
   upstreamTgzSha256: 9ec67938b2981d8b333af61b3fcf53e26b4f6f5deb7ccda3de4ea116bb373a17
 images:
   - source: quay.io/jetstack/cert-manager-acmesolver:v1.21.3
