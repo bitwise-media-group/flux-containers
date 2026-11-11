@@ -1,6 +1,6 @@
 # flux-instance
 
-![Version: 0.61.0](https://img.shields.io/badge/Version-0.61.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v0.61.0](https://img.shields.io/badge/AppVersion-v0.61.0-informational?style=flat-square)
+![Version: 0.62.1](https://img.shields.io/badge/Version-0.62.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v0.62.1](https://img.shields.io/badge/AppVersion-v0.62.1-informational?style=flat-square)
 
 This chart is a thin wrapper around the `FluxInstance` custom resource, which is
 used by the [Flux Operator](https://github.com/controlplaneio-fluxcd/flux-operator)
@@ -45,6 +45,7 @@ helm -n flux-system uninstall flux
 | instance.distribution | object | `{"artifact":"oci://ghcr.io/controlplaneio-fluxcd/flux-operator-manifests:latest","artifactPullSecret":"","imagePullSecret":"","registry":"ghcr.io/fluxcd","variant":"","version":"2.x"}` | Distribution https://fluxoperator.dev/docs/crd/fluxinstance/#distribution-configuration |
 | instance.kustomize.patches | list | `[]` | Kustomize patches https://fluxoperator.dev/docs/crd/fluxinstance/#kustomize-patches |
 | instance.sharding | object | `{"key":"sharding.fluxcd.io/key","shards":[]}` | Sharding https://fluxoperator.dev/docs/crd/fluxinstance/#sharding-configuration |
+| instance.spiffe | object | `{}` | SPIFFE https://fluxoperator.dev/docs/crd/fluxinstance/#spiffe-configuration |
 | instance.storage | object | `{"class":"","size":""}` | Storage https://fluxoperator.dev/docs/crd/fluxinstance/#storage-configuration |
 | instance.sync | object | `{"interval":"1m","kind":"GitRepository","name":"","path":"","provider":"","pullSecret":"","ref":"","url":""}` | Sync https://fluxoperator.dev/docs/crd/fluxinstance/#sync-configuration |
 | nameOverride | string | `""` |  |

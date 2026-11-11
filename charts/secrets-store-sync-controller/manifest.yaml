@@ -12,7 +12,7 @@ chart:
   # both together as upstream stabilises.
   repo: https://kubernetes-sigs.github.io/secrets-store-sync-controller/charts
   name: secrets-store-sync-controller
-  version: "0.0.5"
+  version: "0.0.6"
   versionConstraint: ">=0.0.5 <1.0.0"
   verifyUpstream:
     provider: none

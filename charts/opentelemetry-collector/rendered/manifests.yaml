@@ -6,10 +6,10 @@ metadata:
   name: opentelemetry-collector
   namespace: otel-collector
   labels:
-    helm.sh/chart: opentelemetry-collector-0.176.1
+    helm.sh/chart: opentelemetry-collector-0.178.3
     app.kubernetes.io/name: opentelemetry-collector
     app.kubernetes.io/instance: opentelemetry-collector
-    app.kubernetes.io/version: "0.162.0"
+    app.kubernetes.io/version: "0.163.2"
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: opentelemetry-collector
     app.kubernetes.io/component: standalone-collector
@@ -23,10 +23,10 @@ metadata:
   name: opentelemetry-collector
   namespace: otel-collector
   labels:
-    helm.sh/chart: opentelemetry-collector-0.176.1
+    helm.sh/chart: opentelemetry-collector-0.178.3
     app.kubernetes.io/name: opentelemetry-collector
     app.kubernetes.io/instance: opentelemetry-collector
-    app.kubernetes.io/version: "0.162.0"
+    app.kubernetes.io/version: "0.163.2"
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: opentelemetry-collector
     app.kubernetes.io/component: standalone-collector
@@ -108,12 +108,19 @@ data:
                   host: ${env:MY_POD_IP}
                   port: 8888
         resource:
-          host.name: ${env:OTEL_K8S_NODE_NAME}
-          k8s.namespace.name: ${env:OTEL_K8S_NAMESPACE}
-          k8s.node.ip: ${env:OTEL_K8S_NODE_IP}
-          k8s.node.name: ${env:OTEL_K8S_NODE_NAME}
-          k8s.pod.ip: ${env:OTEL_K8S_POD_IP}
-          k8s.pod.name: ${env:OTEL_K8S_POD_NAME}
+          attributes:
+          - name: host.name
+            value: ${env:OTEL_K8S_NODE_NAME}
+          - name: k8s.namespace.name
+            value: ${env:OTEL_K8S_NAMESPACE}
+          - name: k8s.node.ip
+            value: ${env:OTEL_K8S_NODE_IP}
+          - name: k8s.node.name
+            value: ${env:OTEL_K8S_NODE_NAME}
+          - name: k8s.pod.ip
+            value: ${env:OTEL_K8S_POD_IP}
+          - name: k8s.pod.name
+            value: ${env:OTEL_K8S_POD_NAME}
 
 ---
 # Source: opentelemetry-collector/templates/service.yaml
@@ -123,10 +130,10 @@ metadata:
   name: opentelemetry-collector
   namespace: otel-collector
   labels:
-    helm.sh/chart: opentelemetry-collector-0.176.1
+    helm.sh/chart: opentelemetry-collector-0.178.3
     app.kubernetes.io/name: opentelemetry-collector
     app.kubernetes.io/instance: opentelemetry-collector
-    app.kubernetes.io/version: "0.162.0"
+    app.kubernetes.io/version: "0.163.2"
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: opentelemetry-collector
     app.kubernetes.io/component: standalone-collector
@@ -174,10 +181,10 @@ metadata:
   name: opentelemetry-collector
   namespace: otel-collector
   labels:
-    helm.sh/chart: opentelemetry-collector-0.176.1
+    helm.sh/chart: opentelemetry-collector-0.178.3
     app.kubernetes.io/name: opentelemetry-collector
     app.kubernetes.io/instance: opentelemetry-collector
-    app.kubernetes.io/version: "0.162.0"
+    app.kubernetes.io/version: "0.163.2"
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: opentelemetry-collector
     app.kubernetes.io/component: standalone-collector
@@ -194,7 +201,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/config: e4ff59dfcded1b562c6b8ef93fad7a7c6954b8d279b8599f87252ae1caa773e2
+        checksum/config: 3e721260d8c135929baaa865510590c305eca6550e5cd545b463a6e7a209f5b4
         
       labels:
         app.kubernetes.io/name: opentelemetry-collector
@@ -213,7 +220,7 @@ spec:
             - --config=/conf/relay.yaml
           securityContext:
             {}
-          image: "ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-contrib:0.163.1"
+          image: "ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-contrib:0.165.0"
           imagePullPolicy: IfNotPresent
           ports:
             

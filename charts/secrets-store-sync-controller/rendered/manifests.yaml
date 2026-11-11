@@ -452,7 +452,7 @@ metadata:
     app.kubernetes.io/name: serviceaccount
     app.kubernetes.io/part-of: secrets-store-sync-controller
     secrets-store.io/system: "true"
-  name: "secrets-store-sync-controller-manager"
+  name: "secrets-store-sync-controller"
   namespace: secret-sync
   annotations:
     
@@ -462,7 +462,7 @@ metadata:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: secrets-store-sync-controller-manager-role
+  name: secrets-store-sync-controller-role
 rules:
 - apiGroups:
   - ""
@@ -521,7 +521,6 @@ metadata:
     app.kubernetes.io/component: rbac
     app.kubernetes.io/created-by: secrets-store-sync-controller
     app.kubernetes.io/part-of: secrets-store-sync-controller
-    app.kubernetes.io/managed-by: kustomize
   name: secretsync-editor-role
 rules:
 - apiGroups:
@@ -555,7 +554,6 @@ metadata:
     app.kubernetes.io/component: rbac
     app.kubernetes.io/created-by: secrets-store-sync-controller
     app.kubernetes.io/part-of: secrets-store-sync-controller
-    app.kubernetes.io/managed-by: kustomize
   name: secretsync-viewer-role
 rules:
 - apiGroups:
@@ -581,19 +579,19 @@ metadata:
   labels:
     app.kubernetes.io/component: rbac
     app.kubernetes.io/created-by: secrets-store-sync-controller
-    app.kubernetes.io/instance: manager-rolebinding
+    app.kubernetes.io/instance: rolebinding
     
     app.kubernetes.io/name: clusterrolebinding
     app.kubernetes.io/part-of: secrets-store-sync-controller
     secrets-store.io/system: "true"
-  name: secrets-store-sync-controller-manager-rolebinding
+  name: secrets-store-sync-controller-rolebinding
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: secrets-store-sync-controller-manager-role
+  name: secrets-store-sync-controller-role
 subjects:
   - kind: ServiceAccount
-    name: "secrets-store-sync-controller-manager"
+    name: "secrets-store-sync-controller"
     namespace: secret-sync
 
 ---
@@ -608,23 +606,10 @@ metadata:
     app.kubernetes.io/component: rbac
     app.kubernetes.io/created-by: secrets-store-sync-controller
     app.kubernetes.io/part-of: secrets-store-sync-controller
-    app.kubernetes.io/managed-by: kustomize
     secrets-store.io/system: "true"
   name: secrets-store-sync-controller-leader-election-role
   namespace: secret-sync
 rules:
-- apiGroups:
-  - ""
-  resources:
-  - configmaps
-  verbs:
-  - get
-  - list
-  - watch
-  - create
-  - update
-  - patch
-  - delete
 - apiGroups:
   - coordination.k8s.io
   resources:
@@ -656,7 +641,6 @@ metadata:
     app.kubernetes.io/component: rbac
     app.kubernetes.io/created-by: secrets-store-sync-controller
     app.kubernetes.io/part-of: secrets-store-sync-controller
-    app.kubernetes.io/managed-by: kustomize
     secrets-store.io/system: "true"
   name: secrets-store-sync-controller-leader-election-rolebinding
   namespace: secret-sync
@@ -666,7 +650,7 @@ roleRef:
   name: secrets-store-sync-controller-leader-election-role
 subjects:
   - kind: ServiceAccount
-    name: "secrets-store-sync-controller-manager"
+    name: "secrets-store-sync-controller"
     namespace: secret-sync
 
 ---
@@ -674,7 +658,7 @@ subjects:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: secrets-store-sync-controller-manager
+  name: secrets-store-sync-controller
   namespace: secret-sync
   labels:
     app.kubernetes.io/component: manager
@@ -708,15 +692,15 @@ spec:
         null
       containers:
       - name: manager
-        image: registry.k8s.io/secrets-store-sync/controller:v0.0.5
+        image: registry.k8s.io/secrets-store-sync/controller:v0.0.6
         imagePullPolicy: IfNotPresent
         args:
         - --provider-volume=/provider
         - --token-request-audience=pods.eks.amazonaws.com
-        - --health-probe-bind-address=:8081
-        - --metrics-bind-address=:8085
-        - --leader-elect
         - --rotation-poll-interval=12h
+        - --leader-election-namespace=secret-sync
+        - --logging-format=json
+        - --v=2
         env:
           - name: SYNC_CONTROLLER_POD_NAME
             valueFrom:
@@ -739,6 +723,12 @@ spec:
           capabilities:
             drop:
             - ALL
+        startupProbe:
+          httpGet:
+            port: 8081
+            path: /healthz
+          initialDelaySeconds: 0
+          timeoutSeconds: 5
         livenessProbe:
           httpGet:
             path: /healthz
@@ -747,7 +737,7 @@ spec:
           periodSeconds: 20
         readinessProbe:
           httpGet:
-            path: /readyz
+            path: /healthz
             port: 8081
           initialDelaySeconds: 5
           periodSeconds: 10
@@ -763,7 +753,7 @@ spec:
         volumeMounts:
         - mountPath: "/provider"
           name: providervol
-      serviceAccountName: "secrets-store-sync-controller-manager"
+      serviceAccountName: "secrets-store-sync-controller"
       terminationGracePeriodSeconds: 10
       volumes:
       - name: providervol
@@ -781,7 +771,7 @@ spec:
   failurePolicy: Fail
   matchConditions:
     - name: 'user-is-secrets-store-sync-controller'
-      expression: "request.userInfo.username == 'system:serviceaccount:secret-sync:secrets-store-sync-controller-manager'"
+      expression: "request.userInfo.username == 'system:serviceaccount:secret-sync:secrets-store-sync-controller'"
   matchConstraints:
     resourceRules:
       - apiGroups: [""]
@@ -812,7 +802,7 @@ spec:
   failurePolicy: Fail
   matchConditions:
     - name: 'user-is-secrets-store-sync-controller'
-      expression: "request.userInfo.username == 'system:serviceaccount:secret-sync:secrets-store-sync-controller-manager'"
+      expression: "request.userInfo.username == 'system:serviceaccount:secret-sync:secrets-store-sync-controller'"
   matchConstraints:
     resourceRules:
     - apiGroups:   [""]
@@ -833,7 +823,7 @@ spec:
   failurePolicy: Fail
   matchConditions:
     - name: 'user-is-secrets-store-sync-controller'
-      expression: "request.userInfo.username == 'system:serviceaccount:secret-sync:secrets-store-sync-controller-manager'"
+      expression: "request.userInfo.username == 'system:serviceaccount:secret-sync:secrets-store-sync-controller'"
   matchConstraints:
     resourceRules:
     - apiGroups:   [""]
@@ -858,7 +848,7 @@ spec:
   failurePolicy: Fail
   matchConditions:
     - name: 'user-is-secrets-store-sync-controller'
-      expression: "request.userInfo.username == 'system:serviceaccount:secret-sync:secrets-store-sync-controller-manager'"
+      expression: "request.userInfo.username == 'system:serviceaccount:secret-sync:secrets-store-sync-controller'"
   matchConstraints:
     resourceRules:
     - apiGroups:   [""]
@@ -886,7 +876,7 @@ spec:
   failurePolicy: Fail
   matchConditions:
     - name: 'user-is-secrets-store-sync-controller'
-      expression: "request.userInfo.username == 'system:serviceaccount:secret-sync:secrets-store-sync-controller-manager'"
+      expression: "request.userInfo.username == 'system:serviceaccount:secret-sync:secrets-store-sync-controller'"
   matchConstraints:
     resourceRules:
     - apiGroups:   [""]

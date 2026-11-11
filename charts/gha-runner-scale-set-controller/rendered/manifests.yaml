@@ -5,7 +5,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.22.0
+    controller-gen.kubebuilder.io/version: v0.23.0
   name: autoscalinglisteners.actions.github.com
 spec:
   group: actions.github.com
@@ -4502,6 +4502,7 @@ spec:
                                 Domain names *.k8s.io and *.kubernetes.io are reserved.
                                 This field must be unique for each responder.
                                 This field is required.
+                              minLength: 1
                               type: string
                             priority:
                               description: |-
@@ -4518,12 +4519,15 @@ spec:
                                 The interval 0-999 is reserved for responders with *.k8s.io suffix.
                                 This field is required.
                               format: int32
+                              maximum: 100000
+                              minimum: 0
                               type: integer
                           required:
                           - name
                           - priority
                           type: object
                           x-kubernetes-map-type: atomic
+                        maxItems: 10
                         type: array
                         x-kubernetes-list-map-keys:
                         - name
@@ -9175,7 +9179,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.22.0
+    controller-gen.kubebuilder.io/version: v0.23.0
   name: autoscalingrunnersets.actions.github.com
 spec:
   group: actions.github.com
@@ -13436,6 +13440,7 @@ spec:
                                   Domain names *.k8s.io and *.kubernetes.io are reserved.
                                   This field must be unique for each responder.
                                   This field is required.
+                                minLength: 1
                                 type: string
                               priority:
                                 description: |-
@@ -13452,12 +13457,15 @@ spec:
                                   The interval 0-999 is reserved for responders with *.k8s.io suffix.
                                   This field is required.
                                 format: int32
+                                maximum: 100000
+                                minimum: 0
                                 type: integer
                             required:
                               - name
                               - priority
                             type: object
                             x-kubernetes-map-type: atomic
+                          maxItems: 10
                           type: array
                           x-kubernetes-list-map-keys:
                             - name
@@ -21912,6 +21920,7 @@ spec:
                                   Domain names *.k8s.io and *.kubernetes.io are reserved.
                                   This field must be unique for each responder.
                                   This field is required.
+                                minLength: 1
                                 type: string
                               priority:
                                 description: |-
@@ -21928,12 +21937,15 @@ spec:
                                   The interval 0-999 is reserved for responders with *.k8s.io suffix.
                                   This field is required.
                                 format: int32
+                                maximum: 100000
+                                minimum: 0
                                 type: integer
                             required:
                               - name
                               - priority
                             type: object
                             x-kubernetes-map-type: atomic
+                          maxItems: 10
                           type: array
                           x-kubernetes-list-map-keys:
                             - name
@@ -26398,7 +26410,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.22.0
+    controller-gen.kubebuilder.io/version: v0.23.0
   name: ephemeralrunners.actions.github.com
 spec:
   group: actions.github.com
@@ -30556,6 +30568,7 @@ spec:
                               Domain names *.k8s.io and *.kubernetes.io are reserved.
                               This field must be unique for each responder.
                               This field is required.
+                            minLength: 1
                             type: string
                           priority:
                             description: |-
@@ -30572,12 +30585,15 @@ spec:
                               The interval 0-999 is reserved for responders with *.k8s.io suffix.
                               This field is required.
                             format: int32
+                            maximum: 100000
+                            minimum: 0
                             type: integer
                         required:
                           - name
                           - priority
                         type: object
                         x-kubernetes-map-type: atomic
+                      maxItems: 10
                       type: array
                       x-kubernetes-list-map-keys:
                         - name
@@ -35082,7 +35098,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.22.0
+    controller-gen.kubebuilder.io/version: v0.23.0
   name: ephemeralrunnersets.actions.github.com
 spec:
   group: actions.github.com
@@ -39242,6 +39258,7 @@ spec:
                                   Domain names *.k8s.io and *.kubernetes.io are reserved.
                                   This field must be unique for each responder.
                                   This field is required.
+                                minLength: 1
                                 type: string
                               priority:
                                 description: |-
@@ -39258,12 +39275,15 @@ spec:
                                   The interval 0-999 is reserved for responders with *.k8s.io suffix.
                                   This field is required.
                                 format: int32
+                                maximum: 100000
+                                minimum: 0
                                 type: integer
                             required:
                               - name
                               - priority
                             type: object
                             x-kubernetes-map-type: atomic
+                          maxItems: 10
                           type: array
                           x-kubernetes-list-map-keys:
                             - name
@@ -43747,11 +43767,11 @@ metadata:
   name: gha-runner-scale-set-controller-gha-rs-controller
   namespace: arc-systems
   labels:
-    helm.sh/chart: gha-rs-controller-0.15.0
+    helm.sh/chart: gha-rs-controller-0.15.1
     app.kubernetes.io/name: gha-rs-controller
     app.kubernetes.io/namespace: arc-systems
     app.kubernetes.io/instance: gha-runner-scale-set-controller
-    app.kubernetes.io/version: "0.15.0"
+    app.kubernetes.io/version: "0.15.1"
     app.kubernetes.io/part-of: gha-rs-controller
     app.kubernetes.io/managed-by: Helm
 ---
@@ -43979,11 +43999,11 @@ metadata:
   name: gha-runner-scale-set-controller-gha-rs-controller
   namespace: arc-systems
   labels:
-    helm.sh/chart: gha-rs-controller-0.15.0
+    helm.sh/chart: gha-rs-controller-0.15.1
     app.kubernetes.io/name: gha-rs-controller
     app.kubernetes.io/namespace: arc-systems
     app.kubernetes.io/instance: gha-runner-scale-set-controller
-    app.kubernetes.io/version: "0.15.0"
+    app.kubernetes.io/version: "0.15.1"
     app.kubernetes.io/part-of: gha-rs-controller
     app.kubernetes.io/managed-by: Helm
     actions.github.com/controller-service-account-namespace: arc-systems
@@ -44002,7 +44022,7 @@ spec:
       labels:
         app.kubernetes.io/part-of: gha-rs-controller
         app.kubernetes.io/component: controller-manager
-        app.kubernetes.io/version: 0.15.0
+        app.kubernetes.io/version: 0.15.1
         app.kubernetes.io/name: gha-rs-controller
         app.kubernetes.io/namespace: arc-systems
         app.kubernetes.io/instance: gha-runner-scale-set-controller
@@ -44010,7 +44030,7 @@ spec:
       serviceAccountName: gha-runner-scale-set-controller-gha-rs-controller
       containers:
       - name: manager
-        image: "ghcr.io/actions/gha-runner-scale-set-controller:0.15.0"
+        image: "ghcr.io/actions/gha-runner-scale-set-controller:0.15.1"
         imagePullPolicy: IfNotPresent
         args:
         - "--auto-scaling-runner-set-only"
@@ -44027,7 +44047,7 @@ spec:
         - "/manager"
         env:
         - name: CONTROLLER_MANAGER_CONTAINER_IMAGE
-          value: "ghcr.io/actions/gha-runner-scale-set-controller:0.15.0"
+          value: "ghcr.io/actions/gha-runner-scale-set-controller:0.15.1"
         - name: CONTROLLER_MANAGER_POD_NAMESPACE
           valueFrom:
             fieldRef:

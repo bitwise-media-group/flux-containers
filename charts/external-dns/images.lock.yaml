@@ -3,8 +3,8 @@ chart:
   version: 1.23.0
   upstreamTgzSha256: 6d149b9b04db1dc9e46b3693a4eca4ac90d6bba5e3b2a0fdd067ce3f7bfbc31e
 images:
-  - source: registry.k8s.io/external-dns/external-dns:v0.23.0
-    digest: sha256:1854499e2b08cee47c40a08e356bff20dcb192dbcfde8378fc3f900f12cad5a3
+  - source: registry.k8s.io/external-dns/external-dns:v0.24.0
+    digest: sha256:a80a146d2540fa138565e404f0625157271071a06093021f27ae19d8316d10f9
     targets:
-      google: us-central1-docker.pkg.dev/o-foundation-7e43/platform/images/registry.k8s.io/external-dns/external-dns:v0.23.0
+      google: us-central1-docker.pkg.dev/o-foundation-7e43/platform/images/registry.k8s.io/external-dns/external-dns:v0.24.0
     platforms: ["linux/amd64", "linux/arm", "linux/arm64"]
