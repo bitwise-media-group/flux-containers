@@ -1,10 +1,10 @@
 chart:
   name: karpenter
-  version: 1.15.1
-  upstreamTgzSha256: 51f74d19d578847804ffce7b22a0d87d89e540e90067f2bd392d9e19b71990fe
+  version: 1.15.2
+  upstreamTgzSha256: ba0b5e555e79abb2254e89ecea9aad318b7f2061644413003f2af045ae29dbd0
 images:
-  - source: public.ecr.aws/karpenter/controller:1.15.1@sha256:8314ff9c6bca66372031e80532c18025bbe6d34eae2443849d9ff02796fb09c8
-    digest: sha256:8314ff9c6bca66372031e80532c18025bbe6d34eae2443849d9ff02796fb09c8
+  - source: public.ecr.aws/karpenter/controller:1.15.2@sha256:4a7dc37f85ad8987ece1cf5df55e607aa17a879a6faa76f5258c5bf182fbdfff
+    digest: sha256:4a7dc37f85ad8987ece1cf5df55e607aa17a879a6faa76f5258c5bf182fbdfff
     targets:
-      google: us-central1-docker.pkg.dev/o-foundation-7e43/platform/images/public.ecr.aws/karpenter/controller:1.15.1
+      google: us-central1-docker.pkg.dev/o-foundation-7e43/platform/images/public.ecr.aws/karpenter/controller:1.15.2
     platforms: ["linux/amd64", "linux/arm64"]
