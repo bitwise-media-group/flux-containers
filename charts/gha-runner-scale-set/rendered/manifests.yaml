@@ -145,7 +145,7 @@ metadata:
     actions.github.com/scale-set-name: gha-runner-scale-set
     actions.github.com/scale-set-namespace: arc-runners
   annotations:
-    actions.github.com/values-hash: 846e8bcc593a0bcb3d680e89923dd4bf6d477db76269599e32d5adee1727341
+    actions.github.com/values-hash: f7b3e6f8d3fab9fbee9c6affe64d19b38ea604b0a30d1e022b781f352808596
     actions.github.com/cleanup-manager-role-binding: gha-runner-scale-set-gha-rs-manager
     actions.github.com/cleanup-manager-role-name: gha-runner-scale-set-gha-rs-manager
     actions.github.com/cleanup-no-permission-service-account-name: gha-runner-scale-set-gha-rs-no-permission
@@ -163,64 +163,69 @@ spec:
       restartPolicy: Never
       serviceAccountName: gha-runner-scale-set-gha-rs-no-permission
       initContainers:
-      - name: init-dind-externals
-        
+      - args:
+        - -r
+        - /home/runner/externals/.
+        - /home/runner/tmpDir/
+        command:
+        - cp
         image: ghcr.io/actions/actions-runner:2.338.2
-        command: ["cp"]
-        args: ["-r", "/home/runner/externals/.", "/home/runner/tmpDir/"]
+        name: init-dind-externals
         volumeMounts:
-          - name: dind-externals
-            mountPath: /home/runner/tmpDir
-      - name: dind
-        image: docker:dind
-        args:
-          - dockerd
-          - --host=unix:///var/run/docker.sock
-          - --group=$(DOCKER_GROUP_GID)
+        - mountPath: /home/runner/tmpDir
+          name: dind-externals
+      - args:
+        - dockerd
+        - --host=unix:///var/run/docker.sock
+        - --group=$(DOCKER_GROUP_GID)
         env:
-          - name: DOCKER_GROUP_GID
-            value: "123"
+        - name: DOCKER_GROUP_GID
+          value: "123"
+        image: docker.io/library/docker:29.9.3-dind
+        name: dind
+        restartPolicy: Always
         securityContext:
           privileged: true
-        restartPolicy: Always
         startupProbe:
           exec:
             command:
-              - docker
-              - info
-          initialDelaySeconds: 0
+            - docker
+            - info
           failureThreshold: 24
+          initialDelaySeconds: 0
           periodSeconds: 5
         volumeMounts:
-          - name: work
-            mountPath: /home/runner/_work
-          - name: dind-sock
-            mountPath: /var/run
-          - name: dind-externals
-            mountPath: /home/runner/externals
+        - mountPath: /home/runner/_work
+          name: work
+        - mountPath: /var/run
+          name: dind-sock
+        - mountPath: /home/runner/externals
+          name: dind-externals
       containers:
+      
       - name: runner
-        
         command: 
           - /home/runner/run.sh
         image: 
           ghcr.io/actions/actions-runner:2.338.2
         env:
-          - name: DOCKER_HOST
+          - 
+            name: DOCKER_HOST
             value: unix:///var/run/docker.sock
-          - name: RUNNER_WAIT_FOR_DOCKER_IN_SECONDS
+          - 
+            name: RUNNER_WAIT_FOR_DOCKER_IN_SECONDS
             value: "120"
         volumeMounts:
-          - name: work
+          - 
             mountPath: /home/runner/_work
-          - name: dind-sock
+            name: work
+          - 
             mountPath: /var/run
-      
+            name: dind-sock
       volumes:
-      - name: dind-sock
-        emptyDir: {}
-      - name: dind-externals
-        emptyDir: {}
-      
-      - name: work
-        emptyDir: {}
+      - emptyDir: {}
+        name: dind-sock
+      - emptyDir: {}
+        name: dind-externals
+      - emptyDir: {}
+        name: work

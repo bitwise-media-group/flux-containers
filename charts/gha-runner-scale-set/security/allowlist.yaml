@@ -5,13 +5,14 @@
 # preserved. Whole-file context lives in scan.allowlist.preamble in
 # manifest.yaml; per-finding analysis goes in a "notes" field on the entry.
 #
-# Re-reviewed for containerMode dind (values/discovery.yaml): the scale set
-# now runs a privileged docker:dind sidecar beside the runner, so the DinD
-# toolchain is no longer latent. Every entry is a *bundled* dependency of
+# Re-reviewed for Docker-in-Docker (the dind pod spec in
+# values/discovery.yaml): the scale set runs a privileged docker
+# <version>-dind sidecar beside the runner, so the DinD toolchain is no
+# longer latent. Every entry is a *bundled* dependency of
 # something the two images ship, not of the runner binary itself, in one of
 # three groups:
 #
-#   1. The Docker-in-Docker toolchain — REACHABLE. In the docker:dind
+#   1. The Docker-in-Docker toolchain — REACHABLE. In the dind
 #      sidecar, dockerd and containerd run (privileged) and ctr and
 #      docker-buildx are present; in the runner image, the docker CLI and
 #      /usr/local/lib/docker/cli-plugins/docker-buildx now drive that daemon

@@ -15,29 +15,86 @@ githubConfigSecret: gha-runner-scale-set-github-config
 controllerServiceAccount:
   namespace: arc-systems
   name: gha-runner-scale-set-controller-gha-rs-controller
-# The chart default is `ghcr.io/actions/actions-runner:latest` — a mutable tag,
-# which would lock a digest that silently stops matching the tag. Pinning the
-# runner explicitly is what puts an immutable tag in images.lock.yaml, and the
-# runtime values must reference this same mirrored tag.
+# Docker-in-Docker, spelled out instead of containerMode.type: dind. That
+# mode hardcodes the sidecar image as `docker:dind` — a moving tag no value
+# overrides — and the mirror's tags are immutable, so a `dind` tag can never
+# be republished at a new digest. The chart's own guidance applies: leave
+# containerMode empty and put the dind pod spec in template. The spec below
+# is what containerMode dind generates for chart 0.15.x, with the sidecar
+# pinned to a versioned `<version>-dind` tag. The runtime
+# (github-arc-app-manifests) must do the same and reference the same mirrored
+# tags. A scale set without dind needs only the runner container.
 #
-# The image line below is FACT, not intent: it is written by
-# `patchy mirror upgrade` from the .images.track rule in manifest.yaml (newest
-# actions/runner tag past the cooldown) and re-picked by `make mirror-upgrade`.
-# Never hand-edit it — change the rule in manifest.yaml instead.
+# Runner image: the chart default is `ghcr.io/actions/actions-runner:latest`,
+# a mutable tag that would lock a digest which silently stops matching it.
+# The runner's image line is FACT, not intent: it is the pin of the
+# .images.track rule in manifest.yaml (actions/runner 2.x), bumped by
+# Renovate through the `# renovate:` annotation (keep it directly above the
+# image line) or re-picked locally by `make mirror-upgrade`. The init
+# container reuses it through the &runner anchor, so there is one pin; keep
+# containers ahead of initContainers, since an alias must follow its anchor.
+#
+# dind image: bumped by Renovate only, through its annotation. patchy's track
+# rules pick plain X.Y.Z tags, so they cannot follow the `-dind` variant, and
+# `make mirror-upgrade` leaves this pin alone.
+#
+# The sidecar runs privileged; isolating it (dedicated capacity, admission)
+# is the runtime's concern, not anything set here.
 template:
   spec:
     containers:
       - name: runner
-        image: ghcr.io/actions/actions-runner:2.338.2
+        # renovate: datasource=docker depName=ghcr.io/actions/actions-runner
+        image: &runner ghcr.io/actions/actions-runner:2.338.2
         command: ["/home/runner/run.sh"]
-# containerMode dind: the runtime runs Docker-in-Docker scale sets
-# (github-arc-app-manifests), so discovery renders the same pod the runtime
-# does and mirrors and scans the chart's dind sidecar image (docker:dind,
-# hardcoded by the chart — no value overrides it) beside the runner. The
-# sidecar runs privileged; isolating it (dedicated capacity, admission) is
-# the runtime's concern, not anything set here. `kubernetes` mode would add
-# no images but needs a work-volume StorageClass. Whichever mode the runtime
-# picks has to be set here too, so the images it implies are mirrored and
-# scanned.
-containerMode:
-  type: dind
+        env:
+          - name: DOCKER_HOST
+            value: unix:///var/run/docker.sock
+          - name: RUNNER_WAIT_FOR_DOCKER_IN_SECONDS
+            value: "120"
+        volumeMounts:
+          - name: work
+            mountPath: /home/runner/_work
+          - name: dind-sock
+            mountPath: /var/run
+    initContainers:
+      - name: init-dind-externals
+        image: *runner
+        command: ["cp"]
+        args: ["-r", "/home/runner/externals/.", "/home/runner/tmpDir/"]
+        volumeMounts:
+          - name: dind-externals
+            mountPath: /home/runner/tmpDir
+      - name: dind
+        # renovate: datasource=docker depName=docker.io/library/docker
+        image: docker.io/library/docker:29.9.3-dind
+        args:
+          - dockerd
+          - --host=unix:///var/run/docker.sock
+          - --group=$(DOCKER_GROUP_GID)
+        env:
+          - name: DOCKER_GROUP_GID
+            value: "123"
+        securityContext:
+          privileged: true
+        restartPolicy: Always
+        startupProbe:
+          exec:
+            command: ["docker", "info"]
+          initialDelaySeconds: 0
+          failureThreshold: 24
+          periodSeconds: 5
+        volumeMounts:
+          - name: work
+            mountPath: /home/runner/_work
+          - name: dind-sock
+            mountPath: /var/run
+          - name: dind-externals
+            mountPath: /home/runner/externals
+    volumes:
+      - name: dind-sock
+        emptyDir: {}
+      - name: dind-externals
+        emptyDir: {}
+      - name: work
+        emptyDir: {}

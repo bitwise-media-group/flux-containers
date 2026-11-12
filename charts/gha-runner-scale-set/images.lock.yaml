@@ -3,10 +3,10 @@ chart:
   version: 0.15.1
   upstreamTgzSha256: 233b3c53a7c5ebe91f24ca87736f4b76caf1ae2079482a1d036da828cbe247b1
 images:
-  - source: docker.io/library/docker:dind
+  - source: docker.io/library/docker:29.9.3-dind
     digest: sha256:08a98015fce594af7c382883bea080ea206de74402a95da9dc52b6428c8cd121
     targets:
-      google: us-central1-docker.pkg.dev/o-foundation-7e43/platform/images/docker.io/library/docker:dind
+      google: us-central1-docker.pkg.dev/o-foundation-7e43/platform/images/docker.io/library/docker:29.9.3-dind
     platforms: ["linux/amd64", "linux/arm", "linux/arm64"]
   - source: ghcr.io/actions/actions-runner:2.338.2
     digest: sha256:759a1d94a15b05941aba5196974ff43fe15b4cbba29b694b35cbc32a1166b232

@@ -13,7 +13,7 @@ chart:
   name: gha-runner-scale-set
   # Released together with gha-runner-scale-set-controller on one version
   # stream, and ARC does not support running a scale set against a different
-  # controller version — the lockstep group makes update-check bump both in
+  # controller version — the lockstep group makes Renovate bump both in
   # one PR.
   lockstep: arc
   version: "0.15.1"
@@ -30,10 +30,10 @@ discovery:
 images:
   # The runner image rides its own release train (actions/runner 2.x), which
   # says nothing about this chart's version — so `chart.version` can't imply
-  # it and the chart's own default is the mutable `:latest`. `patchy mirror
-  # upgrade` picks the newest tag that has cleared the cooldown and writes it
-  # into valuesPath below; `make mirror-upgrade` and the daily update-check workflow
-  # re-pick it. The pinned line in values/discovery.yaml is FACT — never
+  # it and the chart's own default is the mutable `:latest`. Renovate bumps
+  # the pin at valuesPath below through its `# renovate:` annotation, and
+  # `make mirror-upgrade` re-picks the newest tag that has cleared the
+  # cooldown. The pinned line in values/discovery.yaml is FACT — never
   # hand-edit it.
   track:
     - image: ghcr.io/actions/actions-runner
@@ -53,12 +53,12 @@ images:
       provider: cosign-keyless
       certificateIdentityRegexp: "^https://github.com/actions/runner/"
       certificateOidcIssuer: "https://token.actions.githubusercontent.com"
-    # containerMode dind's sidecar. The chart hardcodes `docker:dind` (no value
-    # overrides it), so the lock pins whatever digest the moving `dind` tag
-    # resolved to at update time, and the mirror serves it under that same tag.
-    # Docker Official Images carry no cosign signature (no .sig tag, no
-    # sigstore bundle among the referrers) — documented gap; the mirror's
-    # signature is the first provenance this image gets.
+    # The dind sidecar, pinned to a versioned `<version>-dind` tag in
+    # values/discovery.yaml (containerMode dind's hardcoded, moving
+    # `docker:dind` can't be published to an immutable mirror). Docker
+    # Official Images carry no cosign signature (no .sig tag, no sigstore
+    # bundle among the referrers) — documented gap; the mirror's signature is
+    # the first provenance this image gets.
     - match: "docker.io/library/docker:*"
       provider: none
 scan:
@@ -73,13 +73,14 @@ scan:
     # Whole-file context for reviewers. Per-finding analysis goes in a `notes`
     # field on the entry itself, which regeneration preserves verbatim.
     preamble: |
-      Re-reviewed for containerMode dind (values/discovery.yaml): the scale set
-      now runs a privileged docker:dind sidecar beside the runner, so the DinD
-      toolchain is no longer latent. Every entry is a *bundled* dependency of
+      Re-reviewed for Docker-in-Docker (the dind pod spec in
+      values/discovery.yaml): the scale set runs a privileged docker
+      <version>-dind sidecar beside the runner, so the DinD toolchain is no
+      longer latent. Every entry is a *bundled* dependency of
       something the two images ship, not of the runner binary itself, in one of
       three groups:
 
-        1. The Docker-in-Docker toolchain — REACHABLE. In the docker:dind
+        1. The Docker-in-Docker toolchain — REACHABLE. In the dind
            sidecar, dockerd and containerd run (privileged) and ctr and
            docker-buildx are present; in the runner image, the docker CLI and
            /usr/local/lib/docker/cli-plugins/docker-buildx now drive that daemon
