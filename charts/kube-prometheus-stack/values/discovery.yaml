@@ -1,0 +1,24 @@
+# Copyright 2026 BitWise Media Group Ltd
+# SPDX-License-Identifier: MIT
+#
+# Discovery-only values: enable anything whose images must be mirrored, even
+# when a given cluster's runtime values (in flux-manifests) leave it off.
+# Runtime values do NOT live here.
+#
+# The operator's admission webhook certificates come from cert-manager at
+# runtime (flux-manifests), so the kube-webhook-certgen patch job and its
+# third-party image never run. Disabled here too, so that image never
+# reaches the mirror.
+prometheusOperator:
+  admissionWebhooks:
+    certManager:
+      enabled: true
+grafana:
+  # The helm test hook (bats) never runs under Flux.
+  testFramework:
+    enabled: false
+  # Determinism only: without an existing secret the grafana chart mints a
+  # random admin password on every render, which breaks the byte-identity
+  # gate. The runtime release lets the chart generate (and keep) its own.
+  admin:
+    existingSecret: grafana-admin

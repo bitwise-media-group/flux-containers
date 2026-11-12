@@ -20,7 +20,7 @@ findings** counts the entries in `security/allowlist.yaml`. Each entry is an acc
 | Certificates & identity | [cert-manager](cert-manager.md), [dex](dex.md)                                                                                           |
 | Policy & secrets        | [kyverno](kyverno.md), [secrets-store-sync-controller](secrets-store-sync-controller.md)                                                 |
 | CI runners              | [gha-runner-scale-set-controller](gha-runner-scale-set-controller.md) + [gha-runner-scale-set](gha-runner-scale-set.md) (lockstep `arc`) |
-| Observability           | [opentelemetry-collector](opentelemetry-collector.md)                                                                                    |
+| Observability           | [kube-prometheus-stack](kube-prometheus-stack.md), [opentelemetry-collector](opentelemetry-collector.md)                                 |
 | Node provisioning       | [karpenter](karpenter.md)                                                                                                                |
 | Automation              | [renovate](renovate.md)                                                                                                                  |
 

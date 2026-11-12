@@ -53,6 +53,7 @@ nav = [
     { "gha-runner-scale-set-controller" = "charts/gha-runner-scale-set-controller.md" },
     { "gha-runner-scale-set" = "charts/gha-runner-scale-set.md" },
     { "karpenter" = "charts/karpenter.md" },
+    { "kube-prometheus-stack" = "charts/kube-prometheus-stack.md" },
     { "kyverno" = "charts/kyverno.md" },
     { "opentelemetry-collector" = "charts/opentelemetry-collector.md" },
     { "renovate" = "charts/renovate.md" },

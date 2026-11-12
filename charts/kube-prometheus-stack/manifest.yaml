@@ -1,0 +1,69 @@
+# Copyright 2026 BitWise Media Group Ltd
+# SPDX-License-Identifier: MIT
+apiVersion: mirror.patchy.bitwisemedia.uk/v1alpha1
+kind: Chart
+name: kube-prometheus-stack
+chart:
+  repo: oci://ghcr.io/prometheus-community/charts
+  name: kube-prometheus-stack
+  version: "93.2.2"
+  # Stay in the major. kube-prometheus-stack cuts a major for every
+  # prometheus-operator CRD change or breaking values rename, and each one
+  # carries upgrade notes; a major move is a reviewed PR, never an update.
+  versionConstraint: ">=93.2.2 <94.0.0"
+  # prometheus-community publishes the OCI charts unsigned (no cosign
+  # signature or bundle on ghcr) — documented gap. The operator and
+  # kube-state-metrics images below are keyless-verified.
+  verifyUpstream:
+    provider: none
+discovery:
+  namespace: monitoring
+  valuesFiles: [values/discovery.yaml]
+  kubeVersion: "1.34.0"
+images:
+  extra:
+    # The operator injects config-reloader as a sidecar into every Prometheus
+    # and Alertmanager pod it creates (passed via its
+    # --prometheus-config-reloader flag), invisible to helm template.
+    - image: "quay.io/prometheus-operator/prometheus-config-reloader:{appVersion}"
+      reason: sidecar the operator injects into Prometheus and Alertmanager pods, referenced via operator flag not a pod spec
+  exclude: []
+  # First match wins; every locked image must match a rule.
+  verifyUpstream:
+    # The operator, config-reloader and admission-webhook images are
+    # keyless-signed by the prometheus-operator release workflow.
+    - match: "quay.io/prometheus-operator/*"
+      provider: cosign-keyless
+      certificateIdentityRegexp: "^https://github\\.com/prometheus-operator/prometheus-operator/"
+      certificateOidcIssuer: "https://token.actions.githubusercontent.com"
+    # registry.k8s.io images are keyless-signed by the kubernetes release
+    # promoter.
+    - match: "registry.k8s.io/kube-state-metrics/*"
+      provider: cosign-keyless
+      certificateIdentityRegexp: "^krel-trust@k8s-releng-prod\\.iam\\.gserviceaccount\\.com$"
+      certificateOidcIssuer: "https://accounts.google.com"
+    # Unsigned upstream — documented gaps. Prometheus, Alertmanager and
+    # node-exporter (quay.io/prometheus), Grafana (docker.io/grafana) and the
+    # dashboard sidecar (quay.io/kiwigrid) publish no cosign signatures; the
+    # mirror's scan and re-signing are the only provenance they get.
+    - match: "quay.io/prometheus/*"
+      provider: none
+    - match: "docker.io/grafana/*"
+      provider: none
+    - match: "quay.io/kiwigrid/*"
+      provider: none
+scan:
+  failOn: [CRITICAL, HIGH]
+  ignoreUnfixed: true
+  allowlist:
+    # Blocking findings are machine-transcribed into security/allowlist.yaml
+    # by `patchy mirror upgrade`; the PR review is where the risk is accepted.
+    generate: true
+    preamble: |
+      kube-prometheus-stack bundles several upstream release trains
+      (prometheus-operator, Prometheus, Alertmanager, node-exporter,
+      kube-state-metrics, Grafana and its dashboard sidecar), each pinned by
+      the chart. An entry here means the chart pin carries no fixed image
+      yet; a fix usually arrives with the next chart patch release.
+publish:
+  chartRepo: charts/kube-prometheus-stack
