@@ -1,0 +1,10 @@
+chart:
+  name: oauth2-proxy
+  version: 10.7.4
+  upstreamTgzSha256: e860a4d4e758a584120d62c00363f15c5067f09167d19846be6034b696e1f19c
+images:
+  - source: quay.io/oauth2-proxy/oauth2-proxy:v7.15.6
+    digest: sha256:c3415e8660af553f5e18f5d90db050614c02493c0ac6260ac59442f6d9b12048
+    targets:
+      google: us-central1-docker.pkg.dev/o-foundation-7e43/platform/images/quay.io/oauth2-proxy/oauth2-proxy:v7.15.6
+    platforms: ["linux/amd64", "linux/arm", "linux/arm64", "linux/ppc64le", "linux/s390x"]

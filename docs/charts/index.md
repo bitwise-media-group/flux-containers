@@ -17,7 +17,7 @@ findings** counts the entries in `security/allowlist.yaml`. Each entry is an acc
 | ----------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
 | GitOps                  | [flux-operator](flux-operator.md) + [flux-instance](flux-instance.md) (lockstep `flux`)                                                  |
 | Networking & ingress    | [cilium](cilium.md), [aws-load-balancer-controller](aws-load-balancer-controller.md), [external-dns](external-dns.md)                    |
-| Certificates & identity | [cert-manager](cert-manager.md), [dex](dex.md)                                                                                           |
+| Certificates & identity | [cert-manager](cert-manager.md), [dex](dex.md), [oauth2-proxy](oauth2-proxy.md)                                                          |
 | Policy & secrets        | [kyverno](kyverno.md), [secrets-store-sync-controller](secrets-store-sync-controller.md)                                                 |
 | CI runners              | [gha-runner-scale-set-controller](gha-runner-scale-set-controller.md) + [gha-runner-scale-set](gha-runner-scale-set.md) (lockstep `arc`) |
 | Observability           | [kube-prometheus-stack](kube-prometheus-stack.md), [opentelemetry-collector](opentelemetry-collector.md)                                 |

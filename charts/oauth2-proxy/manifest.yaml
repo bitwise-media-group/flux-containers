@@ -1,0 +1,43 @@
+# Copyright 2026 BitWise Media Group Ltd
+# SPDX-License-Identifier: MIT
+apiVersion: mirror.patchy.bitwisemedia.uk/v1alpha1
+kind: Chart
+name: oauth2-proxy
+chart:
+  repo: oci://ghcr.io/oauth2-proxy/charts
+  name: oauth2-proxy
+  version: "10.7.4"
+  versionConstraint: ">=10.7.4 <11.0.0"
+  # The OCI chart is keyless-signed by the oauth2-proxy/manifests release
+  # workflow.
+  verifyUpstream:
+    provider: cosign-keyless
+    certificateIdentityRegexp: "^https://github\\.com/oauth2-proxy/"
+    certificateOidcIssuer: "https://token.actions.githubusercontent.com"
+discovery:
+  namespace: auth-proxy
+  valuesFiles: [values/discovery.yaml]
+  kubeVersion: "1.34.0"
+images:
+  extra: []
+  exclude: []
+  verifyUpstream:
+    # oauth2-proxy publishes its image unsigned on both quay.io and ghcr.io
+    # (no cosign signature or bundle) — documented gap. The chart pins it by
+    # its appVersion, so it moves only with a reviewed chart bump.
+    - match: "quay.io/oauth2-proxy/*"
+      provider: none
+scan:
+  failOn: [CRITICAL, HIGH]
+  ignoreUnfixed: true
+  allowlist:
+    # Blocking findings are machine-transcribed into security/allowlist.yaml
+    # by `patchy mirror upgrade`; the PR review is where the risk is accepted.
+    generate: true
+    preamble: |
+      oauth2-proxy is a single static Go binary on a distroless base, so an
+      entry here is almost always a Go module or stdlib finding fixed in a
+      later oauth2-proxy release; the chart pins the image to its
+      appVersion, so the fix arrives with the chart bump.
+publish:
+  chartRepo: charts/oauth2-proxy

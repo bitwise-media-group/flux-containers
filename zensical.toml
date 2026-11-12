@@ -55,6 +55,7 @@ nav = [
     { "karpenter" = "charts/karpenter.md" },
     { "kube-prometheus-stack" = "charts/kube-prometheus-stack.md" },
     { "kyverno" = "charts/kyverno.md" },
+    { "oauth2-proxy" = "charts/oauth2-proxy.md" },
     { "opentelemetry-collector" = "charts/opentelemetry-collector.md" },
     { "renovate" = "charts/renovate.md" },
     { "secrets-store-sync-controller" = "charts/secrets-store-sync-controller.md" },
