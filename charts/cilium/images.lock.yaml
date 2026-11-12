@@ -13,6 +13,21 @@ images:
     targets:
       google: us-central1-docker.pkg.dev/o-foundation-7e43/platform/images/quay.io/cilium/cilium:v1.20.4
     platforms: ["linux/amd64", "linux/arm64"]
+  - source: quay.io/cilium/hubble-relay:v1.20.4@sha256:cb23408209697ed30d2bc462e1f01eb622ea4423a891458f78bc88d7255bbfc1
+    digest: sha256:cb23408209697ed30d2bc462e1f01eb622ea4423a891458f78bc88d7255bbfc1
+    targets:
+      google: us-central1-docker.pkg.dev/o-foundation-7e43/platform/images/quay.io/cilium/hubble-relay:v1.20.4
+    platforms: ["linux/amd64", "linux/arm64"]
+  - source: quay.io/cilium/hubble-ui-backend:v0.13.6@sha256:83b3fc763f3d49948c306bf49b08277383e195904b9ca5c0c0022b2112628787
+    digest: sha256:83b3fc763f3d49948c306bf49b08277383e195904b9ca5c0c0022b2112628787
+    targets:
+      google: us-central1-docker.pkg.dev/o-foundation-7e43/platform/images/quay.io/cilium/hubble-ui-backend:v0.13.6
+    platforms: ["linux/amd64", "linux/arm64"]
+  - source: quay.io/cilium/hubble-ui:v0.13.6@sha256:049a80a03585c043d0c3121bdc518c72b0fd42bae07e4bcce0fdb8f1e88041d0
+    digest: sha256:049a80a03585c043d0c3121bdc518c72b0fd42bae07e4bcce0fdb8f1e88041d0
+    targets:
+      google: us-central1-docker.pkg.dev/o-foundation-7e43/platform/images/quay.io/cilium/hubble-ui:v0.13.6
+    platforms: ["linux/amd64", "linux/arm64"]
   - source: quay.io/cilium/operator-generic:v1.20.4@sha256:7a7a3489dc66ad67e420d285c8a8d2e169b0957ad15e120f593d27081bf38d82
     digest: sha256:7a7a3489dc66ad67e420d285c8a8d2e169b0957ad15e120f593d27081bf38d82
     targets:

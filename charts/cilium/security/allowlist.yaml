@@ -9,23 +9,56 @@
 # version stream), so an entry here means no fixed cilium release
 # exists yet; the chart upgrade is what clears it.
 vulnerabilities:
+  - id: CVE-2026-103111
+    statement: Fixed in pcre2 10.49-r0; the locked image ships 10.48-r0. Derived from the image scan at bump time; accepted in PR review.
+    expired_at: "2027-02-10"
+  - id: CVE-2026-107891
+    statement: Fixed in musl/musl-utils 1.2.6-r3; the locked image ships 1.2.6-r2. Derived from the image scan at bump time; accepted in PR review.
+    expired_at: "2027-02-10"
   - id: CVE-2026-109518
     statement: Fixed in apt/libapt-pkg6.0t64/libapt-pkg7.0 3.2.1ubuntu0.1; the locked image ships 2.8.3/3.2.0. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2027-02-09"
+  - id: CVE-2026-4738
+    statement: Fixed in zlib 1.4-r0; the locked image ships 1.3.2-r0. Derived from the image scan at bump time; accepted in PR review.
+    expired_at: "2027-02-10"
+  - id: CVE-2026-85091
+    statement: Fixed in zlib 1.3.2-r1; the locked image ships 1.3.2-r0. Derived from the image scan at bump time; accepted in PR review.
+    expired_at: "2027-02-10"
   - id: GHSA-mgcc-cww5-fp2q
     statement: Fixed in github.com/go-jose/go-jose/v4 4.1.6; the locked image ships v4.1.4. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2027-02-09"
   - id: GO-2026-6603
-    statement: Fixed in golang.org/x/net 0.60.0; the locked image ships v0.58.0. Derived from the image scan at bump time; accepted in PR review.
+    statement: Fixed in golang.org/x/net/stdlib 1.27.2; the locked image ships go1.27.1/v0.58.0. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2027-01-20"
+  - id: GO-2026-6604
+    statement: Fixed in stdlib 1.27.2; the locked image ships go1.27.1. Derived from the image scan at bump time; accepted in PR review.
+    expired_at: "2027-02-10"
+  - id: GO-2026-6605
+    statement: Fixed in stdlib 1.27.2; the locked image ships go1.27.1. Derived from the image scan at bump time; accepted in PR review.
+    expired_at: "2027-02-10"
+  - id: GO-2026-6607
+    statement: Fixed in stdlib 1.27.2; the locked image ships go1.27.1. Derived from the image scan at bump time; accepted in PR review.
+    expired_at: "2027-02-10"
+  - id: GO-2026-6608
+    statement: Fixed in stdlib 1.27.2; the locked image ships go1.27.1. Derived from the image scan at bump time; accepted in PR review.
+    expired_at: "2027-02-10"
+  - id: GO-2026-6609
+    statement: Fixed in stdlib 1.27.2; the locked image ships go1.27.1. Derived from the image scan at bump time; accepted in PR review.
+    expired_at: "2027-02-10"
+  - id: GO-2026-6610
+    statement: Fixed in golang.org/x/net/stdlib 1.27.2; the locked image ships go1.27.1/v0.58.0. Derived from the image scan at bump time; accepted in PR review.
+    expired_at: "2027-02-10"
   - id: GO-2026-6611
-    statement: Fixed in golang.org/x/net 0.60.0; the locked image ships v0.58.0. Derived from the image scan at bump time; accepted in PR review.
+    statement: Fixed in golang.org/x/net/stdlib 1.27.2; the locked image ships go1.27.1/v0.58.0. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2027-01-20"
   - id: GO-2026-6612
-    statement: Fixed in golang.org/x/net 0.60.0; the locked image ships v0.58.0. Derived from the image scan at bump time; accepted in PR review.
+    statement: Fixed in golang.org/x/net/stdlib 1.27.2; the locked image ships go1.27.1/v0.58.0. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2027-01-20"
+  - id: GO-2026-6613
+    statement: Fixed in stdlib 1.27.2; the locked image ships go1.27.1. Derived from the image scan at bump time; accepted in PR review.
+    expired_at: "2027-02-10"
   - id: GO-2026-6617
-    statement: Fixed in golang.org/x/net 0.60.0; the locked image ships v0.58.0. Derived from the image scan at bump time; accepted in PR review.
+    statement: Fixed in golang.org/x/net/stdlib 1.27.2; the locked image ships go1.27.1/v0.58.0. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2027-01-20"
   - id: GO-2026-6865
     statement: Fixed in github.com/klauspost/compress 1.20.2; the locked image ships v1.18.7. Derived from the image scan at bump time; accepted in PR review.

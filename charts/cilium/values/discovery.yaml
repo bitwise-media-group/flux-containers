@@ -15,3 +15,14 @@ hubble:
       enabled: false
     server:
       existingSecret: hubble-server-certs
+  # The relay and UI run at runtime (flux-manifests, fronted by the
+  # auth-proxy component), so their three images must be mirrored. The
+  # relay's client certificate points at an existing Secret for the same
+  # determinism reason as the agent's server certificate above.
+  relay:
+    enabled: true
+    tls:
+      client:
+        existingSecret: hubble-relay-client-certs
+  ui:
+    enabled: true

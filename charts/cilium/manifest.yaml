@@ -32,6 +32,14 @@ images:
   extra: []
   exclude: []
   verifyUpstream:
+    # The Hubble UI ships from its own repository (cilium/hubble-ui), whose
+    # releases publish the frontend and backend images unsigned —
+    # documented gap, scoped to exactly those two so every other cilium
+    # image (the relay included) still has to verify below.
+    - match: "quay.io/cilium/hubble-ui:*"
+      provider: none
+    - match: "quay.io/cilium/hubble-ui-backend:*"
+      provider: none
     - match: "quay.io/cilium/*"
       provider: cosign-keyless
       certificateIdentityRegexp: "^https://github.com/cilium/"

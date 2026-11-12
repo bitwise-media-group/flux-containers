@@ -12,14 +12,18 @@ description: "eBPF-based networking, security and observability (CNI), with Hubb
 
 ## How it's mirrored
 
-- **Fully keyless upstream.** Cilium signs both the OCI chart and its images from its GitHub release workflows, so the
-  chart and every `quay.io/cilium/*` image are verified keyless.
-- **Images move with the chart.** The agent, operator and Envoy images are pinned by the chart itself (tag plus digest),
-  so there are no track rules.
+- **Keyless upstream, bar the Hubble UI.** Cilium signs the OCI chart and its images from its GitHub release workflows,
+  so the chart and every `quay.io/cilium/*` image are verified keyless. The exception is the Hubble UI's frontend and
+  backend (`hubble-ui`, `hubble-ui-backend`), which ship unsigned from the separate cilium/hubble-ui repository. Two
+  rules ahead of the catch-all record that gap for exactly those images; the relay is cilium-signed and still verifies.
+- **Hubble relay and UI included.** flux-manifests runs both, behind its auth-proxy component, so discovery enables them
+  and their three images are mirrored.
+- **Images move with the chart.** The agent, operator, Envoy, relay and UI images are pinned by the chart itself (tag
+  plus digest), so there are no track rules.
 - **Discovery keeps the render deterministic.** By default the chart mints a fresh Hubble CA and server certificate on
   every render (`hubble.tls.auto.method=helm`). That would make `rendered/manifests.yaml` different on every run and
-  fail the byte-identity gate. The discovery values turn auto-generation off and point Hubble at an externally managed
-  Secret, so no certificate material is rendered.
+  fail the byte-identity gate. The discovery values turn auto-generation off and point Hubble's server and the relay's
+  client at externally managed Secrets, so no certificate material is rendered.
 
 ```yaml title="charts/cilium/values/discovery.yaml"
 --8<-- "charts/cilium/values/discovery.yaml"
