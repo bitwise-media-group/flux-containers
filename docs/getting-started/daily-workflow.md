@@ -22,8 +22,8 @@ make mirror-check
 ```
 
 This prints the update plan and changes nothing. It shows each entry's newest upstream version within its
-`versionConstraint`, plus the target for each lockstep group. Most days you won't need it, because the daily
-[update-check workflow](../concepts/automation.md) opens the PRs for you.
+`versionConstraint`, plus the target for each lockstep group. Most days you won't need it, because
+[Renovate](../concepts/updates.md#renovate) opens the PRs for you.
 
 ## Bump a chart
 
@@ -36,8 +36,8 @@ make mirror-upgrade ENTRY=kyverno
 manifests, the image lock, `images.extra.yaml` and generated allowlists. If everything is already current, it does
 nothing. `make mirror-upgrade` does the same for every entry.
 
-For a lockstep pair, run `update` on either member, or let update-check open the group PR. Both members move to the
-group's target together.
+For a lockstep pair, run `update` on either member, or let Renovate open the group PR. Both members move to the group's
+target together.
 
 ## Validate before you push
 

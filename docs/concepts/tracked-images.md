@@ -25,6 +25,18 @@ full image reference (the pick replaces `image:tag`) or a bare tag, for charts t
 `image.tag`. The path must already exist: a pick replaces a value but never creates one. That line is a **fact**. Don't
 edit it by hand, because the next `update` overwrites it. Change the rule instead.
 
+[Renovate](updates.md#renovate) bumps the same line in CI. A custom manager can't join the rule in `manifest.yaml` to
+the pin in another file, so the pinned line carries an annotation naming the rule's image on the line directly above it:
+
+```yaml
+image:
+  # renovate: datasource=docker depName=ghcr.io/dexidp/dex
+  tag: v2.46.1
+```
+
+Add the annotation whenever you add a track rule. Without it, Renovate never sees the image and only local
+`make mirror-upgrade` moves it.
+
 | Chart                                                           | Tracked image                                                                             | Written to                           |
 | --------------------------------------------------------------- | ----------------------------------------------------------------------------------------- | ------------------------------------ |
 | [dex](../charts/dex.md)                                         | `ghcr.io/dexidp/dex`                                                                      | `.image.tag`                         |
@@ -48,5 +60,7 @@ The pick depends on wall-clock time, so it runs only in `update` and never in `v
 byte-identically. If it re-picked, a tag ageing past the cooldown during review would fail pr-validate on a tree nobody
 had touched. See [Determinism](intent-and-facts.md#determinism).
 
-The daily update-check re-picks tracked images even when no chart version has moved. Those PRs are titled
-`feat(<chart>): update tracked images`.
+Renovate bumps tracked images even when no chart version has moved. Those PRs share the entry's `renovate/<entry>`
+branch with any chart bump, and a lone image bump reads `feat(<entry>): update <image> image to <tag>`. Renovate applies
+the rule's `versionConstraint` only as far as "no majors". `patchy mirror upgrade --pinned` enforces the full range, so
+a pin outside it fails the PR.

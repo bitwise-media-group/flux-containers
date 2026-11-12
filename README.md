@@ -58,7 +58,9 @@ chart and controller both keyless-verified).
 Some charts reference an image on a release train of its own: the actions runner moves independently of the scale set
 chart, so no chart version implies it, and the chart's own default is the mutable `:latest`. Those are declared per
 chart under `.images.track` in `manifest.yaml`, and `patchy mirror upgrade` writes the resolved `<image>:<tag>` into the
-chart's discovery values — that line is FACT, not intent, so change the rule rather than the pin.
+chart's discovery values — that line is FACT, not intent, so change the rule rather than the pin. In CI, Renovate bumps
+the same line through a `# renovate: datasource=docker depName=<image>` annotation directly above it; add one with every
+new track rule.
 
 Selection walks candidate tags newest-first and takes the first published at least `update.cooldownDays` ago
 (`patchy.yaml`, 3 by default; override per image with `cooldownDays`, or 0 to track head). A release yanked or hot-fixed
@@ -115,9 +117,10 @@ scanner change.
 - **publish.yaml** (push to main touching the store): WIF auth as the chart-publisher service account
   (`GOOGLE_WORKLOAD_IDENTITY_PROVIDER` / `GOOGLE_CHART_PUBLISHER_SA` repository variables, from the terraform
   artifact-store outputs) → `patchy mirror sync --all`.
-- **update-check.yaml** (daily): `patchy mirror upgrade --check`, then one stable `update/<group>` branch and one PR per
-  lockstep group with work, refreshed in place — a newer upstream release rewrites the same PR instead of opening a
-  sibling.
+- **renovate.yaml** (hourly): the org's Renovate bot finds new chart versions (`chart.version` in each manifest) and
+  tracked-image tags (the `# renovate:`-annotated pins in the discovery values), then runs
+  `patchy mirror upgrade --pinned <entry>` as a post-upgrade task to regenerate everything derived. One PR per entry,
+  one per lockstep group; majors are disabled, and nothing automerges (see `.github/renovate.json5`).
 - **rescan.yaml** (weekly): fresh-DB rescan of the published sets.
 - **docs.yaml** (push to main touching docs or the store, and daily): builds the documentation site and deploys it to
   GitHub Pages.
