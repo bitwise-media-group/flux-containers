@@ -3,9 +3,11 @@
 #
 # Discovery-only values: the google provider configuration the runtime uses
 # (flux-manifests) changes no images. The tag below is FACT, not intent: it
-# is written by the .images.track rule in manifest.yaml (newest soaked
-# external-dns v0.x tag) and re-picked by `patchy mirror upgrade` — never
+# is the pin of the .images.track rule in manifest.yaml (external-dns v0.x),
+# bumped by Renovate through the `# renovate:` annotation (keep it directly
+# above the tag) or re-picked locally by `make mirror-upgrade` — never
 # hand-edit it.
 image:
+  # renovate: datasource=docker depName=registry.k8s.io/external-dns/external-dns
   tag: v0.24.0
 policy: sync
