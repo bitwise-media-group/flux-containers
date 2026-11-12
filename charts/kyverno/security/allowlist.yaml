@@ -11,8 +11,5 @@
 # bundle.
 vulnerabilities:
   - id: GHSA-mgcc-cww5-fp2q
-    statement: Fixed in github.com/go-jose/go-jose/v4 4.1.6; the locked image ships v4.1.4. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2027-02-09"
-  - id: GO-2026-6865
-    statement: Fixed in github.com/klauspost/compress 1.20.2; the locked image ships v1.19.1. Derived from the image scan at bump time; accepted in PR review.
+    statement: Fixed in github.com/go-jose/go-jose/v4 4.1.6; the locked image ships v4.1.5. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2027-02-09"
