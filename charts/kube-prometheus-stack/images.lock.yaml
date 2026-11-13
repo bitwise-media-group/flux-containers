@@ -1,7 +1,7 @@
 chart:
   name: kube-prometheus-stack
-  version: 93.2.2
-  upstreamTgzSha256: 9d3457242690f6dfac64833482766c293d5ed767c15b73e5fe4d9eec609a237d
+  version: 93.3.0
+  upstreamTgzSha256: 2d40be0b19523cb4fed25b4db09e3ca35f471a06872baf7048b916a62c7af0eb
 images:
   - source: docker.io/grafana/grafana:13.3.1-distroless
     digest: sha256:54e297ac67e2b72572f926892f4e06074dc4f79f2a56ed9a9ca9a88a46f28733
