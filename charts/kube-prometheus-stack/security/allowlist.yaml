@@ -11,6 +11,9 @@
 # the chart. An entry here means the chart pin carries no fixed image
 # yet; a fix usually arrives with the next chart patch release.
 vulnerabilities:
+  - id: CVE-2026-119170
+    statement: Fixed in python 3.14.11; the locked image ships 3.14.10. Derived from the image scan at bump time; accepted in PR review.
+    expired_at: "2027-02-11"
   - id: CVE-2026-4738
     statement: Fixed in zlib 1.4-r0; the locked image ships 1.3.2-r1. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2027-02-10"

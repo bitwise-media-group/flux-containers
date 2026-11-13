@@ -6,7 +6,7 @@ name: kube-prometheus-stack
 chart:
   repo: oci://ghcr.io/prometheus-community/charts
   name: kube-prometheus-stack
-  version: "93.2.2"
+  version: "93.3.0"
   # Stay in the major. kube-prometheus-stack cuts a major for every
   # prometheus-operator CRD change or breaking values rename, and each one
   # carries upgrade notes; a major move is a reviewed PR, never an update.
