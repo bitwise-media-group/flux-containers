@@ -11,7 +11,7 @@ chart:
   # separate karpenter-crd chart is not mirrored.
   repo: oci://public.ecr.aws/karpenter
   name: karpenter
-  version: "1.15.1"
+  version: "1.15.2"
   versionConstraint: ">=1.15.1 <2.0.0"
   # aws/karpenter-provider-aws keyless-signs the OCI chart from its tag-push
   # release workflow (SAN https://github.com/aws/karpenter-provider-aws/
