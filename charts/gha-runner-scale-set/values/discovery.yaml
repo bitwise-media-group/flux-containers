@@ -67,7 +67,7 @@ template:
             mountPath: /home/runner/tmpDir
       - name: dind
         # renovate: datasource=docker depName=docker.io/library/docker
-        image: docker.io/library/docker:29.9.3-dind
+        image: docker.io/library/docker:29.10.0-dind
         args:
           - dockerd
           - --host=unix:///var/run/docker.sock

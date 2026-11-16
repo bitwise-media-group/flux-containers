@@ -145,7 +145,7 @@ metadata:
     actions.github.com/scale-set-name: gha-runner-scale-set
     actions.github.com/scale-set-namespace: arc-runners
   annotations:
-    actions.github.com/values-hash: f7b3e6f8d3fab9fbee9c6affe64d19b38ea604b0a30d1e022b781f352808596
+    actions.github.com/values-hash: 0ea7c2b2b2880e8140e84f1e0dd04095209a968236cc4200dc1a8b909c4865b
     actions.github.com/cleanup-manager-role-binding: gha-runner-scale-set-gha-rs-manager
     actions.github.com/cleanup-manager-role-name: gha-runner-scale-set-gha-rs-manager
     actions.github.com/cleanup-no-permission-service-account-name: gha-runner-scale-set-gha-rs-no-permission
@@ -181,7 +181,7 @@ spec:
         env:
         - name: DOCKER_GROUP_GID
           value: "123"
-        image: docker.io/library/docker:29.9.3-dind
+        image: docker.io/library/docker:29.10.0-dind
         name: dind
         restartPolicy: Always
         securityContext:
