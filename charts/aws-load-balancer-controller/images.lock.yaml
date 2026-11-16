@@ -1,10 +1,10 @@
 chart:
   name: aws-load-balancer-controller
-  version: 3.6.2
-  upstreamTgzSha256: 9255bf39873b6cb31106dbe61dc87c3617bff4197783b5b94381811a13f99c3c
+  version: 3.6.3
+  upstreamTgzSha256: 5c123ddd6a9f847963d98d513551a9d31f3645b663caca5b118c132dd7a49e76
 images:
-  - source: public.ecr.aws/eks/aws-load-balancer-controller:v3.6.2
-    digest: sha256:fd51f0ec82f8d357837aa57fdfaa4fca7137b75f25a09b421d95c425c9dc2d94
+  - source: public.ecr.aws/eks/aws-load-balancer-controller:v3.6.3
+    digest: sha256:bc9bee8bc5b2b9f69fe914c06ed3ddb24ce9c94e234cf101dff1ec04693a6974
     targets:
-      google: us-central1-docker.pkg.dev/o-foundation-7e43/platform/images/public.ecr.aws/eks/aws-load-balancer-controller:v3.6.2
+      google: us-central1-docker.pkg.dev/o-foundation-7e43/platform/images/public.ecr.aws/eks/aws-load-balancer-controller:v3.6.3
     platforms: ["linux/amd64", "linux/arm64"]
