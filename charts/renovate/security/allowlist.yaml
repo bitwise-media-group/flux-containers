@@ -8,78 +8,66 @@
 # The scanned image is built upstream, so an entry means no fixed
 # image exists yet.
 vulnerabilities:
-  - id: GHSA-2m5v-pch6-74hx
-    statement: Fixed in undici 8.12.2; the locked image ships 8.11.2. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2027-02-09"
-  - id: GHSA-4w7w-5xrc-9h26
-    statement: Fixed in undici 8.12.2; the locked image ships 8.11.2. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2027-02-09"
-  - id: GHSA-qrxm-fqhp-jwvm
-    statement: Fixed in undici 8.12.2; the locked image ships 8.11.2. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2027-02-09"
-  - id: GHSA-xjj6-f33q-929c
-    statement: Fixed in undici 8.12.2; the locked image ships 8.11.2. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2027-02-09"
   - id: GO-2025-4155
     statement: Fixed in stdlib 1.25.5; the locked image ships go1.25.3. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2026-11-15"
+    expired_at: "2027-02-14"
   - id: GO-2026-4337
     statement: Fixed in stdlib 1.25.7; the locked image ships go1.25.3. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2026-11-15"
+    expired_at: "2027-02-14"
   - id: GO-2026-4341
     statement: Fixed in stdlib 1.25.6; the locked image ships go1.25.3. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2026-11-15"
+    expired_at: "2027-02-14"
   - id: GO-2026-4601
     statement: Fixed in stdlib 1.25.8; the locked image ships go1.25.3. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2026-11-15"
+    expired_at: "2027-02-14"
   - id: GO-2026-4870
     statement: Fixed in stdlib 1.25.9; the locked image ships go1.25.3. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2026-11-15"
+    expired_at: "2027-02-14"
   - id: GO-2026-4918
     statement: Fixed in stdlib 1.25.10; the locked image ships go1.25.3. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2026-11-15"
+    expired_at: "2027-02-14"
   - id: GO-2026-4946
     statement: Fixed in stdlib 1.25.9; the locked image ships go1.25.3. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2026-11-15"
+    expired_at: "2027-02-14"
   - id: GO-2026-4947
     statement: Fixed in stdlib 1.25.9; the locked image ships go1.25.3. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2026-11-15"
+    expired_at: "2027-02-14"
   - id: GO-2026-4970
     statement: Fixed in stdlib 1.25.12; the locked image ships go1.25.3. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2026-11-15"
+    expired_at: "2027-02-14"
   - id: GO-2026-4971
     statement: Fixed in stdlib 1.25.10; the locked image ships go1.25.3. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2026-11-15"
+    expired_at: "2027-02-14"
   - id: GO-2026-4977
     statement: Fixed in stdlib 1.25.10; the locked image ships go1.25.3. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2026-11-15"
+    expired_at: "2027-02-14"
   - id: GO-2026-4981
     statement: Fixed in stdlib 1.25.10; the locked image ships go1.25.3. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2026-11-15"
+    expired_at: "2027-02-14"
   - id: GO-2026-4986
     statement: Fixed in stdlib 1.25.10; the locked image ships go1.25.3. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2026-11-15"
+    expired_at: "2027-02-14"
   - id: GO-2026-5026
     statement: Fixed in stdlib 1.25.13; the locked image ships go1.25.3. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2026-11-15"
+    expired_at: "2027-02-14"
   - id: GO-2026-5037
     statement: Fixed in stdlib 1.25.11; the locked image ships go1.25.3. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2026-11-15"
+    expired_at: "2027-02-14"
   - id: GO-2026-5038
     statement: Fixed in stdlib 1.25.11; the locked image ships go1.25.3. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2026-11-15"
+    expired_at: "2027-02-14"
   - id: GO-2026-5972
     statement: Fixed in stdlib 1.25.13; the locked image ships go1.25.3. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2026-11-15"
+    expired_at: "2027-02-14"
   - id: GO-2026-6088
     statement: Fixed in stdlib 1.25.13; the locked image ships go1.25.3. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2026-11-15"
+    expired_at: "2027-02-14"
   - id: GO-2026-6089
     statement: Fixed in stdlib 1.25.13; the locked image ships go1.25.3. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2026-11-15"
+    expired_at: "2027-02-14"
   - id: GO-2026-6090
     statement: Fixed in stdlib 1.25.13; the locked image ships go1.25.3. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2026-11-15"
+    expired_at: "2027-02-14"
   - id: GO-2026-6603
     statement: Fixed in stdlib 1.26.9; the locked image ships go1.25.3. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2027-01-20"
