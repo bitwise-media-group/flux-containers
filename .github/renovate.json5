@@ -88,10 +88,11 @@
       postUpgradeTasks: {
         // patchy and grype (the allowlist derivation's image scanner) up front: both
         // are lazy pins in the toolchain (.mise/config.toml) and their bootstrap shims
-        // misfire under containerbase. Both commands must stay allowlisted in
-        // renovate-config's renovate-global.json5 allowedCommands.
+        // misfire under containerbase. --locked: the versions this repo's toolchain pins,
+        // downloaded from its mise.lock URLs (and any rewrites of them). Both commands must
+        // stay allowlisted in renovate-config's renovate-global.json5 allowedCommands.
         commands: [
-          "mise install github:bitwise-media-group/patchy aqua:anchore/grype",
+          "mise install --locked github:bitwise-media-group/patchy aqua:anchore/grype",
           "mise exec -- patchy mirror upgrade --pinned {{{replace '^charts/([^/]+)/.*$' '$1' packageFile}}}",
         ],
         // the Renovate image ships no mise binary
