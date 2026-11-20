@@ -1,25 +1,25 @@
 chart:
   name: flux-instance
-  version: 0.62.1
-  upstreamTgzSha256: 1cf2459bb6c89bf760b1981661ab010e323d988337a39f66c948423906516ac1
+  version: 0.63.0
+  upstreamTgzSha256: 6e0018ca426bb3b3054a69dd0e66ba079a2500f1e50d06ad0d7ce8ec4a02f20e
 images:
-  - source: ghcr.io/fluxcd/helm-controller:v1.7.1
-    digest: sha256:54526cc6ed1202d71d44c310676448065664f3255ad671d9a69ac26f904e617a
+  - source: ghcr.io/fluxcd/helm-controller:v1.7.2
+    digest: sha256:cc944eff709767f9a4d22de6b52dfa330f872962465868ed7787320b056b84f8
     targets:
-      google: us-central1-docker.pkg.dev/o-foundation-7e43/platform/images/ghcr.io/fluxcd/helm-controller:v1.7.1
+      google: us-central1-docker.pkg.dev/o-foundation-7e43/platform/images/ghcr.io/fluxcd/helm-controller:v1.7.2
     platforms: ["linux/amd64", "linux/arm", "linux/arm64"]
-  - source: ghcr.io/fluxcd/kustomize-controller:v1.10.1
-    digest: sha256:37db29b25dae35b881a5e064acedb0cc954442da453a39eaa0eab7a90dbecc4e
+  - source: ghcr.io/fluxcd/kustomize-controller:v1.10.2
+    digest: sha256:e122808057ef0f6a3cb7fbd8e256b5a528d8a59f41d237f2d6664f54481c26d9
     targets:
-      google: us-central1-docker.pkg.dev/o-foundation-7e43/platform/images/ghcr.io/fluxcd/kustomize-controller:v1.10.1
+      google: us-central1-docker.pkg.dev/o-foundation-7e43/platform/images/ghcr.io/fluxcd/kustomize-controller:v1.10.2
     platforms: ["linux/amd64", "linux/arm", "linux/arm64"]
-  - source: ghcr.io/fluxcd/notification-controller:v1.10.0
-    digest: sha256:9f58b9532ec9d3ccf539cd3ccdf283477a5dcb7777b922db5477d8bbd4d3767c
+  - source: ghcr.io/fluxcd/notification-controller:v1.10.1
+    digest: sha256:229b0685768aec0adf7f0d9536890c93bcffc06b17336e1c1fdd4372c4c27dca
     targets:
-      google: us-central1-docker.pkg.dev/o-foundation-7e43/platform/images/ghcr.io/fluxcd/notification-controller:v1.10.0
+      google: us-central1-docker.pkg.dev/o-foundation-7e43/platform/images/ghcr.io/fluxcd/notification-controller:v1.10.1
     platforms: ["linux/amd64", "linux/arm", "linux/arm64"]
-  - source: ghcr.io/fluxcd/source-controller:v1.10.1
-    digest: sha256:611b6bca3eae95bcff471414d1fb14a4ab83d7f14e609cccef2bd389c121f37e
+  - source: ghcr.io/fluxcd/source-controller:v1.10.2
+    digest: sha256:1405a9e460833df9aff920664243c0df271f42be05e0bf38db31d2b7e9ebbaab
     targets:
-      google: us-central1-docker.pkg.dev/o-foundation-7e43/platform/images/ghcr.io/fluxcd/source-controller:v1.10.1
+      google: us-central1-docker.pkg.dev/o-foundation-7e43/platform/images/ghcr.io/fluxcd/source-controller:v1.10.2
     platforms: ["linux/amd64", "linux/arm", "linux/arm64"]
