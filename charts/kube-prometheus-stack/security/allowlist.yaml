@@ -11,6 +11,9 @@
 # the chart. An entry here means the chart pin carries no fixed image
 # yet; a fix usually arrives with the next chart patch release.
 vulnerabilities:
+  - id: CVE-2026-107496
+    statement: Fixed in libcrypto3/libssl3 3.5.9-r1; the locked image ships 3.5.9-r0. Derived from the image scan at bump time; accepted in PR review.
+    expired_at: "2027-02-18"
   - id: CVE-2026-119170
     statement: Fixed in python 3.14.11; the locked image ships 3.14.10. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2027-02-11"
@@ -29,9 +32,18 @@ vulnerabilities:
   - id: CVE-2026-83663
     statement: Fixed in github.com/apache/thrift 0.25.0; the locked image ships v0.24.0. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2027-02-10"
+  - id: CVE-2026-88823
+    statement: Fixed in libcrypto3/libssl3 3.5.9-r1; the locked image ships 3.5.9-r0. Derived from the image scan at bump time; accepted in PR review.
+    expired_at: "2027-02-18"
   - id: CVE-2026-94637
     statement: Fixed in github.com/apache/thrift 0.25.0; the locked image ships v0.24.0. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2027-02-10"
+  - id: CVE-2026-95691
+    statement: Fixed in libcrypto3/libssl3 3.5.9-r1; the locked image ships 3.5.9-r0. Derived from the image scan at bump time; accepted in PR review.
+    expired_at: "2027-02-18"
+  - id: CVE-2026-95692
+    statement: Fixed in libcrypto3/libssl3 3.5.9-r1; the locked image ships 3.5.9-r0. Derived from the image scan at bump time; accepted in PR review.
+    expired_at: "2027-02-18"
   - id: GHSA-2v4p-qf9q-27wj
     statement: Fixed in google.golang.org/grpc 1.82.2; the locked image ships v1.79.3. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2027-02-10"
