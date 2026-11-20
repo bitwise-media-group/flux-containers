@@ -9,95 +9,95 @@
 # image exists yet.
 vulnerabilities:
   - id: GO-2025-4155
-    statement: Fixed in stdlib 1.25.5; the locked image ships go1.25.3. Derived from the image scan at bump time; accepted in PR review.
+    statement: 'Fixed in stdlib 1.25.5; the locked image ships go1.25.3. Found in ghcr.io/renovatebot/renovate@sha256:7138934c013df961d92acf6e3f1326f9dc705ed3d02e399ac0a3395d777182ff: /opt/containerbase/tools/docker/28.5.2/bin/docker. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-02-14"
   - id: GO-2026-4337
-    statement: Fixed in stdlib 1.25.7; the locked image ships go1.25.3. Derived from the image scan at bump time; accepted in PR review.
+    statement: 'Fixed in stdlib 1.25.7; the locked image ships go1.25.3. Found in ghcr.io/renovatebot/renovate@sha256:7138934c013df961d92acf6e3f1326f9dc705ed3d02e399ac0a3395d777182ff: /opt/containerbase/tools/docker/28.5.2/bin/docker. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-02-14"
   - id: GO-2026-4341
-    statement: Fixed in stdlib 1.25.6; the locked image ships go1.25.3. Derived from the image scan at bump time; accepted in PR review.
+    statement: 'Fixed in stdlib 1.25.6; the locked image ships go1.25.3. Found in ghcr.io/renovatebot/renovate@sha256:7138934c013df961d92acf6e3f1326f9dc705ed3d02e399ac0a3395d777182ff: /opt/containerbase/tools/docker/28.5.2/bin/docker. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-02-14"
   - id: GO-2026-4601
-    statement: Fixed in stdlib 1.25.8; the locked image ships go1.25.3. Derived from the image scan at bump time; accepted in PR review.
+    statement: 'Fixed in stdlib 1.25.8; the locked image ships go1.25.3. Found in ghcr.io/renovatebot/renovate@sha256:7138934c013df961d92acf6e3f1326f9dc705ed3d02e399ac0a3395d777182ff: /opt/containerbase/tools/docker/28.5.2/bin/docker. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-02-14"
   - id: GO-2026-4870
-    statement: Fixed in stdlib 1.25.9; the locked image ships go1.25.3. Derived from the image scan at bump time; accepted in PR review.
+    statement: 'Fixed in stdlib 1.25.9; the locked image ships go1.25.3. Found in ghcr.io/renovatebot/renovate@sha256:7138934c013df961d92acf6e3f1326f9dc705ed3d02e399ac0a3395d777182ff: /opt/containerbase/tools/docker/28.5.2/bin/docker. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-02-14"
   - id: GO-2026-4918
-    statement: Fixed in stdlib 1.25.10; the locked image ships go1.25.3. Derived from the image scan at bump time; accepted in PR review.
+    statement: 'Fixed in stdlib 1.25.10; the locked image ships go1.25.3. Found in ghcr.io/renovatebot/renovate@sha256:7138934c013df961d92acf6e3f1326f9dc705ed3d02e399ac0a3395d777182ff: /opt/containerbase/tools/docker/28.5.2/bin/docker. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-02-14"
   - id: GO-2026-4946
-    statement: Fixed in stdlib 1.25.9; the locked image ships go1.25.3. Derived from the image scan at bump time; accepted in PR review.
+    statement: 'Fixed in stdlib 1.25.9; the locked image ships go1.25.3. Found in ghcr.io/renovatebot/renovate@sha256:7138934c013df961d92acf6e3f1326f9dc705ed3d02e399ac0a3395d777182ff: /opt/containerbase/tools/docker/28.5.2/bin/docker. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-02-14"
   - id: GO-2026-4947
-    statement: Fixed in stdlib 1.25.9; the locked image ships go1.25.3. Derived from the image scan at bump time; accepted in PR review.
+    statement: 'Fixed in stdlib 1.25.9; the locked image ships go1.25.3. Found in ghcr.io/renovatebot/renovate@sha256:7138934c013df961d92acf6e3f1326f9dc705ed3d02e399ac0a3395d777182ff: /opt/containerbase/tools/docker/28.5.2/bin/docker. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-02-14"
   - id: GO-2026-4970
-    statement: Fixed in stdlib 1.25.12; the locked image ships go1.25.3. Derived from the image scan at bump time; accepted in PR review.
+    statement: 'Fixed in stdlib 1.25.12; the locked image ships go1.25.3. Found in ghcr.io/renovatebot/renovate@sha256:7138934c013df961d92acf6e3f1326f9dc705ed3d02e399ac0a3395d777182ff: /opt/containerbase/tools/docker/28.5.2/bin/docker. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-02-14"
   - id: GO-2026-4971
-    statement: Fixed in stdlib 1.25.10; the locked image ships go1.25.3. Derived from the image scan at bump time; accepted in PR review.
+    statement: 'Fixed in stdlib 1.25.10; the locked image ships go1.25.3. Found in ghcr.io/renovatebot/renovate@sha256:7138934c013df961d92acf6e3f1326f9dc705ed3d02e399ac0a3395d777182ff: /opt/containerbase/tools/docker/28.5.2/bin/docker. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-02-14"
   - id: GO-2026-4977
-    statement: Fixed in stdlib 1.25.10; the locked image ships go1.25.3. Derived from the image scan at bump time; accepted in PR review.
+    statement: 'Fixed in stdlib 1.25.10; the locked image ships go1.25.3. Found in ghcr.io/renovatebot/renovate@sha256:7138934c013df961d92acf6e3f1326f9dc705ed3d02e399ac0a3395d777182ff: /opt/containerbase/tools/docker/28.5.2/bin/docker. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-02-14"
   - id: GO-2026-4981
-    statement: Fixed in stdlib 1.25.10; the locked image ships go1.25.3. Derived from the image scan at bump time; accepted in PR review.
+    statement: 'Fixed in stdlib 1.25.10; the locked image ships go1.25.3. Found in ghcr.io/renovatebot/renovate@sha256:7138934c013df961d92acf6e3f1326f9dc705ed3d02e399ac0a3395d777182ff: /opt/containerbase/tools/docker/28.5.2/bin/docker. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-02-14"
   - id: GO-2026-4986
-    statement: Fixed in stdlib 1.25.10; the locked image ships go1.25.3. Derived from the image scan at bump time; accepted in PR review.
+    statement: 'Fixed in stdlib 1.25.10; the locked image ships go1.25.3. Found in ghcr.io/renovatebot/renovate@sha256:7138934c013df961d92acf6e3f1326f9dc705ed3d02e399ac0a3395d777182ff: /opt/containerbase/tools/docker/28.5.2/bin/docker. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-02-14"
   - id: GO-2026-5026
-    statement: Fixed in stdlib 1.25.13; the locked image ships go1.25.3. Derived from the image scan at bump time; accepted in PR review.
+    statement: 'Fixed in stdlib 1.25.13; the locked image ships go1.25.3. Found in ghcr.io/renovatebot/renovate@sha256:7138934c013df961d92acf6e3f1326f9dc705ed3d02e399ac0a3395d777182ff: /opt/containerbase/tools/docker/28.5.2/bin/docker. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-02-14"
   - id: GO-2026-5037
-    statement: Fixed in stdlib 1.25.11; the locked image ships go1.25.3. Derived from the image scan at bump time; accepted in PR review.
+    statement: 'Fixed in stdlib 1.25.11; the locked image ships go1.25.3. Found in ghcr.io/renovatebot/renovate@sha256:7138934c013df961d92acf6e3f1326f9dc705ed3d02e399ac0a3395d777182ff: /opt/containerbase/tools/docker/28.5.2/bin/docker. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-02-14"
   - id: GO-2026-5038
-    statement: Fixed in stdlib 1.25.11; the locked image ships go1.25.3. Derived from the image scan at bump time; accepted in PR review.
+    statement: 'Fixed in stdlib 1.25.11; the locked image ships go1.25.3. Found in ghcr.io/renovatebot/renovate@sha256:7138934c013df961d92acf6e3f1326f9dc705ed3d02e399ac0a3395d777182ff: /opt/containerbase/tools/docker/28.5.2/bin/docker. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-02-14"
   - id: GO-2026-5972
-    statement: Fixed in stdlib 1.25.13; the locked image ships go1.25.3. Derived from the image scan at bump time; accepted in PR review.
+    statement: 'Fixed in stdlib 1.25.13; the locked image ships go1.25.3. Found in ghcr.io/renovatebot/renovate@sha256:7138934c013df961d92acf6e3f1326f9dc705ed3d02e399ac0a3395d777182ff: /opt/containerbase/tools/docker/28.5.2/bin/docker. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-02-14"
   - id: GO-2026-6088
-    statement: Fixed in stdlib 1.25.13; the locked image ships go1.25.3. Derived from the image scan at bump time; accepted in PR review.
+    statement: 'Fixed in stdlib 1.25.13; the locked image ships go1.25.3. Found in ghcr.io/renovatebot/renovate@sha256:7138934c013df961d92acf6e3f1326f9dc705ed3d02e399ac0a3395d777182ff: /opt/containerbase/tools/docker/28.5.2/bin/docker. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-02-14"
   - id: GO-2026-6089
-    statement: Fixed in stdlib 1.25.13; the locked image ships go1.25.3. Derived from the image scan at bump time; accepted in PR review.
+    statement: 'Fixed in stdlib 1.25.13; the locked image ships go1.25.3. Found in ghcr.io/renovatebot/renovate@sha256:7138934c013df961d92acf6e3f1326f9dc705ed3d02e399ac0a3395d777182ff: /opt/containerbase/tools/docker/28.5.2/bin/docker. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-02-14"
   - id: GO-2026-6090
-    statement: Fixed in stdlib 1.25.13; the locked image ships go1.25.3. Derived from the image scan at bump time; accepted in PR review.
+    statement: 'Fixed in stdlib 1.25.13; the locked image ships go1.25.3. Found in ghcr.io/renovatebot/renovate@sha256:7138934c013df961d92acf6e3f1326f9dc705ed3d02e399ac0a3395d777182ff: /opt/containerbase/tools/docker/28.5.2/bin/docker. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-02-14"
   - id: GO-2026-6603
-    statement: Fixed in stdlib 1.26.9; the locked image ships go1.25.3. Derived from the image scan at bump time; accepted in PR review.
+    statement: 'Fixed in stdlib 1.26.9; the locked image ships go1.25.3. Found in ghcr.io/renovatebot/renovate@sha256:7138934c013df961d92acf6e3f1326f9dc705ed3d02e399ac0a3395d777182ff: /opt/containerbase/tools/docker/28.5.2/bin/docker. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-01-20"
   - id: GO-2026-6604
-    statement: Fixed in stdlib 1.26.9; the locked image ships go1.25.3. Derived from the image scan at bump time; accepted in PR review.
+    statement: 'Fixed in stdlib 1.26.9; the locked image ships go1.25.3. Found in ghcr.io/renovatebot/renovate@sha256:7138934c013df961d92acf6e3f1326f9dc705ed3d02e399ac0a3395d777182ff: /opt/containerbase/tools/docker/28.5.2/bin/docker. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-01-20"
   - id: GO-2026-6605
-    statement: Fixed in stdlib 1.26.9; the locked image ships go1.25.3. Derived from the image scan at bump time; accepted in PR review.
+    statement: 'Fixed in stdlib 1.26.9; the locked image ships go1.25.3. Found in ghcr.io/renovatebot/renovate@sha256:7138934c013df961d92acf6e3f1326f9dc705ed3d02e399ac0a3395d777182ff: /opt/containerbase/tools/docker/28.5.2/bin/docker. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-01-20"
   - id: GO-2026-6607
-    statement: Fixed in stdlib 1.26.9; the locked image ships go1.25.3. Derived from the image scan at bump time; accepted in PR review.
+    statement: 'Fixed in stdlib 1.26.9; the locked image ships go1.25.3. Found in ghcr.io/renovatebot/renovate@sha256:7138934c013df961d92acf6e3f1326f9dc705ed3d02e399ac0a3395d777182ff: /opt/containerbase/tools/docker/28.5.2/bin/docker. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-01-20"
   - id: GO-2026-6608
-    statement: Fixed in stdlib 1.26.9; the locked image ships go1.25.3. Derived from the image scan at bump time; accepted in PR review.
+    statement: 'Fixed in stdlib 1.26.9; the locked image ships go1.25.3. Found in ghcr.io/renovatebot/renovate@sha256:7138934c013df961d92acf6e3f1326f9dc705ed3d02e399ac0a3395d777182ff: /opt/containerbase/tools/docker/28.5.2/bin/docker. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-01-20"
   - id: GO-2026-6609
-    statement: Fixed in stdlib 1.26.9; the locked image ships go1.25.3. Derived from the image scan at bump time; accepted in PR review.
+    statement: 'Fixed in stdlib 1.26.9; the locked image ships go1.25.3. Found in ghcr.io/renovatebot/renovate@sha256:7138934c013df961d92acf6e3f1326f9dc705ed3d02e399ac0a3395d777182ff: /opt/containerbase/tools/docker/28.5.2/bin/docker. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-01-20"
   - id: GO-2026-6610
-    statement: Fixed in stdlib 1.26.9; the locked image ships go1.25.3. Derived from the image scan at bump time; accepted in PR review.
+    statement: 'Fixed in stdlib 1.26.9; the locked image ships go1.25.3. Found in ghcr.io/renovatebot/renovate@sha256:7138934c013df961d92acf6e3f1326f9dc705ed3d02e399ac0a3395d777182ff: /opt/containerbase/tools/docker/28.5.2/bin/docker. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-01-20"
   - id: GO-2026-6611
-    statement: Fixed in stdlib 1.26.9; the locked image ships go1.25.3. Derived from the image scan at bump time; accepted in PR review.
+    statement: 'Fixed in stdlib 1.26.9; the locked image ships go1.25.3. Found in ghcr.io/renovatebot/renovate@sha256:7138934c013df961d92acf6e3f1326f9dc705ed3d02e399ac0a3395d777182ff: /opt/containerbase/tools/docker/28.5.2/bin/docker. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-01-20"
   - id: GO-2026-6612
-    statement: Fixed in stdlib 1.26.9; the locked image ships go1.25.3. Derived from the image scan at bump time; accepted in PR review.
+    statement: 'Fixed in stdlib 1.26.9; the locked image ships go1.25.3. Found in ghcr.io/renovatebot/renovate@sha256:7138934c013df961d92acf6e3f1326f9dc705ed3d02e399ac0a3395d777182ff: /opt/containerbase/tools/docker/28.5.2/bin/docker. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-01-20"
   - id: GO-2026-6613
-    statement: Fixed in stdlib 1.26.9; the locked image ships go1.25.3. Derived from the image scan at bump time; accepted in PR review.
+    statement: 'Fixed in stdlib 1.26.9; the locked image ships go1.25.3. Found in ghcr.io/renovatebot/renovate@sha256:7138934c013df961d92acf6e3f1326f9dc705ed3d02e399ac0a3395d777182ff: /opt/containerbase/tools/docker/28.5.2/bin/docker. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-01-20"
   - id: GO-2026-6617
-    statement: Fixed in stdlib 1.26.9; the locked image ships go1.25.3. Derived from the image scan at bump time; accepted in PR review.
+    statement: 'Fixed in stdlib 1.26.9; the locked image ships go1.25.3. Found in ghcr.io/renovatebot/renovate@sha256:7138934c013df961d92acf6e3f1326f9dc705ed3d02e399ac0a3395d777182ff: /opt/containerbase/tools/docker/28.5.2/bin/docker. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-01-20"
