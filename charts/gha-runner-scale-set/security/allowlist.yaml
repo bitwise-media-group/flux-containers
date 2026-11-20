@@ -40,9 +40,6 @@
 #      by node). These deserve a closer look than the two groups above;
 #      each one carries a per-entry note.
 vulnerabilities:
-  - id: CVE-2026-105437
-    statement: Fixed in git/git-init-template 2.54.1-r0; the locked image ships 2.54.0-r0. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2027-02-09"
   - id: CVE-2026-105482
     statement: Fixed in node 22.23.4; the locked image ships 20.20.2. Derived from the image scan at bump time; accepted in PR review.
     expired_at: "2027-02-03"
