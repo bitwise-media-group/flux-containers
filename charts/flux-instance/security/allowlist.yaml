@@ -11,27 +11,21 @@
 # distribution exists yet; the next flux-operator/flux-instance
 # release is what clears it.
 vulnerabilities:
-  - id: CVE-2026-105437
-    statement: Fixed in git/git-init-template 2.54.1-r0; the locked image ships 2.54.0-r0. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2027-02-09"
-  - id: CVE-2026-113351
-    statement: Fixed in libexpat 2.10.0-r0; the locked image ships 2.9.0-r0. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2027-02-09"
-  - id: CVE-2026-115506
-    statement: Fixed in libexpat 2.10.0-r0; the locked image ships 2.9.0-r0. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2027-02-09"
-  - id: CVE-2026-117610
-    statement: Fixed in libexpat 2.10.0-r0; the locked image ships 2.9.0-r0. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2027-02-09"
-  - id: CVE-2026-118370
-    statement: Fixed in libexpat 2.10.0-r0; the locked image ships 2.9.0-r0. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2027-02-09"
-  - id: CVE-2026-123158
-    statement: Fixed in openssh-client-common/openssh-client-default/openssh-keygen 10.3_p1-r2; the locked image ships 10.3_p1-r1. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2027-02-09"
+  - id: CVE-2026-107496
+    statement: 'Fixed in libcrypto3/libssl3 3.5.9-r1; the locked image ships 3.5.9-r0. Found in ghcr.io/fluxcd/helm-controller@sha256:cc944eff709767f9a4d22de6b52dfa330f872962465868ed7787320b056b84f8: /lib/apk/db/installed; ghcr.io/fluxcd/kustomize-controller@sha256:e122808057ef0f6a3cb7fbd8e256b5a528d8a59f41d237f2d6664f54481c26d9: /lib/apk/db/installed; ghcr.io/fluxcd/notification-controller@sha256:229b0685768aec0adf7f0d9536890c93bcffc06b17336e1c1fdd4372c4c27dca: /lib/apk/db/installed; ghcr.io/fluxcd/source-controller@sha256:1405a9e460833df9aff920664243c0df271f42be05e0bf38db31d2b7e9ebbaab: /lib/apk/db/installed. Derived from the image scan at bump time; accepted in PR review.'
+    expired_at: "2027-02-18"
   - id: CVE-2026-4738
-    statement: Fixed in zlib 1.4-r0; the locked image ships 1.3.2-r1. Derived from the image scan at bump time; accepted in PR review.
+    statement: 'Fixed in zlib 1.4-r0; the locked image ships 1.3.2-r1. Found in ghcr.io/fluxcd/helm-controller@sha256:cc944eff709767f9a4d22de6b52dfa330f872962465868ed7787320b056b84f8: /lib/apk/db/installed; ghcr.io/fluxcd/kustomize-controller@sha256:e122808057ef0f6a3cb7fbd8e256b5a528d8a59f41d237f2d6664f54481c26d9: /lib/apk/db/installed; ghcr.io/fluxcd/notification-controller@sha256:229b0685768aec0adf7f0d9536890c93bcffc06b17336e1c1fdd4372c4c27dca: /lib/apk/db/installed; ghcr.io/fluxcd/source-controller@sha256:1405a9e460833df9aff920664243c0df271f42be05e0bf38db31d2b7e9ebbaab: /lib/apk/db/installed. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-02-09"
+  - id: CVE-2026-88823
+    statement: 'Fixed in libcrypto3/libssl3 3.5.9-r1; the locked image ships 3.5.9-r0. Found in ghcr.io/fluxcd/helm-controller@sha256:cc944eff709767f9a4d22de6b52dfa330f872962465868ed7787320b056b84f8: /lib/apk/db/installed; ghcr.io/fluxcd/kustomize-controller@sha256:e122808057ef0f6a3cb7fbd8e256b5a528d8a59f41d237f2d6664f54481c26d9: /lib/apk/db/installed; ghcr.io/fluxcd/notification-controller@sha256:229b0685768aec0adf7f0d9536890c93bcffc06b17336e1c1fdd4372c4c27dca: /lib/apk/db/installed; ghcr.io/fluxcd/source-controller@sha256:1405a9e460833df9aff920664243c0df271f42be05e0bf38db31d2b7e9ebbaab: /lib/apk/db/installed. Derived from the image scan at bump time; accepted in PR review.'
+    expired_at: "2027-02-18"
+  - id: CVE-2026-95691
+    statement: 'Fixed in libcrypto3/libssl3 3.5.9-r1; the locked image ships 3.5.9-r0. Found in ghcr.io/fluxcd/helm-controller@sha256:cc944eff709767f9a4d22de6b52dfa330f872962465868ed7787320b056b84f8: /lib/apk/db/installed; ghcr.io/fluxcd/kustomize-controller@sha256:e122808057ef0f6a3cb7fbd8e256b5a528d8a59f41d237f2d6664f54481c26d9: /lib/apk/db/installed; ghcr.io/fluxcd/notification-controller@sha256:229b0685768aec0adf7f0d9536890c93bcffc06b17336e1c1fdd4372c4c27dca: /lib/apk/db/installed; ghcr.io/fluxcd/source-controller@sha256:1405a9e460833df9aff920664243c0df271f42be05e0bf38db31d2b7e9ebbaab: /lib/apk/db/installed. Derived from the image scan at bump time; accepted in PR review.'
+    expired_at: "2027-02-18"
+  - id: CVE-2026-95692
+    statement: 'Fixed in libcrypto3/libssl3 3.5.9-r1; the locked image ships 3.5.9-r0. Found in ghcr.io/fluxcd/helm-controller@sha256:cc944eff709767f9a4d22de6b52dfa330f872962465868ed7787320b056b84f8: /lib/apk/db/installed; ghcr.io/fluxcd/kustomize-controller@sha256:e122808057ef0f6a3cb7fbd8e256b5a528d8a59f41d237f2d6664f54481c26d9: /lib/apk/db/installed; ghcr.io/fluxcd/notification-controller@sha256:229b0685768aec0adf7f0d9536890c93bcffc06b17336e1c1fdd4372c4c27dca: /lib/apk/db/installed; ghcr.io/fluxcd/source-controller@sha256:1405a9e460833df9aff920664243c0df271f42be05e0bf38db31d2b7e9ebbaab: /lib/apk/db/installed. Derived from the image scan at bump time; accepted in PR review.'
+    expired_at: "2027-02-18"
   - id: GO-2026-6865
-    statement: Fixed in github.com/klauspost/compress 1.20.2; the locked image ships v1.20.1. Derived from the image scan at bump time; accepted in PR review.
+    statement: 'Fixed in github.com/klauspost/compress 1.20.2; the locked image ships v1.20.1. Found in ghcr.io/fluxcd/source-controller@sha256:1405a9e460833df9aff920664243c0df271f42be05e0bf38db31d2b7e9ebbaab: /usr/local/bin/source-controller. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-02-09"
