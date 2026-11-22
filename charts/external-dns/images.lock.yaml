@@ -1,7 +1,7 @@
 chart:
   name: external-dns
-  version: 1.23.0
-  upstreamTgzSha256: 6d149b9b04db1dc9e46b3693a4eca4ac90d6bba5e3b2a0fdd067ce3f7bfbc31e
+  version: 1.24.0
+  upstreamTgzSha256: ebd3e13e32fca4aabf9d07090cca8c4bf4f73bcc89e5254e5650388bdac2e34a
 images:
   - source: registry.k8s.io/external-dns/external-dns:v0.24.0
     digest: sha256:a80a146d2540fa138565e404f0625157271071a06093021f27ae19d8316d10f9
