@@ -6,10 +6,10 @@ metadata:
   name: flux-operator-web
   namespace: flux-system
   labels:
-    helm.sh/chart: flux-operator-0.62.1
+    helm.sh/chart: flux-operator-0.63.1
     app.kubernetes.io/name: flux-operator
     app.kubernetes.io/instance: flux-operator
-    app.kubernetes.io/version: "v0.62.1"
+    app.kubernetes.io/version: "v0.63.1"
     app.kubernetes.io/managed-by: Helm
 spec:
   policyTypes:
@@ -33,10 +33,10 @@ metadata:
   name: flux-operator
   namespace: flux-system
   labels:
-    helm.sh/chart: flux-operator-0.62.1
+    helm.sh/chart: flux-operator-0.63.1
     app.kubernetes.io/name: flux-operator
     app.kubernetes.io/instance: flux-operator
-    app.kubernetes.io/version: "v0.62.1"
+    app.kubernetes.io/version: "v0.63.1"
     app.kubernetes.io/managed-by: Helm
 automountServiceAccountToken: true
 
@@ -52,8 +52,8 @@ metadata:
     app.kubernetes.io/instance: 'flux-operator'
     app.kubernetes.io/managed-by: 'Helm'
     app.kubernetes.io/name: 'flux-operator'
-    app.kubernetes.io/version: 'v0.62.1'
-    helm.sh/chart: 'flux-operator-0.62.1'
+    app.kubernetes.io/version: 'v0.63.1'
+    helm.sh/chart: 'flux-operator-0.63.1'
   name: fluxinstances.fluxcd.controlplane.io
 spec:
   group: fluxcd.controlplane.io
@@ -171,6 +171,18 @@ spec:
                     - medium
                     - large
                     type: string
+                  sourceWatcher:
+                    description: SourceWatcher configures the source-watcher component.
+                    properties:
+                      namespaceManager:
+                        description: |-
+                          NamespaceManager enables the RBAC required by source-watcher to manage
+                          Namespaces on behalf of ArtifactGenerator resources. This grants the
+                          source-watcher service account cluster-wide permissions to create,
+                          update, patch and delete Namespaces. The source-watcher component must
+                          be enabled in .spec.components.
+                        type: boolean
+                    type: object
                   tenantDefaultDecryptionServiceAccount:
                     description: |-
                       TenantDefaultDecryptionServiceAccount is the name of the service account
@@ -684,6 +696,9 @@ spec:
                 && self.cluster.objectIdentityRBAC) || (has(self.cluster.objectLevelWorkloadIdentity)
                 && self.cluster.objectLevelWorkloadIdentity) || (has(self.spiffe)
                 && has(self.spiffe.brokerAPI))'
+            - message: .spec.cluster.sourceWatcher requires source-watcher in .spec.components
+              rule: '!has(self.cluster) || !has(self.cluster.sourceWatcher) || (has(self.components)
+                && self.components.exists(c, c == ''source-watcher''))'
           status:
             description: FluxInstanceStatus defines the observed state of FluxInstance
             properties:
@@ -923,8 +938,8 @@ metadata:
     app.kubernetes.io/instance: 'flux-operator'
     app.kubernetes.io/managed-by: 'Helm'
     app.kubernetes.io/name: 'flux-operator'
-    app.kubernetes.io/version: 'v0.62.1'
-    helm.sh/chart: 'flux-operator-0.62.1'
+    app.kubernetes.io/version: 'v0.63.1'
+    helm.sh/chart: 'flux-operator-0.63.1'
   name: fluxreports.fluxcd.controlplane.io
 spec:
   group: fluxcd.controlplane.io
@@ -1230,8 +1245,8 @@ metadata:
     app.kubernetes.io/instance: 'flux-operator'
     app.kubernetes.io/managed-by: 'Helm'
     app.kubernetes.io/name: 'flux-operator'
-    app.kubernetes.io/version: 'v0.62.1'
-    helm.sh/chart: 'flux-operator-0.62.1'
+    app.kubernetes.io/version: 'v0.63.1'
+    helm.sh/chart: 'flux-operator-0.63.1'
   name: resourcesetinputproviders.fluxcd.controlplane.io
 spec:
   group: fluxcd.controlplane.io
@@ -1476,12 +1491,66 @@ spec:
                         When set to "*", ExternalArtifacts are listed across all namespaces by
                         omitting the namespace option from List().
                         Otherwise, ExternalArtifacts are listed only in the specified namespace.
+                        This field is mutually exclusive with NamespaceSelector.
                       type: string
+                    namespaceSelector:
+                      description: |-
+                        NamespaceSelector selects the namespaces where ExternalArtifacts are
+                        discovered based on their labels. An empty selector matches all
+                        namespaces. When both Namespace and NamespaceSelector are empty,
+                        ExternalArtifacts are listed in the ResourceSetInputProvider namespace.
+                        This field is mutually exclusive with Namespace.
+                      properties:
+                        matchExpressions:
+                          description: matchExpressions is a list of label selector
+                            requirements. The requirements are ANDed.
+                          items:
+                            description: |-
+                              A label selector requirement is a selector that contains values, a key, and an operator that
+                              relates the key and values.
+                            properties:
+                              key:
+                                description: key is the label key that the selector
+                                  applies to.
+                                type: string
+                              operator:
+                                description: |-
+                                  operator represents a key's relationship to a set of values.
+                                  Valid operators are In, NotIn, Exists and DoesNotExist.
+                                type: string
+                              values:
+                                description: |-
+                                  values is an array of string values. If the operator is In or NotIn,
+                                  the values array must be non-empty. If the operator is Exists or DoesNotExist,
+                                  the values array must be empty. This array is replaced during a strategic
+                                  merge patch.
+                                items:
+                                  type: string
+                                type: array
+                                x-kubernetes-list-type: atomic
+                            required:
+                            - key
+                            - operator
+                            type: object
+                          type: array
+                          x-kubernetes-list-type: atomic
+                        matchLabels:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+                            map is equivalent to an element of matchExpressions, whose key field is "key", the
+                            operator is "In", and the values array contains only "value". The requirements are ANDed.
+                          type: object
+                      type: object
+                      x-kubernetes-map-type: atomic
                   type: object
                   x-kubernetes-map-type: atomic
                   x-kubernetes-validations:
                   - message: name is mutually exclusive with matchLabels and matchExpressions
                     rule: '!has(self.name) || (!has(self.matchLabels) && !has(self.matchExpressions))'
+                  - message: namespace and namespaceSelector are mutually exclusive
+                    rule: '!(has(self.__namespace__) && has(self.namespaceSelector))'
                 type: array
               serviceAccountName:
                 description: |-
@@ -1737,8 +1806,8 @@ metadata:
     app.kubernetes.io/instance: 'flux-operator'
     app.kubernetes.io/managed-by: 'Helm'
     app.kubernetes.io/name: 'flux-operator'
-    app.kubernetes.io/version: 'v0.62.1'
-    helm.sh/chart: 'flux-operator-0.62.1'
+    app.kubernetes.io/version: 'v0.63.1'
+    helm.sh/chart: 'flux-operator-0.63.1'
   name: resourcesets.fluxcd.controlplane.io
 spec:
   group: fluxcd.controlplane.io
@@ -2238,10 +2307,10 @@ metadata:
   labels:
     rbac.authorization.k8s.io/aggregate-to-edit: "true"
     rbac.authorization.k8s.io/aggregate-to-admin: "true"
-    helm.sh/chart: flux-operator-0.62.1
+    helm.sh/chart: flux-operator-0.63.1
     app.kubernetes.io/name: flux-operator
     app.kubernetes.io/instance: flux-operator
-    app.kubernetes.io/version: "v0.62.1"
+    app.kubernetes.io/version: "v0.63.1"
     app.kubernetes.io/managed-by: Helm
 rules:
   - apiGroups:
@@ -2266,10 +2335,10 @@ metadata:
     rbac.authorization.k8s.io/aggregate-to-admin: "true"
     rbac.authorization.k8s.io/aggregate-to-edit: "true"
     rbac.authorization.k8s.io/aggregate-to-view: "true"
-    helm.sh/chart: flux-operator-0.62.1
+    helm.sh/chart: flux-operator-0.63.1
     app.kubernetes.io/name: flux-operator
     app.kubernetes.io/instance: flux-operator
-    app.kubernetes.io/version: "v0.62.1"
+    app.kubernetes.io/version: "v0.63.1"
     app.kubernetes.io/managed-by: Helm
 rules:
   - apiGroups:
@@ -2289,10 +2358,10 @@ kind: ClusterRole
 metadata:
   name: flux-web-user
   labels:
-    helm.sh/chart: flux-operator-0.62.1
+    helm.sh/chart: flux-operator-0.63.1
     app.kubernetes.io/name: flux-operator
     app.kubernetes.io/instance: flux-operator
-    app.kubernetes.io/version: "v0.62.1"
+    app.kubernetes.io/version: "v0.63.1"
     app.kubernetes.io/managed-by: Helm
 rules:
   - apiGroups: ["*"]
@@ -2306,10 +2375,10 @@ kind: ClusterRole
 metadata:
   name: flux-web-admin
   labels:
-    helm.sh/chart: flux-operator-0.62.1
+    helm.sh/chart: flux-operator-0.63.1
     app.kubernetes.io/name: flux-operator
     app.kubernetes.io/instance: flux-operator
-    app.kubernetes.io/version: "v0.62.1"
+    app.kubernetes.io/version: "v0.63.1"
     app.kubernetes.io/managed-by: Helm
 rules:
   - apiGroups: ["*"]
@@ -2361,10 +2430,10 @@ kind: ClusterRoleBinding
 metadata:
   name: flux-operator
   labels:
-    helm.sh/chart: flux-operator-0.62.1
+    helm.sh/chart: flux-operator-0.63.1
     app.kubernetes.io/name: flux-operator
     app.kubernetes.io/instance: flux-operator
-    app.kubernetes.io/version: "v0.62.1"
+    app.kubernetes.io/version: "v0.63.1"
     app.kubernetes.io/managed-by: Helm
 roleRef:
   apiGroup: rbac.authorization.k8s.io
@@ -2383,10 +2452,10 @@ metadata:
   name: flux-operator
   namespace: flux-system
   labels:
-    helm.sh/chart: flux-operator-0.62.1
+    helm.sh/chart: flux-operator-0.63.1
     app.kubernetes.io/name: flux-operator
     app.kubernetes.io/instance: flux-operator
-    app.kubernetes.io/version: "v0.62.1"
+    app.kubernetes.io/version: "v0.63.1"
     app.kubernetes.io/managed-by: Helm
 spec:
   ports:
@@ -2410,10 +2479,10 @@ metadata:
   name: flux-operator
   namespace: flux-system
   labels:
-    helm.sh/chart: flux-operator-0.62.1
+    helm.sh/chart: flux-operator-0.63.1
     app.kubernetes.io/name: flux-operator
     app.kubernetes.io/instance: flux-operator
-    app.kubernetes.io/version: "v0.62.1"
+    app.kubernetes.io/version: "v0.63.1"
     app.kubernetes.io/managed-by: Helm
 spec:
   selector:
@@ -2427,10 +2496,10 @@ spec:
         prometheus.io/port: "8080"
         prometheus.io/path: "/metrics"
       labels:
-        helm.sh/chart: flux-operator-0.62.1
+        helm.sh/chart: flux-operator-0.63.1
         app.kubernetes.io/name: flux-operator
         app.kubernetes.io/instance: flux-operator
-        app.kubernetes.io/version: "v0.62.1"
+        app.kubernetes.io/version: "v0.63.1"
         app.kubernetes.io/managed-by: Helm
     spec:
       serviceAccountName: flux-operator
@@ -2456,7 +2525,7 @@ spec:
             runAsNonRoot: true
             seccompProfile:
               type: RuntimeDefault
-          image: "ghcr.io/controlplaneio-fluxcd/flux-operator:v0.62.1"
+          image: "ghcr.io/controlplaneio-fluxcd/flux-operator:v0.63.1"
           imagePullPolicy: "IfNotPresent"
           ports:
             - name: http-metrics
