@@ -31,4 +31,4 @@ sources:
 - https://github.com/prometheus-community/helm-charts
 - https://github.com/kubernetes/kube-state-metrics/
 type: application
-version: 9.0.1
+version: 9.1.0
