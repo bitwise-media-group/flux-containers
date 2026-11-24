@@ -20,10 +20,12 @@ discovery:
 images:
   extra: []
   exclude: []
-  # Every locked image must match a rule; first match wins. Replace the
-  # catch-all below with real provenance rules where upstream signs.
+  # Every locked image must match a rule; first match wins. Globs are
+  # path-segment scoped (`*` does not cross `/`), so a bare "*" matches no
+  # registry-qualified image. AWS does not publish signatures for the
+  # controller image, so this documents the provenance gap.
   verifyUpstream:
-    - match: "*"
+    - match: "public.ecr.aws/eks/*"
       provider: none
 scan:
   failOn: [CRITICAL, HIGH]
