@@ -1,10 +1,10 @@
 chart:
   name: opentelemetry-collector
-  version: 0.183.0
-  upstreamTgzSha256: b98610987bd4e88052665064f0834fa6bbec955389f80612792949ba32485a31
+  version: 0.183.2
+  upstreamTgzSha256: 1a03e12a861c03909f3310d00cff99fa8e27b57c686c98d5bf4457831c5e05f4
 images:
-  - source: ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-contrib:0.165.0
-    digest: sha256:e40d61f10c9a617cca1ffd1be4d7e2b3a4b0f0001798ff07e58cabe82e618cea
+  - source: ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-contrib:0.166.0
+    digest: sha256:3e18fe04181de50bdd72e23ad4a4d6214b54351e63d496f1c58127cc4541ad7f
     targets:
-      google: us-central1-docker.pkg.dev/o-foundation-7e43/platform/images/ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-contrib:0.165.0
+      google: us-central1-docker.pkg.dev/o-foundation-7e43/platform/images/ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-contrib:0.166.0
     platforms: ["linux/386", "linux/amd64", "linux/arm", "linux/arm64", "linux/ppc64le", "linux/riscv64", "linux/s390x"]
