@@ -1,10 +1,10 @@
 chart:
   name: flux-operator
-  version: 0.63.1
-  upstreamTgzSha256: f8ef21edeebe4bf64c7bb1c3681cc67819f5a7079ac48e6eee69d30d42dde3e5
+  version: 0.64.0
+  upstreamTgzSha256: c7499bef6c5efcebaaeeef13de3d23ca6a5b4cd7c8a7f44a820ee16e804e2944
 images:
-  - source: ghcr.io/controlplaneio-fluxcd/flux-operator:v0.63.1
-    digest: sha256:460cc140dba2958261b05466acca40dfbee3addd1a6c33b885c1cd4e4e5d0489
+  - source: ghcr.io/controlplaneio-fluxcd/flux-operator:v0.64.0
+    digest: sha256:7f60122c5f07c51972ba86635783c5bcc6d450dea5d6f8291362efb1d81463e8
     targets:
-      google: us-central1-docker.pkg.dev/o-foundation-7e43/platform/images/ghcr.io/controlplaneio-fluxcd/flux-operator:v0.63.1
+      google: us-central1-docker.pkg.dev/o-foundation-7e43/platform/images/ghcr.io/controlplaneio-fluxcd/flux-operator:v0.64.0
     platforms: ["linux/amd64", "linux/arm64"]

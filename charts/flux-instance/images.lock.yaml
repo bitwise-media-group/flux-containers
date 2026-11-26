@@ -1,7 +1,7 @@
 chart:
   name: flux-instance
-  version: 0.63.1
-  upstreamTgzSha256: e080adf181c6117470cf074566e85a7cdd0a4348da14270762cc7c1820575e6b
+  version: 0.64.0
+  upstreamTgzSha256: 07c43a8ea9f8aa2203fbc6701203362141b63df2346f02eb55646415b9d7bba6
 images:
   - source: ghcr.io/fluxcd/helm-controller:v1.7.2
     digest: sha256:cc944eff709767f9a4d22de6b52dfa330f872962465868ed7787320b056b84f8
