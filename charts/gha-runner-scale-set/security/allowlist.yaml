@@ -41,144 +41,165 @@
 #      each one carries a per-entry note.
 vulnerabilities:
   - id: CVE-2026-105482
-    statement: Fixed in node 22.23.4; the locked image ships 20.20.2. Derived from the image scan at bump time; accepted in PR review.
+    statement: 'Fixed in node 22.23.4; the locked image ships 20.20.2. Found in ghcr.io/actions/actions-runner@sha256:759a1d94a15b05941aba5196974ff43fe15b4cbba29b694b35cbc32a1166b232: /home/runner/externals/node20/bin/node, /home/runner/externals/node20_alpine/bin/node. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-02-03"
   - id: CVE-2026-106069
-    statement: Fixed in node 22.23.4; the locked image ships 20.20.2. Derived from the image scan at bump time; accepted in PR review.
+    statement: 'Fixed in node 22.23.4; the locked image ships 20.20.2. Found in ghcr.io/actions/actions-runner@sha256:759a1d94a15b05941aba5196974ff43fe15b4cbba29b694b35cbc32a1166b232: /home/runner/externals/node20/bin/node, /home/runner/externals/node20_alpine/bin/node. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-02-03"
   - id: CVE-2026-109518
-    statement: Fixed in apt/libapt-pkg6.0t64 2.8.4ubuntu0.1; the locked image ships 2.8.3. Derived from the image scan at bump time; accepted in PR review.
+    statement: 'Fixed in apt/libapt-pkg6.0t64 2.8.4ubuntu0.1; the locked image ships 2.8.3. Found in ghcr.io/actions/actions-runner@sha256:759a1d94a15b05941aba5196974ff43fe15b4cbba29b694b35cbc32a1166b232: /usr/share/doc/apt/copyright, /usr/share/doc/libapt-pkg6.0t64/copyright, /var/lib/dpkg/info/apt.conffiles, /var/lib/dpkg/info/apt.list, /var/lib/dpkg/info/apt.md5sums, /var/lib/dpkg/info/apt.postinst, /var/lib/dpkg/info/apt.postrm, /var/lib/dpkg/info/apt.preinst, /var/lib/dpkg/info/apt.prerm, /var/lib/dpkg/info/apt.shlibs, /var/lib/dpkg/info/apt.triggers, /var/lib/dpkg/info/libapt-pkg6.0t64:amd64.md5sums, /var/lib/dpkg/status. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-02-09"
   - id: CVE-2026-111497
-    statement: Fixed in libbrotli1/node 22.23.4; the locked image ships 1.1.0-2build2/20.20.2. Derived from the image scan at bump time; accepted in PR review.
+    statement: 'Fixed in libbrotli1/node 22.23.4; the locked image ships 1.1.0-2build2/20.20.2. Found in ghcr.io/actions/actions-runner@sha256:759a1d94a15b05941aba5196974ff43fe15b4cbba29b694b35cbc32a1166b232: /home/runner/externals/node20/bin/node, /home/runner/externals/node20_alpine/bin/node, /usr/share/doc/libbrotli1/copyright, /var/lib/dpkg/info/libbrotli1:amd64.md5sums, /var/lib/dpkg/status. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-02-03"
     notes: Ubuntu base package (libbrotli1) plus node's bundled brotli. The runner's own .NET code and Node actions can decode attacker-influenced brotli streams (HTTP responses a workflow fetches), so this is reachable as workflow-driven code inside the ephemeral pod; the fix lands with the next runner image rebuild on the tracked train.
+  - id: CVE-2026-123863
+    statement: 'Fixed in node 24.22.3; the locked image ships 24.22.1. Found in ghcr.io/actions/actions-runner@sha256:759a1d94a15b05941aba5196974ff43fe15b4cbba29b694b35cbc32a1166b232: /home/runner/externals/node24/bin/node, /home/runner/externals/node24_alpine/bin/node. Derived from the image scan at bump time; accepted in PR review.'
+    expired_at: "2027-02-23"
+  - id: CVE-2026-123864
+    statement: 'Fixed in node 24.22.3; the locked image ships 20.20.2/24.22.1. Found in ghcr.io/actions/actions-runner@sha256:759a1d94a15b05941aba5196974ff43fe15b4cbba29b694b35cbc32a1166b232: /home/runner/externals/node20/bin/node, /home/runner/externals/node20_alpine/bin/node, /home/runner/externals/node24/bin/node, /home/runner/externals/node24_alpine/bin/node. Derived from the image scan at bump time; accepted in PR review.'
+    expired_at: "2027-02-23"
+  - id: CVE-2026-123865
+    statement: 'Fixed in node 24.22.3; the locked image ships 20.20.2/24.22.1. Found in ghcr.io/actions/actions-runner@sha256:759a1d94a15b05941aba5196974ff43fe15b4cbba29b694b35cbc32a1166b232: /home/runner/externals/node20/bin/node, /home/runner/externals/node20_alpine/bin/node, /home/runner/externals/node24/bin/node, /home/runner/externals/node24_alpine/bin/node. Derived from the image scan at bump time; accepted in PR review.'
+    expired_at: "2027-02-23"
+  - id: CVE-2026-123866
+    statement: 'Fixed in node 24.22.3; the locked image ships 20.20.2/24.22.1. Found in ghcr.io/actions/actions-runner@sha256:759a1d94a15b05941aba5196974ff43fe15b4cbba29b694b35cbc32a1166b232: /home/runner/externals/node20/bin/node, /home/runner/externals/node20_alpine/bin/node, /home/runner/externals/node24/bin/node, /home/runner/externals/node24_alpine/bin/node. Derived from the image scan at bump time; accepted in PR review.'
+    expired_at: "2027-02-23"
+  - id: CVE-2026-123872
+    statement: 'Fixed in node 24.22.3; the locked image ships 20.20.2/24.22.1. Found in ghcr.io/actions/actions-runner@sha256:759a1d94a15b05941aba5196974ff43fe15b4cbba29b694b35cbc32a1166b232: /home/runner/externals/node20/bin/node, /home/runner/externals/node20_alpine/bin/node, /home/runner/externals/node24/bin/node, /home/runner/externals/node24_alpine/bin/node. Derived from the image scan at bump time; accepted in PR review.'
+    expired_at: "2027-02-23"
+  - id: CVE-2026-123874
+    statement: 'Fixed in node 24.22.3; the locked image ships 24.22.1. Found in ghcr.io/actions/actions-runner@sha256:759a1d94a15b05941aba5196974ff43fe15b4cbba29b694b35cbc32a1166b232: /home/runner/externals/node24/bin/node, /home/runner/externals/node24_alpine/bin/node. Derived from the image scan at bump time; accepted in PR review.'
+    expired_at: "2027-02-23"
+  - id: CVE-2026-126051
+    statement: 'Fixed in node 24.22.3; the locked image ships 24.22.1. Found in ghcr.io/actions/actions-runner@sha256:759a1d94a15b05941aba5196974ff43fe15b4cbba29b694b35cbc32a1166b232: /home/runner/externals/node24/bin/node, /home/runner/externals/node24_alpine/bin/node. Derived from the image scan at bump time; accepted in PR review.'
+    expired_at: "2027-02-23"
   - id: CVE-2026-4738
-    statement: Fixed in zlib 1.4-r0; the locked image ships 1.3.2-r1. Derived from the image scan at bump time; accepted in PR review.
+    statement: 'Fixed in zlib 1.4-r0; the locked image ships 1.3.2-r1. Found in docker.io/library/docker@sha256:5d24ae532c4b32bea8fc5714ec34a7db838c9f668d18b6c772b2415196a2cd83: /lib/apk/db/installed. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-02-09"
   - id: CVE-2026-48617
-    statement: Fixed in node 22.23.0; the locked image ships 20.20.2. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2026-11-19"
+    statement: 'Fixed in node 22.23.0; the locked image ships 20.20.2. Found in ghcr.io/actions/actions-runner@sha256:759a1d94a15b05941aba5196974ff43fe15b4cbba29b694b35cbc32a1166b232: /home/runner/externals/node20/bin/node, /home/runner/externals/node20_alpine/bin/node. Derived from the image scan at bump time; accepted in PR review.'
+    expired_at: "2027-02-23"
   - id: CVE-2026-48937
-    statement: Fixed in node 22.23.0; the locked image ships 20.20.2. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2026-11-19"
+    statement: 'Fixed in node 22.23.0; the locked image ships 20.20.2. Found in ghcr.io/actions/actions-runner@sha256:759a1d94a15b05941aba5196974ff43fe15b4cbba29b694b35cbc32a1166b232: /home/runner/externals/node20/bin/node, /home/runner/externals/node20_alpine/bin/node. Derived from the image scan at bump time; accepted in PR review.'
+    expired_at: "2027-02-23"
   - id: CVE-2026-56846
-    statement: Fixed in node 22.23.2; the locked image ships 20.20.2. Derived from the image scan at bump time; accepted in PR review.
+    statement: 'Fixed in node 22.23.2; the locked image ships 20.20.2. Found in ghcr.io/actions/actions-runner@sha256:759a1d94a15b05941aba5196974ff43fe15b4cbba29b694b35cbc32a1166b232: /home/runner/externals/node20/bin/node, /home/runner/externals/node20_alpine/bin/node. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-02-09"
   - id: CVE-2026-56848
-    statement: Fixed in node 22.23.2; the locked image ships 20.20.2. Derived from the image scan at bump time; accepted in PR review.
+    statement: 'Fixed in node 22.23.2; the locked image ships 20.20.2. Found in ghcr.io/actions/actions-runner@sha256:759a1d94a15b05941aba5196974ff43fe15b4cbba29b694b35cbc32a1166b232: /home/runner/externals/node20/bin/node, /home/runner/externals/node20_alpine/bin/node. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-02-09"
   - id: CVE-2026-58043
-    statement: Fixed in node 22.23.2; the locked image ships 20.20.2. Derived from the image scan at bump time; accepted in PR review.
+    statement: 'Fixed in node 22.23.2; the locked image ships 20.20.2. Found in ghcr.io/actions/actions-runner@sha256:759a1d94a15b05941aba5196974ff43fe15b4cbba29b694b35cbc32a1166b232: /home/runner/externals/node20/bin/node, /home/runner/externals/node20_alpine/bin/node. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-02-09"
   - id: GHSA-23c5-xmqv-rm74
-    statement: Fixed in minimatch 9.0.7; the locked image ships 9.0.5. Derived from the image scan at bump time; accepted in PR review.
+    statement: 'Fixed in minimatch 9.0.7; the locked image ships 9.0.5. Found in ghcr.io/actions/actions-runner@sha256:759a1d94a15b05941aba5196974ff43fe15b4cbba29b694b35cbc32a1166b232: /home/runner/externals/node20/lib/node_modules/npm/node_modules/minimatch/package.json. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-01-20"
   - id: GHSA-23hp-3jrh-7fpw
-    statement: Fixed in tar 7.5.19; the locked image ships 6.2.1. Derived from the image scan at bump time; accepted in PR review.
+    statement: 'Fixed in tar 7.5.19; the locked image ships 6.2.1. Found in ghcr.io/actions/actions-runner@sha256:759a1d94a15b05941aba5196974ff43fe15b4cbba29b694b35cbc32a1166b232: /home/runner/externals/node20/lib/node_modules/npm/node_modules/tar/package.json. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-01-20"
   - id: GHSA-2m5v-pch6-74hx
-    statement: Fixed in undici 6.29.1; the locked image ships 6.28.0. Derived from the image scan at bump time; accepted in PR review.
+    statement: 'Fixed in undici 6.29.1; the locked image ships 6.28.0. Found in ghcr.io/actions/actions-runner@sha256:759a1d94a15b05941aba5196974ff43fe15b4cbba29b694b35cbc32a1166b232: /home/runner/externals/node24/lib/node_modules/npm/node_modules/undici/package.json. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-02-03"
   - id: GHSA-34x7-hfp2-rc4v
-    statement: Fixed in tar 7.5.7; the locked image ships 6.2.1. Derived from the image scan at bump time; accepted in PR review.
+    statement: 'Fixed in tar 7.5.7; the locked image ships 6.2.1. Found in ghcr.io/actions/actions-runner@sha256:759a1d94a15b05941aba5196974ff43fe15b4cbba29b694b35cbc32a1166b232: /home/runner/externals/node20/lib/node_modules/npm/node_modules/tar/package.json. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-01-20"
   - id: GHSA-3jxr-9vmj-r5cp
-    statement: Fixed in brace-expansion 2.1.2; the locked image ships 2.0.1. Derived from the image scan at bump time; accepted in PR review.
+    statement: 'Fixed in brace-expansion 2.1.2; the locked image ships 2.0.1. Found in ghcr.io/actions/actions-runner@sha256:759a1d94a15b05941aba5196974ff43fe15b4cbba29b694b35cbc32a1166b232: /home/runner/externals/node20/lib/node_modules/npm/node_modules/brace-expansion/package.json. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-01-20"
   - id: GHSA-3ppc-4f35-3m26
-    statement: Fixed in minimatch 9.0.6; the locked image ships 9.0.5. Derived from the image scan at bump time; accepted in PR review.
+    statement: 'Fixed in minimatch 9.0.6; the locked image ships 9.0.5. Found in ghcr.io/actions/actions-runner@sha256:759a1d94a15b05941aba5196974ff43fe15b4cbba29b694b35cbc32a1166b232: /home/runner/externals/node20/lib/node_modules/npm/node_modules/minimatch/package.json. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-01-20"
   - id: GHSA-3xgq-45jj-v275
-    statement: Fixed in cross-spawn 7.0.5; the locked image ships 7.0.3. Derived from the image scan at bump time; accepted in PR review.
+    statement: 'Fixed in cross-spawn 7.0.5; the locked image ships 7.0.3. Found in ghcr.io/actions/actions-runner@sha256:759a1d94a15b05941aba5196974ff43fe15b4cbba29b694b35cbc32a1166b232: /home/runner/externals/node20/lib/node_modules/npm/node_modules/cross-spawn/package.json. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-01-20"
   - id: GHSA-52v5-jr5w-gjxr
-    statement: Fixed in sigstore 4.1.1; the locked image ships 2.3.1. Derived from the image scan at bump time; accepted in PR review.
+    statement: 'Fixed in sigstore 4.1.1; the locked image ships 2.3.1. Found in ghcr.io/actions/actions-runner@sha256:759a1d94a15b05941aba5196974ff43fe15b4cbba29b694b35cbc32a1166b232: /home/runner/externals/node20/lib/node_modules/npm/node_modules/sigstore/package.json. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-01-20"
   - id: GHSA-5j98-mcp5-4vw2
-    statement: Fixed in glob 10.5.0; the locked image ships 10.4.2. Derived from the image scan at bump time; accepted in PR review.
+    statement: 'Fixed in glob 10.5.0; the locked image ships 10.4.2. Found in ghcr.io/actions/actions-runner@sha256:759a1d94a15b05941aba5196974ff43fe15b4cbba29b694b35cbc32a1166b232: /home/runner/externals/node20/lib/node_modules/npm/node_modules/glob/package.json. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-01-20"
   - id: GHSA-6j4f-fj2g-mc7p
-    statement: Fixed in brace-expansion 5.0.10; the locked image ships 2.0.1/5.0.9. Derived from the image scan at bump time; accepted in PR review.
+    statement: 'Fixed in brace-expansion 5.0.10; the locked image ships 2.0.1/5.0.9. Found in ghcr.io/actions/actions-runner@sha256:759a1d94a15b05941aba5196974ff43fe15b4cbba29b694b35cbc32a1166b232: /home/runner/externals/node20/lib/node_modules/npm/node_modules/brace-expansion/package.json, /home/runner/externals/node24/lib/node_modules/npm/node_modules/brace-expansion/package.json. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-01-05"
   - id: GHSA-7r86-cg39-jmmj
-    statement: Fixed in minimatch 9.0.7; the locked image ships 9.0.5. Derived from the image scan at bump time; accepted in PR review.
+    statement: 'Fixed in minimatch 9.0.7; the locked image ships 9.0.5. Found in ghcr.io/actions/actions-runner@sha256:759a1d94a15b05941aba5196974ff43fe15b4cbba29b694b35cbc32a1166b232: /home/runner/externals/node20/lib/node_modules/npm/node_modules/minimatch/package.json. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-01-20"
   - id: GHSA-83g3-92jg-28cx
-    statement: Fixed in tar 7.5.8; the locked image ships 6.2.1. Derived from the image scan at bump time; accepted in PR review.
+    statement: 'Fixed in tar 7.5.8; the locked image ships 6.2.1. Found in ghcr.io/actions/actions-runner@sha256:759a1d94a15b05941aba5196974ff43fe15b4cbba29b694b35cbc32a1166b232: /home/runner/externals/node20/lib/node_modules/npm/node_modules/tar/package.json. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-01-20"
   - id: GHSA-8qq5-rm4j-mr97
-    statement: Fixed in tar 7.5.3; the locked image ships 6.2.1. Derived from the image scan at bump time; accepted in PR review.
+    statement: 'Fixed in tar 7.5.3; the locked image ships 6.2.1. Found in ghcr.io/actions/actions-runner@sha256:759a1d94a15b05941aba5196974ff43fe15b4cbba29b694b35cbc32a1166b232: /home/runner/externals/node20/lib/node_modules/npm/node_modules/tar/package.json. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-01-20"
   - id: GHSA-8x88-c5mf-7j5w
-    statement: Fixed in tar 7.5.18; the locked image ships 6.2.1. Derived from the image scan at bump time; accepted in PR review.
+    statement: 'Fixed in tar 7.5.18; the locked image ships 6.2.1. Found in ghcr.io/actions/actions-runner@sha256:759a1d94a15b05941aba5196974ff43fe15b4cbba29b694b35cbc32a1166b232: /home/runner/externals/node20/lib/node_modules/npm/node_modules/tar/package.json. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-01-20"
   - id: GHSA-9ppj-qmqm-q256
-    statement: Fixed in tar 7.5.11; the locked image ships 6.2.1. Derived from the image scan at bump time; accepted in PR review.
+    statement: 'Fixed in tar 7.5.11; the locked image ships 6.2.1. Found in ghcr.io/actions/actions-runner@sha256:759a1d94a15b05941aba5196974ff43fe15b4cbba29b694b35cbc32a1166b232: /home/runner/externals/node20/lib/node_modules/npm/node_modules/tar/package.json. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-01-20"
   - id: GHSA-hfg8-hc9c-6c3h
-    statement: Fixed in github.com/moby/go-archive 0.3.0; the locked image ships v0.2.0. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2026-11-19"
+    statement: 'Fixed in github.com/moby/go-archive 0.3.0; the locked image ships v0.2.0. Found in docker.io/library/docker@sha256:5d24ae532c4b32bea8fc5714ec34a7db838c9f668d18b6c772b2415196a2cd83: /usr/local/libexec/docker/cli-plugins/docker-buildx; ghcr.io/actions/actions-runner@sha256:759a1d94a15b05941aba5196974ff43fe15b4cbba29b694b35cbc32a1166b232: /usr/local/lib/docker/cli-plugins/docker-buildx. Derived from the image scan at bump time; accepted in PR review.'
+    expired_at: "2027-02-23"
     notes: 'DinD toolchain, reachable: docker-buildx in both the runner and the docker:dind sidecar. A crafted archive from a workflow-supplied build context or image can write outside the extraction directory, but only inside the same ephemeral job pod whose workflow already controls it; the privileged sidecar is the larger exposure and is contained by isolated capacity (see preamble).'
   - id: GHSA-mgcc-cww5-fp2q
-    statement: Fixed in github.com/go-jose/go-jose/v4 4.1.6; the locked image ships v4.1.5. Derived from the image scan at bump time; accepted in PR review.
+    statement: 'Fixed in github.com/go-jose/go-jose/v4 4.1.6; the locked image ships v4.1.5. Found in ghcr.io/actions/actions-runner@sha256:759a1d94a15b05941aba5196974ff43fe15b4cbba29b694b35cbc32a1166b232: /usr/bin/containerd. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-02-03"
   - id: GHSA-mh99-v99m-4gvg
-    statement: Fixed in brace-expansion 2.1.3; the locked image ships 2.0.1. Derived from the image scan at bump time; accepted in PR review.
+    statement: 'Fixed in brace-expansion 2.1.3; the locked image ships 2.0.1. Found in ghcr.io/actions/actions-runner@sha256:759a1d94a15b05941aba5196974ff43fe15b4cbba29b694b35cbc32a1166b232: /home/runner/externals/node20/lib/node_modules/npm/node_modules/brace-expansion/package.json. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-02-09"
   - id: GHSA-mwp4-54f8-5fhr
-    statement: Fixed in ip-address 10.3.1; the locked image ships 9.0.5. Derived from the image scan at bump time; accepted in PR review.
+    statement: 'Fixed in ip-address 10.3.1; the locked image ships 9.0.5. Found in ghcr.io/actions/actions-runner@sha256:759a1d94a15b05941aba5196974ff43fe15b4cbba29b694b35cbc32a1166b232: /home/runner/externals/node20/lib/node_modules/npm/node_modules/ip-address/package.json. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-02-09"
   - id: GHSA-qffp-2rhf-9h96
-    statement: Fixed in tar 7.5.10; the locked image ships 6.2.1. Derived from the image scan at bump time; accepted in PR review.
+    statement: 'Fixed in tar 7.5.10; the locked image ships 6.2.1. Found in ghcr.io/actions/actions-runner@sha256:759a1d94a15b05941aba5196974ff43fe15b4cbba29b694b35cbc32a1166b232: /home/runner/externals/node20/lib/node_modules/npm/node_modules/tar/package.json. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-01-20"
   - id: GHSA-qhr7-859c-m2p7
-    statement: Fixed in brace-expansion 5.0.11; the locked image ships 2.0.1/5.0.9. Derived from the image scan at bump time; accepted in PR review.
+    statement: 'Fixed in brace-expansion 5.0.11; the locked image ships 2.0.1/5.0.9. Found in ghcr.io/actions/actions-runner@sha256:759a1d94a15b05941aba5196974ff43fe15b4cbba29b694b35cbc32a1166b232: /home/runner/externals/node20/lib/node_modules/npm/node_modules/brace-expansion/package.json, /home/runner/externals/node24/lib/node_modules/npm/node_modules/brace-expansion/package.json. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-01-05"
   - id: GHSA-qrxm-fqhp-jwvm
-    statement: Fixed in undici 6.29.1; the locked image ships 6.28.0. Derived from the image scan at bump time; accepted in PR review.
+    statement: 'Fixed in undici 6.29.1; the locked image ships 6.28.0. Found in ghcr.io/actions/actions-runner@sha256:759a1d94a15b05941aba5196974ff43fe15b4cbba29b694b35cbc32a1166b232: /home/runner/externals/node24/lib/node_modules/npm/node_modules/undici/package.json. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-02-03"
   - id: GHSA-r292-9mhp-454m
-    statement: Fixed in tar 7.5.21; the locked image ships 6.2.1. Derived from the image scan at bump time; accepted in PR review.
-    expired_at: "2026-11-24"
+    statement: 'Fixed in tar 7.5.21; the locked image ships 6.2.1. Found in ghcr.io/actions/actions-runner@sha256:759a1d94a15b05941aba5196974ff43fe15b4cbba29b694b35cbc32a1166b232: /home/runner/externals/node20/lib/node_modules/npm/node_modules/tar/package.json. Derived from the image scan at bump time; accepted in PR review.'
+    expired_at: "2027-02-23"
   - id: GHSA-r6q2-hw4h-h46w
-    statement: Fixed in tar 7.5.4; the locked image ships 6.2.1. Derived from the image scan at bump time; accepted in PR review.
+    statement: 'Fixed in tar 7.5.4; the locked image ships 6.2.1. Found in ghcr.io/actions/actions-runner@sha256:759a1d94a15b05941aba5196974ff43fe15b4cbba29b694b35cbc32a1166b232: /home/runner/externals/node20/lib/node_modules/npm/node_modules/tar/package.json. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-01-20"
   - id: GHSA-rfgv-xxqx-mfg5
-    statement: Fixed in undici 6.28.1; the locked image ships 6.28.0. Derived from the image scan at bump time; accepted in PR review.
+    statement: 'Fixed in undici 6.28.1; the locked image ships 6.28.0. Found in ghcr.io/actions/actions-runner@sha256:759a1d94a15b05941aba5196974ff43fe15b4cbba29b694b35cbc32a1166b232: /home/runner/externals/node24/lib/node_modules/npm/node_modules/undici/package.json. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-01-05"
   - id: GHSA-rgw5-rvv9-x895
-    statement: Fixed in brace-expansion 2.1.4; the locked image ships 2.0.1. Derived from the image scan at bump time; accepted in PR review.
+    statement: 'Fixed in brace-expansion 2.1.4; the locked image ships 2.0.1. Found in ghcr.io/actions/actions-runner@sha256:759a1d94a15b05941aba5196974ff43fe15b4cbba29b694b35cbc32a1166b232: /home/runner/externals/node20/lib/node_modules/npm/node_modules/brace-expansion/package.json. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-02-09"
   - id: GHSA-w4pp-8pjf-rmxw
-    statement: Fixed in pacote 21.5.1; the locked image ships 18.0.6. Derived from the image scan at bump time; accepted in PR review.
+    statement: 'Fixed in pacote 21.5.1; the locked image ships 18.0.6. Found in ghcr.io/actions/actions-runner@sha256:759a1d94a15b05941aba5196974ff43fe15b4cbba29b694b35cbc32a1166b232: /home/runner/externals/node20/lib/node_modules/npm/node_modules/pacote/package.json. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-01-05"
   - id: GHSA-x33c-w48q-qrgc
-    statement: Fixed in Microsoft.AspNetCore.WebUtilities 8.0.34; the locked image ships 8.0.25. Derived from the image scan at bump time; accepted in PR review.
+    statement: 'Fixed in Microsoft.AspNetCore.WebUtilities 8.0.34; the locked image ships 8.0.25. Found in ghcr.io/actions/actions-runner@sha256:759a1d94a15b05941aba5196974ff43fe15b4cbba29b694b35cbc32a1166b232: /home/runner/bin/Microsoft.AspNetCore.WebUtilities.dll, /home/runner/bin/Runner.Worker.deps.json. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-02-09"
   - id: GHSA-xjj6-f33q-929c
-    statement: Fixed in undici 6.29.1; the locked image ships 6.28.0. Derived from the image scan at bump time; accepted in PR review.
+    statement: 'Fixed in undici 6.29.1; the locked image ships 6.28.0. Found in ghcr.io/actions/actions-runner@sha256:759a1d94a15b05941aba5196974ff43fe15b4cbba29b694b35cbc32a1166b232: /home/runner/externals/node24/lib/node_modules/npm/node_modules/undici/package.json. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-02-03"
   - id: GO-2026-6603
-    statement: Fixed in golang.org/x/net 0.60.0; the locked image ships v0.58.0/v0.59.0. Derived from the image scan at bump time; accepted in PR review.
+    statement: 'Fixed in golang.org/x/net 0.60.0; the locked image ships v0.58.0/v0.59.0. Found in docker.io/library/docker@sha256:5d24ae532c4b32bea8fc5714ec34a7db838c9f668d18b6c772b2415196a2cd83: /usr/local/bin/ctr; ghcr.io/actions/actions-runner@sha256:759a1d94a15b05941aba5196974ff43fe15b4cbba29b694b35cbc32a1166b232: /usr/bin/containerd, /usr/bin/ctr, /usr/local/lib/docker/cli-plugins/docker-buildx. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-01-20"
     notes: 'DinD toolchain, reachable: also in the docker:dind sidecar''s Go binaries (ctr and/or docker-buildx), and the runner''s buildx now runs against the sidecar daemon. HTTP/2 DoS against a daemon that listens only on the pod-local unix socket, whose only peer is the job''s own workflow code; isolation, not reachability, is what is accepted (see preamble).'
   - id: GO-2026-6610
-    statement: Fixed in golang.org/x/net 0.60.0; the locked image ships v0.59.0. Derived from the image scan at bump time; accepted in PR review.
+    statement: 'Fixed in golang.org/x/net 0.60.0; the locked image ships v0.59.0. Found in ghcr.io/actions/actions-runner@sha256:759a1d94a15b05941aba5196974ff43fe15b4cbba29b694b35cbc32a1166b232: /usr/local/lib/docker/cli-plugins/docker-buildx. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-01-20"
     notes: 'DinD toolchain, reachable: also in the docker:dind sidecar''s Go binaries (ctr and/or docker-buildx), and the runner''s buildx now runs against the sidecar daemon. HTTP/2 DoS against a daemon that listens only on the pod-local unix socket, whose only peer is the job''s own workflow code; isolation, not reachability, is what is accepted (see preamble).'
   - id: GO-2026-6611
-    statement: Fixed in golang.org/x/net 0.60.0; the locked image ships v0.58.0/v0.59.0. Derived from the image scan at bump time; accepted in PR review.
+    statement: 'Fixed in golang.org/x/net 0.60.0; the locked image ships v0.58.0/v0.59.0. Found in docker.io/library/docker@sha256:5d24ae532c4b32bea8fc5714ec34a7db838c9f668d18b6c772b2415196a2cd83: /usr/local/bin/ctr; ghcr.io/actions/actions-runner@sha256:759a1d94a15b05941aba5196974ff43fe15b4cbba29b694b35cbc32a1166b232: /usr/bin/containerd, /usr/bin/ctr, /usr/local/lib/docker/cli-plugins/docker-buildx. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-01-20"
     notes: 'DinD toolchain, reachable: also in the docker:dind sidecar''s Go binaries (ctr and/or docker-buildx), and the runner''s buildx now runs against the sidecar daemon. HTTP/2 DoS against a daemon that listens only on the pod-local unix socket, whose only peer is the job''s own workflow code; isolation, not reachability, is what is accepted (see preamble).'
   - id: GO-2026-6612
-    statement: Fixed in golang.org/x/net 0.60.0; the locked image ships v0.58.0/v0.59.0. Derived from the image scan at bump time; accepted in PR review.
+    statement: 'Fixed in golang.org/x/net 0.60.0; the locked image ships v0.58.0/v0.59.0. Found in docker.io/library/docker@sha256:5d24ae532c4b32bea8fc5714ec34a7db838c9f668d18b6c772b2415196a2cd83: /usr/local/bin/ctr; ghcr.io/actions/actions-runner@sha256:759a1d94a15b05941aba5196974ff43fe15b4cbba29b694b35cbc32a1166b232: /usr/bin/containerd, /usr/bin/ctr, /usr/local/lib/docker/cli-plugins/docker-buildx. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-01-20"
     notes: 'DinD toolchain, reachable: also in the docker:dind sidecar''s Go binaries (ctr and/or docker-buildx), and the runner''s buildx now runs against the sidecar daemon. HTTP/2 DoS against a daemon that listens only on the pod-local unix socket, whose only peer is the job''s own workflow code; isolation, not reachability, is what is accepted (see preamble).'
   - id: GO-2026-6617
-    statement: Fixed in golang.org/x/net 0.60.0; the locked image ships v0.58.0/v0.59.0. Derived from the image scan at bump time; accepted in PR review.
+    statement: 'Fixed in golang.org/x/net 0.60.0; the locked image ships v0.58.0/v0.59.0. Found in docker.io/library/docker@sha256:5d24ae532c4b32bea8fc5714ec34a7db838c9f668d18b6c772b2415196a2cd83: /usr/local/bin/ctr; ghcr.io/actions/actions-runner@sha256:759a1d94a15b05941aba5196974ff43fe15b4cbba29b694b35cbc32a1166b232: /usr/bin/containerd, /usr/bin/ctr, /usr/local/lib/docker/cli-plugins/docker-buildx. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-01-20"
     notes: 'DinD toolchain, reachable: also in the docker:dind sidecar''s Go binaries (ctr and/or docker-buildx), and the runner''s buildx now runs against the sidecar daemon. HTTP/2 DoS against a daemon that listens only on the pod-local unix socket, whose only peer is the job''s own workflow code; isolation, not reachability, is what is accepted (see preamble).'
   - id: GO-2026-6865
-    statement: Fixed in github.com/klauspost/compress 1.20.2; the locked image ships v1.20.0/v1.20.1. Derived from the image scan at bump time; accepted in PR review.
+    statement: 'Fixed in github.com/klauspost/compress 1.20.2; the locked image ships v1.20.0/v1.20.1. Found in docker.io/library/docker@sha256:5d24ae532c4b32bea8fc5714ec34a7db838c9f668d18b6c772b2415196a2cd83: /usr/local/bin/ctr, /usr/local/libexec/docker/cli-plugins/docker-compose; ghcr.io/actions/actions-runner@sha256:759a1d94a15b05941aba5196974ff43fe15b4cbba29b694b35cbc32a1166b232: /usr/bin/containerd, /usr/bin/ctr, /usr/bin/dockerd, /usr/local/lib/docker/cli-plugins/docker-buildx. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-02-09"
