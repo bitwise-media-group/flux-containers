@@ -6,7 +6,7 @@ metadata:
   name: opentelemetry-collector
   namespace: otel-collector
   labels:
-    helm.sh/chart: opentelemetry-collector-0.183.0
+    helm.sh/chart: opentelemetry-collector-0.183.2
     app.kubernetes.io/name: opentelemetry-collector
     app.kubernetes.io/instance: opentelemetry-collector
     app.kubernetes.io/version: "0.165.0"
@@ -23,7 +23,7 @@ metadata:
   name: opentelemetry-collector
   namespace: otel-collector
   labels:
-    helm.sh/chart: opentelemetry-collector-0.183.0
+    helm.sh/chart: opentelemetry-collector-0.183.2
     app.kubernetes.io/name: opentelemetry-collector
     app.kubernetes.io/instance: opentelemetry-collector
     app.kubernetes.io/version: "0.165.0"
@@ -130,7 +130,7 @@ metadata:
   name: opentelemetry-collector
   namespace: otel-collector
   labels:
-    helm.sh/chart: opentelemetry-collector-0.183.0
+    helm.sh/chart: opentelemetry-collector-0.183.2
     app.kubernetes.io/name: opentelemetry-collector
     app.kubernetes.io/instance: opentelemetry-collector
     app.kubernetes.io/version: "0.165.0"
@@ -181,7 +181,7 @@ metadata:
   name: opentelemetry-collector
   namespace: otel-collector
   labels:
-    helm.sh/chart: opentelemetry-collector-0.183.0
+    helm.sh/chart: opentelemetry-collector-0.183.2
     app.kubernetes.io/name: opentelemetry-collector
     app.kubernetes.io/instance: opentelemetry-collector
     app.kubernetes.io/version: "0.165.0"
@@ -220,7 +220,7 @@ spec:
             - --config=/conf/relay.yaml
           securityContext:
             {}
-          image: "ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-contrib:0.165.0"
+          image: "ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-contrib:0.166.0"
           imagePullPolicy: IfNotPresent
           ports:
             
