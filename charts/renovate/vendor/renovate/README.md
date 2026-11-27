@@ -1,6 +1,6 @@
 # renovate
 
-![Version: 46.451.0](https://img.shields.io/badge/Version-46.451.0-informational?style=flat-square) ![AppVersion: 44.259.0](https://img.shields.io/badge/AppVersion-44.259.0-informational?style=flat-square)
+![Version: 46.456.1](https://img.shields.io/badge/Version-46.456.1-informational?style=flat-square) ![AppVersion: 44.264.1](https://img.shields.io/badge/AppVersion-44.264.1-informational?style=flat-square)
 
 Universal dependency update tool that fits into your workflows.
 
@@ -33,6 +33,7 @@ The following table lists the configurable parameters of the chart and the defau
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | affinity | object | `{}` | Configure the pod(Anti)Affinity and/or node(Anti)Affinity |
+| automountServiceAccountToken | bool | `nil` | Set automountServiceAccountToken on the cronjob pod, overriding the service account's setting. Renovate does not call the Kubernetes API, so `false` is safe unless a custom command needs the token |
 | cronjob.activeDeadlineSeconds | string | `""` | Deadline for the job to finish |
 | cronjob.annotations | object | `{}` | Annotations to set on the cronjob |
 | cronjob.argsOverride | list | `[]` | Custom arguments to run in the container |
@@ -74,7 +75,7 @@ The following table lists the configurable parameters of the chart and the defau
 | image.pullPolicy | string | `"IfNotPresent"` | "IfNotPresent" to pull the image if no image with the specified tag exists on the node, "Always" to always pull the image or "Never" to try and use pre-pulled images |
 | image.registry | string | `"ghcr.io"` | Registry to pull image from |
 | image.repository | string | `"renovatebot/renovate"` | Image name to pull |
-| image.tag | string | `"44.259.0"` | Renovate image tag to pull |
+| image.tag | string | `"44.264.1"` | Renovate image tag to pull |
 | image.useFull | bool | `false` | Set `true` to use the full image. See <https://docs.renovatebot.com/getting-started/running/#the-full-image> |
 | imagePullSecrets | object | `{}` | Secret to use to pull the image from the repository |
 | nameOverride | string | `""` | Override the name of the chart |
@@ -99,6 +100,7 @@ The following table lists the configurable parameters of the chart and the defau
 | secrets | object | `{}` | Environment variables that should be referenced from a k8s secret, cannot be used when existingSecret is set |
 | securityContext | object | `{}` | Pod-level security-context |
 | serviceAccount.annotations | object | `{}` | Annotations to add to the service account |
+| serviceAccount.automountServiceAccountToken | bool | `nil` | Set automountServiceAccountToken on the created service account. Left unset, the Kubernetes default (true) applies |
 | serviceAccount.create | bool | `false` | Specifies whether a service account should be created |
 | serviceAccount.name | string | `""` | The name of the service account to use If not set and create is true, a name is generated using the fullname template |
 | ssh_config.config | string | `""` | Contents of the config file |

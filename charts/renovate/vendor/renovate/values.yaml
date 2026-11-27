@@ -83,7 +83,7 @@ image:
   # -- Image name to pull
   repository: renovatebot/renovate
   # -- Renovate image tag to pull
-  tag: 44.259.0
+  tag: 44.264.1
   # -- "IfNotPresent" to pull the image if no image with the specified tag exists on the node, "Always" to always pull the image or "Never" to try and use pre-pulled images
   pullPolicy: IfNotPresent
   # -- Set `true` to use the full image. See <https://docs.renovatebot.com/getting-started/running/#the-full-image>
@@ -215,6 +215,11 @@ serviceAccount:
   # -- The name of the service account to use
   # If not set and create is true, a name is generated using the fullname template
   name: ''
+  # -- (bool) Set automountServiceAccountToken on the created service account. Left unset, the Kubernetes default (true) applies
+  automountServiceAccountToken:
+
+# -- (bool) Set automountServiceAccountToken on the cronjob pod, overriding the service account's setting. Renovate does not call the Kubernetes API, so `false` is safe unless a custom command needs the token
+automountServiceAccountToken:
 
 # -- Specify resource limits and requests for the renovate container
 resources: {}
