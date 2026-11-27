@@ -1,12 +1,12 @@
 chart:
   name: kube-prometheus-stack
-  version: 93.9.0
-  upstreamTgzSha256: b45d041d3f97c645c13dabc5d54af4cb1409644317b81eb2490be20cb2d6e718
+  version: 93.11.1
+  upstreamTgzSha256: 709acb9e9c8761966d517b2e7d355079319131e8044593e6a8a27a67575ff667
 images:
-  - source: docker.io/grafana/grafana:13.3.1-distroless
-    digest: sha256:54e297ac67e2b72572f926892f4e06074dc4f79f2a56ed9a9ca9a88a46f28733
+  - source: docker.io/grafana/grafana:13.3.2-distroless
+    digest: sha256:d9425e704fa9dff189966b827fbc9b63befc5b443999c7b82193f1b1a73c74f7
     targets:
-      google: us-central1-docker.pkg.dev/o-foundation-7e43/platform/images/docker.io/grafana/grafana:13.3.1-distroless
+      google: us-central1-docker.pkg.dev/o-foundation-7e43/platform/images/docker.io/grafana/grafana:13.3.2-distroless
     platforms: ["linux/amd64", "linux/arm", "linux/arm64"]
   - source: quay.io/kiwigrid/k8s-sidecar:2.14.3
     digest: sha256:52d311dcedd587421a236c4d6c621f05614c40a51386e955e0699dca97ec0880
@@ -23,10 +23,10 @@ images:
     targets:
       google: us-central1-docker.pkg.dev/o-foundation-7e43/platform/images/quay.io/prometheus-operator/prometheus-operator:v0.95.2
     platforms: ["linux/amd64", "linux/arm", "linux/arm64", "linux/ppc64le", "linux/s390x"]
-  - source: quay.io/prometheus/alertmanager:v0.35.0
-    digest: sha256:5f6e66c01bd610aef6dd671642a52eee775fd3a89bd8788ebada33efaf373d10
+  - source: quay.io/prometheus/alertmanager:v0.35.1
+    digest: sha256:03d4e362b9948eee910802ddac55f9175b320862a2de1fdef5206c3213875a09
     targets:
-      google: us-central1-docker.pkg.dev/o-foundation-7e43/platform/images/quay.io/prometheus/alertmanager:v0.35.0
+      google: us-central1-docker.pkg.dev/o-foundation-7e43/platform/images/quay.io/prometheus/alertmanager:v0.35.1
     platforms: ["linux/amd64", "linux/arm", "linux/arm64", "linux/ppc64le", "linux/s390x"]
   - source: quay.io/prometheus/node-exporter:v1.13.1-distroless
     digest: sha256:dbc46b5381ae47c5634a6ad16d7b4862191979b0ba4f4cfbdee85e5aa2fcd1e3

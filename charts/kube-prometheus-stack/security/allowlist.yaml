@@ -20,24 +20,9 @@ vulnerabilities:
   - id: CVE-2026-4738
     statement: 'Fixed in zlib 1.4-r0; the locked image ships 1.3.2-r1. Found in quay.io/kiwigrid/k8s-sidecar@sha256:52d311dcedd587421a236c4d6c621f05614c40a51386e955e0699dca97ec0880: /lib/apk/db/installed. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-02-10"
-  - id: CVE-2026-63772
-    statement: 'Fixed in github.com/apache/thrift 0.25.0; the locked image ships v0.24.0. Found in docker.io/grafana/grafana@sha256:54e297ac67e2b72572f926892f4e06074dc4f79f2a56ed9a9ca9a88a46f28733: /usr/share/grafana/bin/grafana. Derived from the image scan at bump time; accepted in PR review.'
-    expired_at: "2027-02-10"
-  - id: CVE-2026-66055
-    statement: 'Fixed in github.com/apache/thrift 0.25.0; the locked image ships v0.24.0. Found in docker.io/grafana/grafana@sha256:54e297ac67e2b72572f926892f4e06074dc4f79f2a56ed9a9ca9a88a46f28733: /usr/share/grafana/bin/grafana. Derived from the image scan at bump time; accepted in PR review.'
-    expired_at: "2027-02-10"
-  - id: CVE-2026-82458
-    statement: 'Fixed in github.com/apache/thrift 0.25.0; the locked image ships v0.24.0. Found in docker.io/grafana/grafana@sha256:54e297ac67e2b72572f926892f4e06074dc4f79f2a56ed9a9ca9a88a46f28733: /usr/share/grafana/bin/grafana. Derived from the image scan at bump time; accepted in PR review.'
-    expired_at: "2027-02-10"
-  - id: CVE-2026-83663
-    statement: 'Fixed in github.com/apache/thrift 0.25.0; the locked image ships v0.24.0. Found in docker.io/grafana/grafana@sha256:54e297ac67e2b72572f926892f4e06074dc4f79f2a56ed9a9ca9a88a46f28733: /usr/share/grafana/bin/grafana. Derived from the image scan at bump time; accepted in PR review.'
-    expired_at: "2027-02-10"
   - id: CVE-2026-88823
     statement: 'Fixed in libcrypto3/libssl3 3.5.9-r1; the locked image ships 3.5.9-r0. Found in quay.io/kiwigrid/k8s-sidecar@sha256:52d311dcedd587421a236c4d6c621f05614c40a51386e955e0699dca97ec0880: /lib/apk/db/installed. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-02-18"
-  - id: CVE-2026-94637
-    statement: 'Fixed in github.com/apache/thrift 0.25.0; the locked image ships v0.24.0. Found in docker.io/grafana/grafana@sha256:54e297ac67e2b72572f926892f4e06074dc4f79f2a56ed9a9ca9a88a46f28733: /usr/share/grafana/bin/grafana. Derived from the image scan at bump time; accepted in PR review.'
-    expired_at: "2027-02-10"
   - id: CVE-2026-95691
     statement: 'Fixed in libcrypto3/libssl3 3.5.9-r1; the locked image ships 3.5.9-r0. Found in quay.io/kiwigrid/k8s-sidecar@sha256:52d311dcedd587421a236c4d6c621f05614c40a51386e955e0699dca97ec0880: /lib/apk/db/installed. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-02-18"
@@ -48,47 +33,44 @@ vulnerabilities:
     statement: 'Fixed in google.golang.org/grpc 1.82.2; the locked image ships v1.79.3. Found in registry.k8s.io/kube-state-metrics/kube-state-metrics@sha256:42cfe3723a5f058171c627537fb57a3ea0f26e4380fa18555a95cb1a1b4cfc5b: /kube-state-metrics. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-02-10"
   - id: GHSA-ffqx-q65f-36jf
-    statement: 'Fixed in github.com/grafana/tempo 2.10.3; the locked image ships v1.5.1-0.20260910130453-bcfe9f230c1d. Found in docker.io/grafana/grafana@sha256:54e297ac67e2b72572f926892f4e06074dc4f79f2a56ed9a9ca9a88a46f28733: /usr/share/grafana/data/plugins-bundled/tempo/gpx_grafana-tempo-datasource_linux_amd64. Derived from the image scan at bump time; accepted in PR review.'
+    statement: 'Fixed in github.com/grafana/tempo 2.10.3; the locked image ships v1.5.1-0.20260910130453-bcfe9f230c1d. Found in docker.io/grafana/grafana@sha256:d9425e704fa9dff189966b827fbc9b63befc5b443999c7b82193f1b1a73c74f7: /usr/share/grafana/data/plugins-bundled/tempo/gpx_grafana-tempo-datasource_linux_amd64. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-02-10"
   - id: GHSA-hrxh-6v49-42gf
     statement: 'Fixed in google.golang.org/grpc 1.82.1; the locked image ships v1.79.3. Found in registry.k8s.io/kube-state-metrics/kube-state-metrics@sha256:42cfe3723a5f058171c627537fb57a3ea0f26e4380fa18555a95cb1a1b4cfc5b: /kube-state-metrics. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-02-10"
   - id: GHSA-p4r4-xvrq-gvmc
-    statement: 'Fixed in github.com/grafana/tempo 2.8.4; the locked image ships v1.5.1-0.20260910130453-bcfe9f230c1d. Found in docker.io/grafana/grafana@sha256:54e297ac67e2b72572f926892f4e06074dc4f79f2a56ed9a9ca9a88a46f28733: /usr/share/grafana/data/plugins-bundled/tempo/gpx_grafana-tempo-datasource_linux_amd64. Derived from the image scan at bump time; accepted in PR review.'
+    statement: 'Fixed in github.com/grafana/tempo 2.8.4; the locked image ships v1.5.1-0.20260910130453-bcfe9f230c1d. Found in docker.io/grafana/grafana@sha256:d9425e704fa9dff189966b827fbc9b63befc5b443999c7b82193f1b1a73c74f7: /usr/share/grafana/data/plugins-bundled/tempo/gpx_grafana-tempo-datasource_linux_amd64. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-02-10"
   - id: GHSA-vp52-pcj8-j9qc
     statement: 'Fixed in google.golang.org/grpc 1.83.1; the locked image ships v1.79.3. Found in registry.k8s.io/kube-state-metrics/kube-state-metrics@sha256:42cfe3723a5f058171c627537fb57a3ea0f26e4380fa18555a95cb1a1b4cfc5b: /kube-state-metrics. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-02-10"
   - id: GO-2026-6603
-    statement: 'Fixed in golang.org/x/net/stdlib 1.26.9; the locked image ships go1.26.6/go1.26.7/v0.57.0/v0.58.0. Found in docker.io/grafana/grafana@sha256:54e297ac67e2b72572f926892f4e06074dc4f79f2a56ed9a9ca9a88a46f28733: /usr/share/grafana/data/plugins-bundled/mysql/gpx_grafana-mysql-datasource_linux_amd64; registry.k8s.io/kube-state-metrics/kube-state-metrics@sha256:42cfe3723a5f058171c627537fb57a3ea0f26e4380fa18555a95cb1a1b4cfc5b: /kube-state-metrics. Derived from the image scan at bump time; accepted in PR review.'
+    statement: 'Fixed in golang.org/x/net/stdlib 1.26.9; the locked image ships go1.26.6/go1.26.7/v0.57.0/v0.58.0. Found in docker.io/grafana/grafana@sha256:d9425e704fa9dff189966b827fbc9b63befc5b443999c7b82193f1b1a73c74f7: /usr/share/grafana/data/plugins-bundled/mysql/gpx_grafana-mysql-datasource_linux_amd64; registry.k8s.io/kube-state-metrics/kube-state-metrics@sha256:42cfe3723a5f058171c627537fb57a3ea0f26e4380fa18555a95cb1a1b4cfc5b: /kube-state-metrics. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-02-10"
   - id: GO-2026-6605
-    statement: 'Fixed in stdlib 1.26.9; the locked image ships go1.26.6/go1.26.7. Found in docker.io/grafana/grafana@sha256:54e297ac67e2b72572f926892f4e06074dc4f79f2a56ed9a9ca9a88a46f28733: /usr/share/grafana/data/plugins-bundled/mysql/gpx_grafana-mysql-datasource_linux_amd64; registry.k8s.io/kube-state-metrics/kube-state-metrics@sha256:42cfe3723a5f058171c627537fb57a3ea0f26e4380fa18555a95cb1a1b4cfc5b: /kube-state-metrics. Derived from the image scan at bump time; accepted in PR review.'
+    statement: 'Fixed in stdlib 1.26.9; the locked image ships go1.26.6/go1.26.7. Found in docker.io/grafana/grafana@sha256:d9425e704fa9dff189966b827fbc9b63befc5b443999c7b82193f1b1a73c74f7: /usr/share/grafana/data/plugins-bundled/mysql/gpx_grafana-mysql-datasource_linux_amd64; registry.k8s.io/kube-state-metrics/kube-state-metrics@sha256:42cfe3723a5f058171c627537fb57a3ea0f26e4380fa18555a95cb1a1b4cfc5b: /kube-state-metrics. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-02-10"
   - id: GO-2026-6607
-    statement: 'Fixed in stdlib 1.26.9; the locked image ships go1.26.6/go1.26.7. Found in docker.io/grafana/grafana@sha256:54e297ac67e2b72572f926892f4e06074dc4f79f2a56ed9a9ca9a88a46f28733: /usr/share/grafana/data/plugins-bundled/mysql/gpx_grafana-mysql-datasource_linux_amd64; registry.k8s.io/kube-state-metrics/kube-state-metrics@sha256:42cfe3723a5f058171c627537fb57a3ea0f26e4380fa18555a95cb1a1b4cfc5b: /kube-state-metrics. Derived from the image scan at bump time; accepted in PR review.'
+    statement: 'Fixed in stdlib 1.26.9; the locked image ships go1.26.6/go1.26.7. Found in docker.io/grafana/grafana@sha256:d9425e704fa9dff189966b827fbc9b63befc5b443999c7b82193f1b1a73c74f7: /usr/share/grafana/data/plugins-bundled/mysql/gpx_grafana-mysql-datasource_linux_amd64; registry.k8s.io/kube-state-metrics/kube-state-metrics@sha256:42cfe3723a5f058171c627537fb57a3ea0f26e4380fa18555a95cb1a1b4cfc5b: /kube-state-metrics. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-02-10"
   - id: GO-2026-6608
-    statement: 'Fixed in stdlib 1.26.9; the locked image ships go1.26.6/go1.26.7. Found in docker.io/grafana/grafana@sha256:54e297ac67e2b72572f926892f4e06074dc4f79f2a56ed9a9ca9a88a46f28733: /usr/share/grafana/data/plugins-bundled/mysql/gpx_grafana-mysql-datasource_linux_amd64; registry.k8s.io/kube-state-metrics/kube-state-metrics@sha256:42cfe3723a5f058171c627537fb57a3ea0f26e4380fa18555a95cb1a1b4cfc5b: /kube-state-metrics. Derived from the image scan at bump time; accepted in PR review.'
+    statement: 'Fixed in stdlib 1.26.9; the locked image ships go1.26.6/go1.26.7. Found in docker.io/grafana/grafana@sha256:d9425e704fa9dff189966b827fbc9b63befc5b443999c7b82193f1b1a73c74f7: /usr/share/grafana/data/plugins-bundled/mysql/gpx_grafana-mysql-datasource_linux_amd64; registry.k8s.io/kube-state-metrics/kube-state-metrics@sha256:42cfe3723a5f058171c627537fb57a3ea0f26e4380fa18555a95cb1a1b4cfc5b: /kube-state-metrics. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-02-10"
   - id: GO-2026-6610
-    statement: 'Fixed in golang.org/x/net/stdlib 1.26.9; the locked image ships go1.26.6/go1.26.7/v0.57.0. Found in docker.io/grafana/grafana@sha256:54e297ac67e2b72572f926892f4e06074dc4f79f2a56ed9a9ca9a88a46f28733: /usr/share/grafana/data/plugins-bundled/mysql/gpx_grafana-mysql-datasource_linux_amd64; registry.k8s.io/kube-state-metrics/kube-state-metrics@sha256:42cfe3723a5f058171c627537fb57a3ea0f26e4380fa18555a95cb1a1b4cfc5b: /kube-state-metrics. Derived from the image scan at bump time; accepted in PR review.'
+    statement: 'Fixed in golang.org/x/net/stdlib 1.26.9; the locked image ships go1.26.6/go1.26.7/v0.57.0. Found in docker.io/grafana/grafana@sha256:d9425e704fa9dff189966b827fbc9b63befc5b443999c7b82193f1b1a73c74f7: /usr/share/grafana/data/plugins-bundled/mysql/gpx_grafana-mysql-datasource_linux_amd64; registry.k8s.io/kube-state-metrics/kube-state-metrics@sha256:42cfe3723a5f058171c627537fb57a3ea0f26e4380fa18555a95cb1a1b4cfc5b: /kube-state-metrics. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-02-10"
   - id: GO-2026-6611
-    statement: 'Fixed in golang.org/x/net/stdlib 1.26.9; the locked image ships go1.26.6/go1.26.7/v0.57.0/v0.58.0. Found in docker.io/grafana/grafana@sha256:54e297ac67e2b72572f926892f4e06074dc4f79f2a56ed9a9ca9a88a46f28733: /usr/share/grafana/data/plugins-bundled/mysql/gpx_grafana-mysql-datasource_linux_amd64; registry.k8s.io/kube-state-metrics/kube-state-metrics@sha256:42cfe3723a5f058171c627537fb57a3ea0f26e4380fa18555a95cb1a1b4cfc5b: /kube-state-metrics. Derived from the image scan at bump time; accepted in PR review.'
+    statement: 'Fixed in golang.org/x/net/stdlib 1.26.9; the locked image ships go1.26.6/go1.26.7/v0.57.0/v0.58.0. Found in docker.io/grafana/grafana@sha256:d9425e704fa9dff189966b827fbc9b63befc5b443999c7b82193f1b1a73c74f7: /usr/share/grafana/data/plugins-bundled/mysql/gpx_grafana-mysql-datasource_linux_amd64; registry.k8s.io/kube-state-metrics/kube-state-metrics@sha256:42cfe3723a5f058171c627537fb57a3ea0f26e4380fa18555a95cb1a1b4cfc5b: /kube-state-metrics. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-02-10"
   - id: GO-2026-6612
-    statement: 'Fixed in golang.org/x/net/stdlib 1.26.9; the locked image ships go1.26.6/go1.26.7/v0.57.0/v0.58.0. Found in docker.io/grafana/grafana@sha256:54e297ac67e2b72572f926892f4e06074dc4f79f2a56ed9a9ca9a88a46f28733: /usr/share/grafana/data/plugins-bundled/mysql/gpx_grafana-mysql-datasource_linux_amd64; registry.k8s.io/kube-state-metrics/kube-state-metrics@sha256:42cfe3723a5f058171c627537fb57a3ea0f26e4380fa18555a95cb1a1b4cfc5b: /kube-state-metrics. Derived from the image scan at bump time; accepted in PR review.'
+    statement: 'Fixed in golang.org/x/net/stdlib 1.26.9; the locked image ships go1.26.6/go1.26.7/v0.57.0/v0.58.0. Found in docker.io/grafana/grafana@sha256:d9425e704fa9dff189966b827fbc9b63befc5b443999c7b82193f1b1a73c74f7: /usr/share/grafana/data/plugins-bundled/mysql/gpx_grafana-mysql-datasource_linux_amd64; registry.k8s.io/kube-state-metrics/kube-state-metrics@sha256:42cfe3723a5f058171c627537fb57a3ea0f26e4380fa18555a95cb1a1b4cfc5b: /kube-state-metrics. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-02-10"
   - id: GO-2026-6613
-    statement: 'Fixed in stdlib 1.26.9; the locked image ships go1.26.6/go1.26.7. Found in docker.io/grafana/grafana@sha256:54e297ac67e2b72572f926892f4e06074dc4f79f2a56ed9a9ca9a88a46f28733: /usr/share/grafana/data/plugins-bundled/mysql/gpx_grafana-mysql-datasource_linux_amd64; registry.k8s.io/kube-state-metrics/kube-state-metrics@sha256:42cfe3723a5f058171c627537fb57a3ea0f26e4380fa18555a95cb1a1b4cfc5b: /kube-state-metrics. Derived from the image scan at bump time; accepted in PR review.'
+    statement: 'Fixed in stdlib 1.26.9; the locked image ships go1.26.6/go1.26.7. Found in docker.io/grafana/grafana@sha256:d9425e704fa9dff189966b827fbc9b63befc5b443999c7b82193f1b1a73c74f7: /usr/share/grafana/data/plugins-bundled/mysql/gpx_grafana-mysql-datasource_linux_amd64; registry.k8s.io/kube-state-metrics/kube-state-metrics@sha256:42cfe3723a5f058171c627537fb57a3ea0f26e4380fa18555a95cb1a1b4cfc5b: /kube-state-metrics. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-02-10"
   - id: GO-2026-6617
-    statement: 'Fixed in golang.org/x/net/stdlib 1.26.9; the locked image ships go1.26.6/go1.26.7/v0.57.0/v0.58.0. Found in docker.io/grafana/grafana@sha256:54e297ac67e2b72572f926892f4e06074dc4f79f2a56ed9a9ca9a88a46f28733: /usr/share/grafana/data/plugins-bundled/mysql/gpx_grafana-mysql-datasource_linux_amd64; registry.k8s.io/kube-state-metrics/kube-state-metrics@sha256:42cfe3723a5f058171c627537fb57a3ea0f26e4380fa18555a95cb1a1b4cfc5b: /kube-state-metrics. Derived from the image scan at bump time; accepted in PR review.'
+    statement: 'Fixed in golang.org/x/net/stdlib 1.26.9; the locked image ships go1.26.6/go1.26.7/v0.57.0/v0.58.0. Found in docker.io/grafana/grafana@sha256:d9425e704fa9dff189966b827fbc9b63befc5b443999c7b82193f1b1a73c74f7: /usr/share/grafana/data/plugins-bundled/mysql/gpx_grafana-mysql-datasource_linux_amd64; registry.k8s.io/kube-state-metrics/kube-state-metrics@sha256:42cfe3723a5f058171c627537fb57a3ea0f26e4380fa18555a95cb1a1b4cfc5b: /kube-state-metrics. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-02-10"
   - id: GO-2026-6865
-    statement: 'Fixed in github.com/klauspost/compress 1.20.2; the locked image ships v1.19.2/v1.20.0. Found in docker.io/grafana/grafana@sha256:54e297ac67e2b72572f926892f4e06074dc4f79f2a56ed9a9ca9a88a46f28733: /usr/share/grafana/data/plugins-bundled/influxdb/gpx_grafana_influxdb_datasource_linux_amd64, /usr/share/grafana/data/plugins-bundled/loki/gpx_grafana-loki-datasource_linux_amd64, /usr/share/grafana/data/plugins-bundled/mysql/gpx_grafana-mysql-datasource_linux_amd64, /usr/share/grafana/data/plugins-bundled/stackdriver/gpx_grafana_cloudmonitoring_datasource_linux_amd64. Derived from the image scan at bump time; accepted in PR review.'
-    expired_at: "2027-02-10"
-  - id: GO-2026-6888
-    statement: 'Fixed in github.com/andybalholm/brotli 1.2.7; the locked image ships v1.2.2. Found in docker.io/grafana/grafana@sha256:54e297ac67e2b72572f926892f4e06074dc4f79f2a56ed9a9ca9a88a46f28733: /usr/share/grafana/data/plugins-bundled/stackdriver/gpx_grafana_cloudmonitoring_datasource_linux_amd64. Derived from the image scan at bump time; accepted in PR review.'
+    statement: 'Fixed in github.com/klauspost/compress 1.20.2; the locked image ships v1.20.0. Found in docker.io/grafana/grafana@sha256:d9425e704fa9dff189966b827fbc9b63befc5b443999c7b82193f1b1a73c74f7: /usr/share/grafana/data/plugins-bundled/loki/gpx_grafana-loki-datasource_linux_amd64, /usr/share/grafana/data/plugins-bundled/mysql/gpx_grafana-mysql-datasource_linux_amd64. Derived from the image scan at bump time; accepted in PR review.'
     expired_at: "2027-02-10"
