@@ -1337,6 +1337,7 @@ spec:
                 - TCP_UDP
                 - QUIC
                 - TCP_QUIC
+                - GENEVE
                 type: string
               targetType:
                 description: targetType is the TargetType of TargetGroup. If unspecified,
@@ -2470,6 +2471,45 @@ spec:
                           - "on"
                           - "off"
                           type: string
+                        clientCertificateIdentityFilters:
+                          description: (NLB only) Allows you to control which authenticated
+                            clients can access your service based on specific attributes
+                            in the client certificate. The load balancer evaluates
+                            the client certificate against the filters you define.
+                            Filters are evaluated using OR logic.
+                          items:
+                            properties:
+                              action:
+                                description: Action to take when there is a match.
+                                enum:
+                                - accept
+                                type: string
+                              field:
+                                description: Field in the client certificate.
+                                enum:
+                                - subject-cn
+                                - subject-ou
+                                - san-dns
+                                - san-uri
+                                type: string
+                              matchType:
+                                description: Method for matching the value.
+                                enum:
+                                - exact
+                                - prefix
+                                type: string
+                              value:
+                                description: Value to match against.
+                                maxLength: 256
+                                minLength: 1
+                                type: string
+                            required:
+                            - action
+                            - field
+                            - matchType
+                            - value
+                            type: object
+                          type: array
                         ignoreClientCertificateExpiry:
                           description: Indicates whether expired client certificates
                             are ignored.
@@ -2501,6 +2541,9 @@ spec:
                       - message: Mutual Authentication mode 'off' or 'passthrough'
                           does not support 'advertiseTrustStoreCaNames'
                         rule: '!(self.mode != ''verify'' && has(self.advertiseTrustStoreCaNames))'
+                      - message: Mutual Authentication mode 'off' or 'passthrough'
+                          does not support 'clientCertificateIdentityFilters'
+                        rule: '!(self.mode != ''verify'' && has(self.clientCertificateIdentityFilters))'
                     protocolPort:
                       description: protocolPort is identifier for the listener on
                         load balancer. It should be of the form PROTOCOL:PORT
@@ -4006,10 +4049,10 @@ metadata:
   namespace: aws-load-balancer-controller
   labels:
     app.kubernetes.io/managed-by: Helm
-    helm.sh/chart: aws-load-balancer-controller-3.6.3
+    helm.sh/chart: aws-load-balancer-controller-3.7.0
     app.kubernetes.io/name: aws-load-balancer-controller
     app.kubernetes.io/instance: aws-load-balancer-controller
-    app.kubernetes.io/version: "v3.6.3"
+    app.kubernetes.io/version: "v3.7.0"
 automountServiceAccountToken: true
 ---
 # Source: aws-load-balancer-controller/templates/rbac.yaml
@@ -4019,10 +4062,10 @@ metadata:
   name: aws-load-balancer-controller-role
   labels:
     app.kubernetes.io/managed-by: Helm
-    helm.sh/chart: aws-load-balancer-controller-3.6.3
+    helm.sh/chart: aws-load-balancer-controller-3.7.0
     app.kubernetes.io/name: aws-load-balancer-controller
     app.kubernetes.io/instance: aws-load-balancer-controller
-    app.kubernetes.io/version: "v3.6.3"
+    app.kubernetes.io/version: "v3.7.0"
 rules:
 # AUTO-GENERATED from config/rbac/role.yaml by hack/sync-rbac-to-helm.sh
 # Do not edit these rules manually. Run 'make manifests' to update.
@@ -4104,10 +4147,10 @@ metadata:
   name: aws-load-balancer-controller-rolebinding
   labels:
     app.kubernetes.io/managed-by: Helm
-    helm.sh/chart: aws-load-balancer-controller-3.6.3
+    helm.sh/chart: aws-load-balancer-controller-3.7.0
     app.kubernetes.io/name: aws-load-balancer-controller
     app.kubernetes.io/instance: aws-load-balancer-controller
-    app.kubernetes.io/version: "v3.6.3"
+    app.kubernetes.io/version: "v3.7.0"
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
@@ -4126,10 +4169,10 @@ metadata:
   namespace: aws-load-balancer-controller
   labels:
     app.kubernetes.io/managed-by: Helm
-    helm.sh/chart: aws-load-balancer-controller-3.6.3
+    helm.sh/chart: aws-load-balancer-controller-3.7.0
     app.kubernetes.io/name: aws-load-balancer-controller
     app.kubernetes.io/instance: aws-load-balancer-controller
-    app.kubernetes.io/version: "v3.6.3"
+    app.kubernetes.io/version: "v3.7.0"
 rules:
 - apiGroups: [""]
   resources: [configmaps]
@@ -4164,10 +4207,10 @@ metadata:
   namespace: aws-load-balancer-controller
   labels:
     app.kubernetes.io/managed-by: Helm
-    helm.sh/chart: aws-load-balancer-controller-3.6.3
+    helm.sh/chart: aws-load-balancer-controller-3.7.0
     app.kubernetes.io/name: aws-load-balancer-controller
     app.kubernetes.io/instance: aws-load-balancer-controller
-    app.kubernetes.io/version: "v3.6.3"
+    app.kubernetes.io/version: "v3.7.0"
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
@@ -4186,10 +4229,10 @@ metadata:
   namespace: aws-load-balancer-controller
   labels:
     app.kubernetes.io/managed-by: Helm
-    helm.sh/chart: aws-load-balancer-controller-3.6.3
+    helm.sh/chart: aws-load-balancer-controller-3.7.0
     app.kubernetes.io/name: aws-load-balancer-controller
     app.kubernetes.io/instance: aws-load-balancer-controller
-    app.kubernetes.io/version: "v3.6.3"
+    app.kubernetes.io/version: "v3.7.0"
     app.kubernetes.io/component: webhook
     prometheus.io/service-monitor: "false"
 spec:
@@ -4210,10 +4253,10 @@ metadata:
   namespace: aws-load-balancer-controller
   labels:
     app.kubernetes.io/managed-by: Helm
-    helm.sh/chart: aws-load-balancer-controller-3.6.3
+    helm.sh/chart: aws-load-balancer-controller-3.7.0
     app.kubernetes.io/name: aws-load-balancer-controller
     app.kubernetes.io/instance: aws-load-balancer-controller
-    app.kubernetes.io/version: "v3.6.3"
+    app.kubernetes.io/version: "v3.7.0"
 spec:
   
   replicas: 2
@@ -4251,7 +4294,7 @@ spec:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: true
           runAsNonRoot: true
-        image: "public.ecr.aws/eks/aws-load-balancer-controller:v3.6.3"
+        image: "public.ecr.aws/eks/aws-load-balancer-controller:v3.7.0"
         imagePullPolicy: IfNotPresent
         volumeMounts:
         - mountPath: /tmp/k8s-webhook-server/serving-certs
@@ -4310,10 +4353,10 @@ metadata:
   name: aws-load-balancer-webhook
   labels:
     app.kubernetes.io/managed-by: Helm
-    helm.sh/chart: aws-load-balancer-controller-3.6.3
+    helm.sh/chart: aws-load-balancer-controller-3.7.0
     app.kubernetes.io/name: aws-load-balancer-controller
     app.kubernetes.io/instance: aws-load-balancer-controller
-    app.kubernetes.io/version: "v3.6.3"
+    app.kubernetes.io/version: "v3.7.0"
 webhooks:
 - clientConfig:
     service:
@@ -4482,10 +4525,10 @@ metadata:
   name: aws-load-balancer-webhook
   labels:
     app.kubernetes.io/managed-by: Helm
-    helm.sh/chart: aws-load-balancer-controller-3.6.3
+    helm.sh/chart: aws-load-balancer-controller-3.7.0
     app.kubernetes.io/name: aws-load-balancer-controller
     app.kubernetes.io/instance: aws-load-balancer-controller
-    app.kubernetes.io/version: "v3.6.3"
+    app.kubernetes.io/version: "v3.7.0"
 webhooks:
 - clientConfig:
     service:
@@ -4565,10 +4608,10 @@ metadata:
   namespace: aws-load-balancer-controller
   labels:
     app.kubernetes.io/managed-by: Helm
-    helm.sh/chart: aws-load-balancer-controller-3.6.3
+    helm.sh/chart: aws-load-balancer-controller-3.7.0
     app.kubernetes.io/name: aws-load-balancer-controller
     app.kubernetes.io/instance: aws-load-balancer-controller
-    app.kubernetes.io/version: "v3.6.3"
+    app.kubernetes.io/version: "v3.7.0"
 spec:
   secretName: aws-load-balancer-root-cert
   duration: "43800h0m0s"
@@ -4589,10 +4632,10 @@ metadata:
   namespace: aws-load-balancer-controller
   labels:
     app.kubernetes.io/managed-by: Helm
-    helm.sh/chart: aws-load-balancer-controller-3.6.3
+    helm.sh/chart: aws-load-balancer-controller-3.7.0
     app.kubernetes.io/name: aws-load-balancer-controller
     app.kubernetes.io/instance: aws-load-balancer-controller
-    app.kubernetes.io/version: "v3.6.3"
+    app.kubernetes.io/version: "v3.7.0"
 spec:
   dnsNames:
   - aws-load-balancer-webhook-service.aws-load-balancer-controller.svc
@@ -4615,10 +4658,10 @@ metadata:
   namespace: aws-load-balancer-controller
   labels:
     app.kubernetes.io/managed-by: Helm
-    helm.sh/chart: aws-load-balancer-controller-3.6.3
+    helm.sh/chart: aws-load-balancer-controller-3.7.0
     app.kubernetes.io/name: aws-load-balancer-controller
     app.kubernetes.io/instance: aws-load-balancer-controller
-    app.kubernetes.io/version: "v3.6.3"
+    app.kubernetes.io/version: "v3.7.0"
 spec:
   selfSigned: {}
 
@@ -4632,10 +4675,10 @@ metadata:
   namespace: aws-load-balancer-controller
   labels:
     app.kubernetes.io/managed-by: Helm
-    helm.sh/chart: aws-load-balancer-controller-3.6.3
+    helm.sh/chart: aws-load-balancer-controller-3.7.0
     app.kubernetes.io/name: aws-load-balancer-controller
     app.kubernetes.io/instance: aws-load-balancer-controller
-    app.kubernetes.io/version: "v3.6.3"
+    app.kubernetes.io/version: "v3.7.0"
 spec:
   ca:
     secretName: aws-load-balancer-root-cert
